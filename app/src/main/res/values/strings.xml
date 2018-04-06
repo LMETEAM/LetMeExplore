@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">LME</string>
+    <string name="nav_anasayfa">Anasayfa</string>
+    <string name="nav_arama">Arama</string>
+    <string name="nav_explore">Explore</string>
+    <string name="nav_kitaplik">Kitaplık</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
