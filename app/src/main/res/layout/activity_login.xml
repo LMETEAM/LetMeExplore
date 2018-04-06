@@ -35,7 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -46,18 +46,18 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/password"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/rectangle2"
             android:ems="10"
             android:hint="password"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:textAlignment="center" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/loginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -82,14 +82,14 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/facebookAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:srcCompat="@drawable/facebook" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/signUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -100,7 +100,7 @@
             app:srcCompat="@drawable/signup" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/googleAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
