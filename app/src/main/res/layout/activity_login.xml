@@ -63,6 +63,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="7dp"
             android:layout_weight="1"
+            android:onClick="login"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             app:srcCompat="@drawable/loginok" />
