@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.letmeexplore.lme.LoginActivity"
-    android:background="@drawable/loginscreenmateirals">
+    android:background="@drawable/loginscreen">
 
     <ImageView
         android:id="@+id/imageView"
@@ -43,7 +43,7 @@
             android:ems="10"
             android:hint="username"
             android:inputType="textPersonName"
-            android:paddingLeft="10dp" />
+            android:textAlignment="center" />
 
         <EditText
             android:id="@+id/editText2"
@@ -54,13 +54,18 @@
             android:ems="10"
             android:hint="password"
             android:inputType="textPersonName"
-            android:paddingLeft="10dp" />
+            android:textAlignment="center" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="70dp"
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="7dp"
             android:layout_weight="1"
-            android:background="@drawable/loginok" />
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            app:srcCompat="@drawable/loginok" />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
