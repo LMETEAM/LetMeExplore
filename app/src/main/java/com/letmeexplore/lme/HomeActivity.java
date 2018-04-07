@@ -36,8 +36,6 @@ public class HomeActivity extends AppCompatActivity {
         mMainFrame=(FrameLayout)findViewById(R.id.main_frame);
         homeFragment=new HomeFragment();
         booksFragment=new BooksFragment();
-        actionBar= getSupportActionBar();
-        actionBar.hide();
         searchFragment=new SearchFragment();
         exploreFragment=new ExploreFragment();
         setFragment(homeFragment);

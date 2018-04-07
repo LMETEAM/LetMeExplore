@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
         facebookLog=(ImageView)findViewById(R.id.facebookAccount);
         googleLog=(ImageView)findViewById(R.id.googleAccount);
         signUp=(ImageView)findViewById(R.id.signUp);
-        actionBar= getSupportActionBar();
-        actionBar.hide();
         logIn=(ImageView)findViewById(R.id.loginButton);
         userName=(EditText)findViewById(R.id.userName);
         password=(EditText)findViewById(R.id.password);
