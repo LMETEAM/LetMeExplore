@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                             String userUid=mAuth.getCurrentUser().getUid();
                             String photoUrl=mAuth.getCurrentUser().getPhotoUrl().toString();
                             DatabaseControl databaseControl=new DatabaseControl("Users/"+userUid+"/properties");
-                            databaseControl.UserSend(new User(userName,null,photoUrl));
+                            databaseControl.UserSend(new User(NameFind(userName),SurnameFind(userName),photoUrl));
                             // -------Home Activity Geçiş ------
                             startActivity(new Intent(MainActivity.this,HomeActivity.class));
                             finish();
@@ -162,6 +162,16 @@ public class MainActivity extends AppCompatActivity {
         if(currentUser!=null){
             startActivity(new Intent(MainActivity.this,HomeActivity.class));
             }
+    }
 
+    String NameFind(String displayName){
+        int index=displayName.indexOf(" ");
+        String name=displayName.substring(0,index);
+        return name;
+    }
+    String SurnameFind(String displayName){
+        int index=displayName.indexOf(" ");
+        String surname=displayName.substring(index+1,displayName.length());
+    return surname;
     }
 }
