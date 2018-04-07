@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "138176861276",
+    "firebase_url": "https://letmeexplore-fb83f.firebaseio.com",
+    "project_id": "letmeexplore-fb83f",
+    "storage_bucket": "letmeexplore-fb83f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138176861276:android:094a84b40e07f20a",
+        "android_client_info": {
+          "package_name": "com.letmeexplore.lme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "138176861276-ul698pjd6cqli7mqch0t7r7sa68qihfk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.letmeexplore.lme",
+            "certificate_hash": "58fa9d7128cd850b6ea676424738c9ac85844b23"
+          }
+        },
+        {
+          "client_id": "138176861276-4v8s9og0gnklohe9tqp3qo8tvahi995t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB46XvfSaz_UtN4hOjXmTea6kIT8We7Nog"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "138176861276-4v8s9og0gnklohe9tqp3qo8tvahi995t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
