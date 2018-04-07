@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_main);
         ımageView=(ImageView)findViewById(R.id.imageView);
         facebookLog=(ImageView)findViewById(R.id.facebookAccount);
         googleLog=(ImageView)findViewById(R.id.googleAccount);
