@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView logIn;
     private EditText userName;
     private EditText password;
+    private android.support.v7.app.ActionBar actionBar;
     private ProgressDialog mProgressDialog;
     private static final int RC_SIGN_IN=1;
     private FirebaseAuth mAuth;
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         facebookLog=(ImageView)findViewById(R.id.facebookAccount);
         googleLog=(ImageView)findViewById(R.id.googleAccount);
         signUp=(ImageView)findViewById(R.id.signUp);
+        actionBar= getSupportActionBar();
+        actionBar.hide();
         logIn=(ImageView)findViewById(R.id.loginButton);
         userName=(EditText)findViewById(R.id.userName);
         password=(EditText)findViewById(R.id.password);
@@ -73,22 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
         //*************GOOGLE SING IN**************
         //Configure Google Sıgn In
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        googleApiClient=new GoogleApiClient.Builder(getApplicationContext()).enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-            @Override
-            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                Toast.makeText(MainActivity.this,"Bir Hata Var",Toast.LENGTH_SHORT).show();
-            }
-        }).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build();
+        GoogleSignMethod();
         googleLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();
-                Toast.makeText(getApplicationContext(),"Google Giris Yapıldı",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -118,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 // ...
             }
         }}
-
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("TAG", "firebaseAuthWithGoogle:" + acct.getId());
 
@@ -131,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-
                             //-------DATABASE Kullanıcının Bilgilerini Gönderme---------
                             String userName=mAuth.getCurrentUser().getDisplayName();
                             String userUid=mAuth.getCurrentUser().getUid();
@@ -153,7 +143,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
+    void GoogleSignMethod(){
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        googleApiClient=new GoogleApiClient.Builder(getApplicationContext()).enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+            @Override
+            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                Toast.makeText(MainActivity.this,"Bir Hata Var",Toast.LENGTH_SHORT).show();
+            }
+        }).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build();
+    }
     @Override
     public void onStart() {
         super.onStart();
