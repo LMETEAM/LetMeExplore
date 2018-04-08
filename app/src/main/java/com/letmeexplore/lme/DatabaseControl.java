@@ -113,4 +113,7 @@ public class DatabaseControl {
         });
         myRef.setValue(song);
     }
+    DatabaseReference getMyRef(){
+        return myRef.getRef();
+    }
 }
