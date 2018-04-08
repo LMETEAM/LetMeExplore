@@ -68,6 +68,7 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(signupActivity.this,"Registered Succesfully.",Toast.LENGTH_SHORT).show();
+
                         }
                         else{
                             if(task.getException() instanceof FirebaseAuthUserCollisionException){
@@ -81,6 +82,9 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     }
                 });
+        Intent getBackToMain = new Intent(this,MainActivity.class);
+        startActivity(getBackToMain);
+        finish();
     }
 
     @Override
@@ -88,8 +92,6 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
         if(view == signupButton) {
             registerUser();
 
-            Intent getBackToMain = new Intent(this,MainActivity.class);
-            startActivity(getBackToMain);
         }
     }
 }
