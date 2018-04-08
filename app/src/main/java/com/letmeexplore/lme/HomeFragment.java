@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,6 +38,8 @@ public class HomeFragment extends Fragment {
                 FirebaseAuth.getInstance().signOut();
                 Intent ıntent=new Intent(getContext(),MainActivity.class);
                 startActivity(ıntent);
+                Toast.makeText(getContext(),"Logged Out",Toast.LENGTH_SHORT).show();
+                getActivity().finish();
             }
         });
         return view;

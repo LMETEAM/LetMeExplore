@@ -24,7 +24,7 @@ public class DatabaseControl {
     private FirebaseDatabase database;
     private User user;
     private Song song;
-    private ArrayList<String> stringArrayList;
+    private List<String> stringArrayList;
     public DatabaseControl(String Adress) {
         // Write a message to the database
 
@@ -68,7 +68,7 @@ public class DatabaseControl {
     void StringSend(String string){
         myRef.setValue(string);
     }
-    ArrayList<String> StringGet(){
+    List<String> StringGet(){
         stringArrayList=new ArrayList<String>();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
