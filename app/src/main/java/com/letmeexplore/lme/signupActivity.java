@@ -68,6 +68,9 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(signupActivity.this,"Registered Succesfully.",Toast.LENGTH_SHORT).show();
+                            Intent getBackToMain = new Intent(signupActivity.this,MainActivity.class);
+                            startActivity(getBackToMain);
+                            finish();
 
                         }
                         else{
@@ -78,13 +81,12 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
                             else{
                                 Toast.makeText(signupActivity.this,"Registration has failed.",Toast.LENGTH_SHORT).show();
                             }
+                            progressDialog.dismiss();
 
                         }
                     }
                 });
-        Intent getBackToMain = new Intent(this,MainActivity.class);
-        startActivity(getBackToMain);
-        finish();
+
     }
 
     @Override
