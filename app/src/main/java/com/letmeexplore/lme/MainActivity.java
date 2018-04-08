@@ -72,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { // SignUp ekranına gidiş
+                signUp();
+            }
+        });
+
         //*************GOOGLE SING IN**************
         //Configure Google Sıgn In
         GoogleSignMethod();
@@ -82,6 +89,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void signUp(){
+        Intent signUpIntent = new Intent(this,signupActivity.class);
+        startActivity(signUpIntent);
+    }
+
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -160,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser!=null){
             startActivity(new Intent(MainActivity.this,HomeActivity.class));
-            }
+        }
     }
 
     String NameFind(String displayName){
@@ -171,6 +184,6 @@ public class MainActivity extends AppCompatActivity {
     String SurnameFind(String displayName){
         int index=displayName.indexOf(" ");
         String surname=displayName.substring(index+1,displayName.length());
-    return surname;
+        return surname;
     }
 }
