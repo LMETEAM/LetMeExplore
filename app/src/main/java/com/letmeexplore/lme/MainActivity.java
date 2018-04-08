@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         googleLog=(ImageView)findViewById(R.id.googleAccount);
         signUp=(ImageView)findViewById(R.id.signUp);
         logIn=(ImageView)findViewById(R.id.loginButton);
-        userName=(EditText)findViewById(R.id.userName);
+        userName=(EditText)findViewById(R.id.email);
         password=(EditText)findViewById(R.id.password);
         mAuth=FirebaseAuth.getInstance();
         mProgressDialog=new ProgressDialog(this);
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //Login işlemi
-                Toast.makeText(getApplicationContext(),"Giris Yapıldı",Toast.LENGTH_SHORT).show();
+                signIn();
             }
         });
 
@@ -85,17 +86,54 @@ public class MainActivity extends AppCompatActivity {
         googleLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn();
+                signInWithGoogle();
             }
         });
     }
+
+    private void signIn() {
+        String email = userName.getText().toString().trim();
+        String passw = password.getText().toString().trim();
+
+        if(TextUtils.isEmpty(email)){
+            // email is empty
+            Toast.makeText(this,"Please enter an email.",Toast.LENGTH_SHORT).show();
+            //to stop the function execution further
+            return;
+        }
+        if(TextUtils.isEmpty(passw)){
+            // email is empty
+            Toast.makeText(this,"Please enter a password.",Toast.LENGTH_SHORT).show();
+            //to stop the function execution further
+            return;
+        }
+        mAuth.signInWithEmailAndPassword(email,passw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    Intent goHomeActivity=new Intent(MainActivity.this,HomeActivity.class);
+                    Toast.makeText(getApplicationContext(),"Sign in Success",Toast.LENGTH_SHORT).show();
+                    startActivity(goHomeActivity);
+                    finish();
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("TAG", "signInWithEmail:failure", task.getException());
+                    Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
 
     private void signUp(){
         Intent signUpIntent = new Intent(this,signupActivity.class);
         startActivity(signUpIntent);
     }
 
-    private void signIn() {
+    private void signInWithGoogle() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
 
