@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //Login işlemi
-                signIn();
+                signInWithEmail();
             }
         });
 
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void signIn() {
+    private void signInWithEmail() {
         String email = userName.getText().toString().trim();
         String passw = password.getText().toString().trim();
 
@@ -126,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void signUp(){
         Intent signUpIntent = new Intent(this,signupActivity.class);
