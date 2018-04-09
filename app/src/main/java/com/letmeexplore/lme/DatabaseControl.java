@@ -24,12 +24,13 @@ public class DatabaseControl {
     private FirebaseDatabase database;
     private User user;
     private Song song;
-    private List<String> stringArrayList;
-    public DatabaseControl(String Adress) {
+    private List<String> stringList;
+    private List<Song> songList;
+    public DatabaseControl(String adress) {
         // Write a message to the database
 
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference(Adress);
+        myRef = database.getReference(adress);
     }
     void UserSend(User user){
         myRef.setValue(user);
@@ -65,16 +66,39 @@ public class DatabaseControl {
         });
         return song;
     }
+    List<Song> getSongList(List<String> stringList){
+        //Şarkı adresi bulunduran stringList ile veritabanından şarkıları teker teker çekip songList'e aktarır(Song.class tipinde)
+        songList=new ArrayList<Song>();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Songs");
+
+        for(int i=0;i<=stringList.size();i++){
+            myRef.child(stringList.get(i).toString()).child("Properties").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                        songList.add(dataSnapshot.getValue(Song.class));
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+        return songList;
+
+    }
     void StringSend(String string){
         myRef.setValue(string);
     }
-    List<String> StringGet(){
-        stringArrayList=new ArrayList<String>();
+    List<String> getStringList(){
+        stringList=new ArrayList<String>();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds:dataSnapshot.getChildren()){
-                    stringArrayList.add(ds.getValue(String.class));
+                    stringList.add(ds.getValue(String.class));
                 }
             }
 
@@ -83,7 +107,7 @@ public class DatabaseControl {
 
             }
         });
-        return stringArrayList;
+        return stringList;
     }
     void UpdateUser(User user){
         myRef.addValueEventListener(new ValueEventListener() {
