@@ -100,10 +100,10 @@ public class FindSongType {
 
         }
     }
-    String SongType(){
+    String getSongType(){
         return SongType;
     }
-    int SongTypeValue(){
+    int getValue(){
         return Value;
     }
 
