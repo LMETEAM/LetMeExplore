@@ -1,5 +1,8 @@
 package com.letmeexplore.lme;
 
+import android.content.Context;
+import android.widget.Toast;
+
 /**
  * Created by Casper on 7.04.2018.
  */
@@ -9,10 +12,24 @@ public class User {
     private String surname;
     private String photoUrl;
 
-    public User(String name,String surname,String photoUrl){
+    public User(){
+    }
+
+    public User(User user){
+        this.name=user.getName();
+        this.surname=user.getSurname();
+        this.photoUrl=user.getPhotoUrl();
+    }
+
+    public User(String name,String photoUrl,String surname){
         this.name=name;
         this.surname=surname;
         this.photoUrl=photoUrl;
+    }
+    public void changeUser(User user){
+        this.name=user.getName();
+        this.surname=user.getSurname();
+        this.photoUrl=user.getPhotoUrl();
     }
 
     public String getName() {

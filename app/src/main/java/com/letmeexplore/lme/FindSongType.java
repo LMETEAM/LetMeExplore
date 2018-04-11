@@ -22,8 +22,8 @@ import java.util.Map;
 public class FindSongType {
     private DatabaseReference myRef;
     private FirebaseDatabase database;
-    private List<String> stringList;
-    private List<Song> songList;
+    static List<String> stringList;
+    static List<Song> songList;
     private DatabaseControl databaseControl;
     private Map< String,Integer > map;
     private int Value;  //Şarkı Tarzının Puanı
@@ -36,8 +36,8 @@ public class FindSongType {
         databaseControl=new DatabaseControl(adress);
         stringList = new ArrayList<String>();
         songList=new ArrayList<Song>();
-        stringList= databaseControl.getStringList();
-        songList=databaseControl.getSongList(stringList);
+        databaseControl.getStringListtoFindSongType();
+        databaseControl.getSongListtoFindSongType(stringList);
         map= new HashMap<String,Integer>();
         findSongtype();
     }

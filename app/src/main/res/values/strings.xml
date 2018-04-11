@@ -10,5 +10,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="admin_add">Add</string>
+    <string name="add_songname" >Song name</string>
+    <string name="add_singer">Singer</string>
+    <string name="add_songtype">Song Type</string>
+    <string name="add_year">Year</string>
+    <string name="add_length">Length</string>
 
 </resources>

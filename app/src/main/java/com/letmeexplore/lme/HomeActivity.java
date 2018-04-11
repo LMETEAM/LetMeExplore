@@ -34,12 +34,14 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         mMainNav=(BottomNavigationView)findViewById(R.id.main_nav);
         mMainFrame=(FrameLayout)findViewById(R.id.main_frame);
+        mAuth=FirebaseAuth.getInstance();
         homeFragment=new HomeFragment();
         booksFragment=new BooksFragment();
         searchFragment=new SearchFragment();
         exploreFragment=new ExploreFragment();
         setFragment(homeFragment);
         ItemSelected();
+
     }
     void ItemSelected(){
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

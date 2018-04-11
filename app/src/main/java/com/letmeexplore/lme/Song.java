@@ -12,6 +12,8 @@ public class Song {
     private String songTime;
     private String songPhotoUrl;
 
+    public Song(){
+    }
     public Song(String songName,String songType,String singer,String year,String songTime,String songPhotoUrl){
         this.songName=songName;
         this.songType=songType;
