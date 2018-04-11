@@ -45,6 +45,7 @@ public class DatabaseControl{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 int count = 0;
+
                 for (DataSnapshot ds:dataSnapshot.getChildren()){
                     count++;
                     Song song1=ds.child("properties").getValue(Song.class);
@@ -52,6 +53,8 @@ public class DatabaseControl{
                         break;
                     }
                     if(count==dataSnapshot.getChildrenCount()){
+                        String key=myRef.push().getKey();
+                        song.setSongkey(key);
                         myRef.push().child("properties").setValue(song);
                         break;
                     }

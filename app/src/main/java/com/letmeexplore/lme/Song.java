@@ -11,16 +11,27 @@ public class Song {
     private String year;
     private String songTime;
     private String songPhotoUrl;
+    private String songkey;
 
     public Song(){
     }
-    public Song(String songName,String songType,String singer,String year,String songTime,String songPhotoUrl){
+    public Song(String songName,String songType,String singer,String year,String songTime,String songPhotoUrl,String songkey){
         this.songName=songName;
         this.songType=songType;
         this.singer=singer;
         this.year=year;
         this.songTime=songTime;
         this.songPhotoUrl=songPhotoUrl;
+        this.songkey=songkey;
+
+    }
+
+    public String getSongkey() {
+        return songkey;
+    }
+
+    public void setSongkey(String songkey) {
+        this.songkey = songkey;
     }
 
     public String getSongPhotoUrl() {

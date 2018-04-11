@@ -34,7 +34,7 @@ public class AddSongActivity extends AppCompatActivity {
                 }else {
                     DatabaseControl databaseControl=new DatabaseControl("Songs");
                     Song song=new Song(songName.getText().toString(),songType.getText().toString(),singer.getText().toString(),
-                            year.getText().toString(),length.getText().toString(),null);
+                            year.getText().toString(),length.getText().toString(),null,null);
                     databaseControl.sendSong(song);
             }
         }
