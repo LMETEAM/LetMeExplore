@@ -49,7 +49,8 @@ public class DatabaseControl{
                 for (DataSnapshot ds:dataSnapshot.getChildren()){
                     count++;
                     Song song1=ds.child("properties").getValue(Song.class);
-                    if((song.getSongName().equalsIgnoreCase(song1.getSongName()))&&song.getSongType().equalsIgnoreCase(song1.getSongType())){
+                    if((song.getSongName().toUpperCase().equalsIgnoreCase(song1.getSongName().toUpperCase()))&&song.getSongType().toUpperCase()
+                            .equalsIgnoreCase(song1.getSongType().toUpperCase())){
                         break;
                     }
                     if(count==dataSnapshot.getChildrenCount()){
