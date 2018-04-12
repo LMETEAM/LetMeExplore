@@ -50,6 +50,12 @@ public class AddSongActivity extends AppCompatActivity {
     public String Message;
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_song);
@@ -108,6 +114,8 @@ public class AddSongActivity extends AppCompatActivity {
                                                 song.setSongPhotoUrl("https://firebasestorage.googleapis.com/v0/b/letmeexplore-fb83f.appspot.com/o/Songs%2FPhotos%2Fdefaultimage.png?alt=media&token=b97f0aa5-7ee2-4536-a024-6222f69573ee");
                                                 myRef.push().child("properties").setValue(song);
                                                 Toast.makeText(getApplicationContext(), "Update Successful", Toast.LENGTH_SHORT).show();
+                                                Picasso.with(circleImageView.getContext()).load(R.drawable.daddylesssons).noPlaceholder().centerCrop().fit()
+                                                        .into((ImageView) findViewById(R.id.circleImageView));
                                                 break;
                                             } else {
 
@@ -120,6 +128,8 @@ public class AddSongActivity extends AppCompatActivity {
                                                         song.setSongPhotoUrl(taskSnapshot.getDownloadUrl().toString());
                                                         myRef.push().child("properties").setValue(song);
                                                         Toast.makeText(getApplicationContext(), "Update Successful", Toast.LENGTH_SHORT).show();
+                                                        Picasso.with(circleImageView.getContext()).load(R.drawable.daddylesssons).noPlaceholder().centerCrop().fit()
+                                                                .into((ImageView) findViewById(R.id.circleImageView));
                                                     }
                                                 });
                                                 break;
@@ -199,7 +209,6 @@ public class AddSongActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==RC_SELECT_IMAGE){
             urichoosenImage=data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
             Picasso.with(circleImageView.getContext()).load(urichoosenImage).noPlaceholder().centerCrop().fit()
                     .into((ImageView) findViewById(R.id.circleImageView));
 

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +28,11 @@ public class HomeActivity extends AppCompatActivity {
     private android.support.v7.app.ActionBar actionBar;
     private FirebaseUser firebaseUser;
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     private FirebaseAuth.AuthStateListener mAuthListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +42,9 @@ public class HomeActivity extends AppCompatActivity {
         mMainFrame=(FrameLayout)findViewById(R.id.main_frame);
         mAuth=FirebaseAuth.getInstance();
         homeFragment=new HomeFragment();
-        booksFragment=new BooksFragment();
         searchFragment=new SearchFragment();
         exploreFragment=new ExploreFragment();
+        booksFragment=new BooksFragment();
         setFragment(homeFragment);
         ItemSelected();
 
