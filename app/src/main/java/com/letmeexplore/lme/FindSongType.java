@@ -25,23 +25,19 @@ public class FindSongType {
     private DatabaseReference myRef;
     private FirebaseDatabase database;
     private Context context;
-    static List<String> stringList;
-    static List<Song> songList;
+    public List<String> stringList;
+    public List<Song> songList;
     private DatabaseControl databaseControl;
     private Map< String,Integer > map;
     private int Value;  //Şarkı Tarzının Puanı
     private String SongType; //Şarkı Tarzı
 
-    public FindSongType(String adress, Context context) {
+    public FindSongType(List<Song> list) {
         // Write a message to the database
         this.context=context;
-        database=FirebaseDatabase.getInstance();
-        myRef=database.getReference(adress);
-        databaseControl=new DatabaseControl(adress,context);
         stringList = new ArrayList<String>();
         songList=new ArrayList<Song>();
-        databaseControl.getStringListtoFindSongType();
-        databaseControl.getSongListtoFindSongType(stringList);
+        songList=list;
         map= new HashMap<String,Integer>();
         findSongtype();
     }

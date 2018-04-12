@@ -17,6 +17,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.FileDescriptor;
@@ -30,17 +39,21 @@ public class AddSongActivity extends AppCompatActivity {
     private EditText songType;
     private EditText year;
     private EditText length;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private StorageReference storageReference;
     private Button button;
     private String[] songTypeNames,yearNames;
     private CircleImageView circleImageView;
     public static final int RC_SELECT_IMAGE=1;
     private Uri urichoosenImage;
-    static String Message;
+    public String Message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_song);
+
         songName=(EditText)findViewById(R.id.upload_songName);
         singer=(EditText)findViewById(R.id.upload_singer);
         songType=(EditText)findViewById(R.id.upload_songType);
@@ -48,8 +61,9 @@ public class AddSongActivity extends AppCompatActivity {
         length=(EditText)findViewById(R.id.upload_length);
         button=(Button)findViewById(R.id.button2);
         urichoosenImage=null;
-        Message="";
-
+        database=FirebaseDatabase.getInstance();
+        myRef=database.getReference("Songs");
+        storageReference=FirebaseStorage.getInstance().getReference("Songs/Photos");
         circleImageView=(CircleImageView)findViewById(R.id.circleImageView);
         songTypeNames= new String[]{"Classical", "Electronic", "Pop", "Hip hop", "Rock", "Indie", "Jazz", "Punk","Metal","Dance","Funk","Modern Classical"};
         yearNames=new String[]{"2018","2017","2016","2015","2014","2013","2012","2011","2010","2009","2008","2007","2006","2005","2004","2003",
@@ -70,10 +84,55 @@ public class AddSongActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Boş Alanları Doldurunuz!",Toast.LENGTH_SHORT).show();
                     }else {
                         try {
-                        DatabaseControl databaseControl=new DatabaseControl("Songs",getApplicationContext());
-                        Song song=new Song(songName.getText().toString(),songType.getText().toString(),singer.getText().toString(),
-                                year.getText().toString(),length.getText().toString(),null,null);
-                            databaseControl.sendSong(song,urichoosenImage); //Geri Dönüş Alamıyorum Toast için
+                            final Song song=new Song(songName.getText().toString(),songType.getText().toString(),singer.getText().toString(),
+                                    year.getText().toString(),length.getText().toString(),null,null);
+                            myRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    int count=0;
+                                    for (DataSnapshot ds:dataSnapshot.getChildren()){
+                                        count++;
+                                        Song song1=ds.child("properties").getValue(Song.class);
+                                        if((song.getSongName().toUpperCase().equalsIgnoreCase(song1.getSongName().toUpperCase()))&&song.getSongType().toUpperCase()
+                                                .equalsIgnoreCase(song1.getSongType().toUpperCase())){
+                                            Toast.makeText(getApplicationContext(),"This song is already exists",Toast.LENGTH_SHORT).show();
+                                            break;
+                                        }
+                                        // Yukarıda bizim girdiğimiz şeyin database'de olup olmadığı kontrol edildi, kod halen devam ediyorsa bir eşleşme
+                                        // bulunamamış demektir.
+                                        if(count==dataSnapshot.getChildrenCount()) {
+                                            if (urichoosenImage == null) {
+                                                String key = myRef.push().getKey();
+                                                song.setSongkey(key);
+                                                song.setSongPhotoUrl("https://firebasestorage.googleapis.com/v0/b/letmeexplore-fb83f.appspot.com/o/Songs%2FPhotos%2Fdefaultimage.png?alt=media&token=b97f0aa5-7ee2-4536-a024-6222f69573ee");
+                                                myRef.push().child("properties").setValue(song);
+                                                Toast.makeText(getApplicationContext(), "Update Successful", Toast.LENGTH_SHORT).show();
+                                                break;
+                                            } else {
+
+                                                String key = myRef.push().getKey();
+                                                song.setSongkey(key);
+                                                storageReference = FirebaseStorage.getInstance().getReference("Songs/Photos/" + key);
+                                                storageReference.putFile(urichoosenImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                        song.setSongPhotoUrl(taskSnapshot.getDownloadUrl().toString());
+                                                        myRef.push().child("properties").setValue(song);
+                                                        Toast.makeText(getApplicationContext(), "Update Successful", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                                break;
+                                            }
+                                        }
+                                     }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                             songName.setText("");
                             songType.setText("");
                             singer.setText("");

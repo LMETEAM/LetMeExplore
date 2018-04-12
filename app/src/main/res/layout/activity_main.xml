@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.letmeexplore.lme.HomeActivity"
-    android:background="@drawable/loginscreen">
+    android:background="@drawable/loginscreen"
+    tools:context="com.letmeexplore.lme.HomeActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -71,7 +71,7 @@
             android:background="@android:color/transparent"
             android:paddingLeft="20dp"
             android:paddingRight="25dp"
-            app:srcCompat="@drawable/loginok"/>
+            app:srcCompat="@drawable/loginok" />
 
     </LinearLayout>
 
@@ -103,7 +103,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="7dp"
-            app:srcCompat="@drawable/signup"/>
+            app:srcCompat="@drawable/signup" />
 
         <ImageView
             android:id="@+id/googleAccount"
@@ -112,5 +112,6 @@
             android:layout_weight="1"
             app:srcCompat="@drawable/google" />
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
 

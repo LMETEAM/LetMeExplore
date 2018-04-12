@@ -37,10 +37,7 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
         passwordEdit = (EditText) findViewById(R.id.signupPassword);
 
         signupButton.setOnClickListener(this);
-
-
     }
-
     private void registerUser(){
         String email = emailEdit.getText().toString().trim();
         String password = passwordEdit.getText().toString().trim();
@@ -70,8 +67,8 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
                             Toast.makeText(signupActivity.this,"Registered Succesfully.",Toast.LENGTH_SHORT).show();
                             Intent getBackToMain = new Intent(signupActivity.this,MainActivity.class);
                             startActivity(getBackToMain);
+                            progressDialog.dismiss();
                             finish();
-
                         }
                         else{
                             if(task.getException() instanceof FirebaseAuthUserCollisionException){

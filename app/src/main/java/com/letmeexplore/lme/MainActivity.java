@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
     private void signUp(){
         Intent signUpIntent = new Intent(this,signupActivity.class);
         startActivity(signUpIntent);
+        finish();
     }
 
     private void signInWithGoogle() {
@@ -165,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        mProgressDialog.show();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
@@ -173,8 +175,9 @@ public class MainActivity extends AppCompatActivity {
                             String userName=mAuth.getCurrentUser().getDisplayName();
                             String userUid=mAuth.getCurrentUser().getUid();
                             String photoUrl=mAuth.getCurrentUser().getPhotoUrl().toString();
-                            DatabaseControl databaseControl=new DatabaseControl("Users/"+userUid+"/properties",getApplicationContext());
-                            databaseControl.sendUser(new User(NameFind(userName),SurnameFind(userName),photoUrl));
+                            FirebaseDatabase database=FirebaseDatabase.getInstance();
+                            DatabaseReference myref =database.getReference("Users/"+userUid+"/properties");
+                            myref.setValue(new User(NameFind(userName),SurnameFind(userName),photoUrl));
                             // -------Home Activity Geçiş ------
                             startActivity(new Intent(MainActivity.this,HomeActivity.class));
                             finish();
@@ -184,8 +187,6 @@ public class MainActivity extends AppCompatActivity {
                            // Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
 
                         }
-                        mProgressDialog.show();
-
 
                         // ...
                     }
