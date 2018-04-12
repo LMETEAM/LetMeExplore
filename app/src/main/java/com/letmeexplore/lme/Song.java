@@ -1,5 +1,7 @@
 package com.letmeexplore.lme;
 
+import android.net.Uri;
+
 /**
  * Created by Casper on 7.04.2018.
  */
@@ -15,7 +17,7 @@ public class Song {
 
     public Song(){
     }
-    public Song(String songName,String songType,String singer,String year,String songTime,String songPhotoUrl,String songkey){
+    public Song(String songName, String songType, String singer, String year, String songTime, String songPhotoUrl, String songkey){
         this.songName=songName;
         this.songType=songType;
         this.singer=singer;

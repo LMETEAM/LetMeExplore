@@ -1,15 +1,20 @@
 package com.letmeexplore.lme;
 
 import android.media.SoundPool;
+import android.net.Uri;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
@@ -24,6 +29,7 @@ public class DatabaseControl{
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    private StorageReference mStorageRef;
     private boolean adminController;
     private Song song;
     private ArrayAdapter<User> userArrayAdapter;
@@ -40,7 +46,7 @@ public class DatabaseControl{
     void sendUser(User user){
         myRef.setValue(user);
     }
-    void sendSong(final Song song){
+    void sendSong(final Song song, final Uri uri){
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -54,10 +60,27 @@ public class DatabaseControl{
                         break;
                     }
                     if(count==dataSnapshot.getChildrenCount()){
+                        if(uri==null){
                         String key=myRef.push().getKey();
                         song.setSongkey(key);
+                        song.setSongPhotoUrl("https://firebasestorage.googleapis.com/v0/b/letmeexplore-fb83f.appspot.com/o/Songs%2FPhotos%2Fdefaultimage.png?alt=media&token=b97f0aa5-7ee2-4536-a024-6222f69573ee");
                         myRef.push().child("properties").setValue(song);
                         break;
+                        }
+                        else {
+
+                            String key=myRef.push().getKey();
+                            song.setSongkey(key);
+                            mStorageRef = FirebaseStorage.getInstance().getReference("Songs/Photos/"+key);
+                            mStorageRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    song.setSongPhotoUrl(taskSnapshot.getDownloadUrl().toString());
+                                    myRef.push().child("properties").setValue(song);
+                                }
+                            });
+                            break;
+                        }
                     }
                 }
             }
