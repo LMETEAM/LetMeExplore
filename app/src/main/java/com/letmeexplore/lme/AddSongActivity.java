@@ -128,10 +128,11 @@ public class AddSongActivity extends AppCompatActivity {
                                                         song.setSongPhotoUrl(taskSnapshot.getDownloadUrl().toString());
                                                         myRef.push().child("properties").setValue(song);
                                                         Toast.makeText(getApplicationContext(), "Update Successful", Toast.LENGTH_SHORT).show();
-                                                        Picasso.with(circleImageView.getContext()).load(R.drawable.daddylesssons).noPlaceholder().centerCrop().fit()
-                                                                .into((ImageView) findViewById(R.id.circleImageView));
+
                                                     }
                                                 });
+                                                Picasso.with(circleImageView.getContext()).load(R.drawable.daddylesssons).noPlaceholder().centerCrop().fit()
+                                                        .into((ImageView) findViewById(R.id.circleImageView));
                                                 break;
                                             }
                                         }
@@ -140,7 +141,7 @@ public class AddSongActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
-
+                                        Toast.makeText(getApplicationContext(),databaseError.getMessage(),Toast.LENGTH_SHORT).show();
                                 }
                             });
                             songName.setText("");
@@ -207,7 +208,7 @@ public class AddSongActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==RC_SELECT_IMAGE){
+        if(requestCode==RC_SELECT_IMAGE&&resultCode==RESULT_OK){
             urichoosenImage=data.getData();
             Picasso.with(circleImageView.getContext()).load(urichoosenImage).noPlaceholder().centerCrop().fit()
                     .into((ImageView) findViewById(R.id.circleImageView));

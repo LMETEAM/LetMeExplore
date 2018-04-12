@@ -22,56 +22,69 @@ import java.util.Map;
  */
 
 public class FindSongType {
-    private DatabaseReference myRef;
-    private FirebaseDatabase database;
     private Context context;
-    public List<String> stringList;
-    public List<Song> songList;
-    private DatabaseControl databaseControl;
-    private Map< String,Integer > map;
-    private int Value;  //Şarkı Tarzının Puanı
+    private List<String> songKeyList;
+    private List<Song> songList;
+    private int Value;
     private String SongType; //Şarkı Tarzı
 
-    public FindSongType(List<Song> list) {
-        // Write a message to the database
-        this.context=context;
-        stringList = new ArrayList<String>();
-        songList=new ArrayList<Song>();
-        songList=list;
-        map= new HashMap<String,Integer>();
-        findSongtype();
+    public FindSongType(List<Song> songList) {
+        this.songList = songList;
     }
-    void findSongtype(){
-        List<String> songType=new ArrayList<String>(); //Şarkı tarzlarnı içerecek yeni bir liste oluşturduk
-        int enbüyük; //En çok tekrar eden tarzın frekansı
-        int ikincibüyük;//En çok tekrar eden ikinci tarzın frekansı
-        for (int i=0;i<songList.size();i++){ //songList ten şarının tarzını teker teker çekip songType'a attık
-            songType.add(songList.get(i).getSongType());
+
+    public FindSongType() {
+        // Write a message to the database
+    }
+
+    public List<String> getSongKeyList() {
+        return songKeyList;
+    }
+
+    public void setSongKeyList(List<String> stringList) {
+        this.songKeyList = stringList;
+    }
+
+    public List<Song> getSongList() {
+        return songList;
+    }
+
+    public void setSongList(List<Song> songList) {
+        this.songList = songList;
+    }
+
+    public void findSongtype(){
+        SongType="EBEN";
+        Map< String,Integer > map= new HashMap<String,Integer>();
+        List<String> songType=new ArrayList<>(); //Şarkı tarzlarnı içerecek yeni bir liste oluşturduk
+        int enbüyük = 0; //En çok tekrar eden tarzın frekansı
+        int ikincibüyük=0;//En çok tekrar eden ikinci tarzın frekansı
+        for (Song song:songList){ //songList ten şarının tarzını teker teker çekip songType'a attık
+            songType.add(song.getSongType());
         }
         //----- Şarkı tarzlarının tekrar edilme frekansını bulup etiketledi map aracılığıyla-----
-        List<String> asList = songType;
+       // List<String> asList = songType;  !!!!
         for(String s: songType){
-            map.put(s,Collections.frequency(asList,s));//Hash map olduğu için birden fazla kez gelen aynı tarz bir defa ekleniyor
+            map.put(s,Collections.frequency(songType,s));//Hash map olduğu için birden fazla kez gelen aynı tarz bir defa ekleniyor
         }
-
         //En çok tekrar eden iki tarzı ve frekansını bulduk
-        Map.Entry<String,Integer> maxEntry = null;
         if (map.size()>1){
-            for(Map.Entry<String,Integer> entry : map.entrySet()) {
-                if (maxEntry == null || entry.getValue() > maxEntry.getValue()) {
-                maxEntry = entry;
+            int maxValueInMap=(Collections.max(map.values()));  // This will return max value in the Hashmap
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {  // Itrate through hashmap
+                if (entry.getValue()==maxValueInMap) {
+                    SongType=entry.getKey();
+                    enbüyük=entry.getValue();
+                    map.remove(SongType);
+                    break;
                 }
             }
-            SongType=maxEntry.getKey();
-            enbüyük=maxEntry.getValue();
-            maxEntry=null;
-            map.remove(SongType); //İkinci en çok tekrar eden tarzı bulmak için birincisini remove ettik map tan
-            for(Map.Entry<String,Integer> entry : map.entrySet()) {
-                if (maxEntry == null || entry.getValue() > maxEntry.getValue()) {
-                    maxEntry = entry;
+            int maxSecondValueInMap=(Collections.max(map.values()));
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {  // Itrate through hashmap
+                if (entry.getValue()==maxSecondValueInMap) {
+                    ikincibüyük=entry.getValue();
+                    break;
                 }
             }
-            ikincibüyük=maxEntry.getValue();
+
             enbüyük=((enbüyük-ikincibüyük)/(enbüyük+ikincibüyük))*10;
             if(enbüyük>5){
                 Value=5;
@@ -80,21 +93,21 @@ public class FindSongType {
             }else Value=enbüyük;
         }
         else {
-            for(Map.Entry<String,Integer> entry : map.entrySet()) {
-                if (maxEntry == null || entry.getValue() > maxEntry.getValue()) {
-                    maxEntry = entry;
+            int maxValueInMap=(Collections.max(map.values()));  // This will return max value in the Hashmap
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {  // Itrate through hashmap
+                if (entry.getValue()==maxValueInMap) {
+                    SongType=entry.getKey();
+                    break;
                 }
             }
             if (songList.size()<5){ //Şarkı listesi 5ten küçükse
-            SongType=maxEntry.getKey();
             Value=3; //Puan 3
             }
             else if(songList.size()<10){
-                SongType=maxEntry.getKey();
+
                 Value=4;
             }
             else if(songList.size()>10){
-                SongType=maxEntry.getKey();
                 Value=5;
             }
 

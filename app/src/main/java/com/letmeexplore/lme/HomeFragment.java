@@ -12,12 +12,14 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,7 +39,6 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,5 +85,55 @@ public class HomeFragment extends Fragment {
 
                 }
             });
+        }
+    void FindSongTypeDENEME(){
+        database=FirebaseDatabase.getInstance();
+        myRef=database.getReference();
+        mAuth=FirebaseAuth.getInstance();
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+
+
+        myRef.child("Songs").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DatabaseControl databaseControl =new DatabaseControl();
+               final List<Song> songList= databaseControl.getSongList(dataSnapshot);
+               // Toast.makeText(getContext(),"Songsdayım",Toast.LENGTH_SHORT).show();
+                myRef.child("Users").child(currentUser.getUid()).child("playlists").child("pop").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        DatabaseControl databaseControl =new DatabaseControl();
+                        List<Song> songList1 =new ArrayList<>();
+                        List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot);
+                        for (String songkey:songKeyList){
+                            for (Song song:songList){
+                                if(songkey.equalsIgnoreCase(song.getSongkey())){
+                                    songList1.add(song);
+                                   // Toast.makeText(getContext(),song.getSongName()+"Var",Toast.LENGTH_SHORT).show();
+                                    break;
+                                }
+                            }
+                        }
+                        //Toast.makeText(getContext(),"islem bitti",Toast.LENGTH_SHORT).show();
+                        FindSongType findSongType = new FindSongType(songList1);
+                        findSongType.findSongtype();
+                        String songtype= findSongType.getSongType();
+                        Toast.makeText(getContext(),"Fav SongType: "+songtype,Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
         }
 }

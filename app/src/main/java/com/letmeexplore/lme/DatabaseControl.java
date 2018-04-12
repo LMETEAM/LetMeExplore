@@ -16,6 +16,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,9 +29,6 @@ public class DatabaseControl{
     private Song song;
     private Context context;
     private ArrayAdapter<User> userArrayAdapter;
-    private List<User> userList;
-    private List<String> stringList;
-    private List<Song> songList;
     public DatabaseControl() {
         // Write a message to the database
         mAuth=FirebaseAuth.getInstance();
@@ -43,10 +41,18 @@ public class DatabaseControl{
         return dataSnapshot.getValue(Song.class);
     }
     List<Song> getSongList(DataSnapshot dataSnapshot){
+        List<Song> songList=new ArrayList<Song>();
         for(DataSnapshot ds:dataSnapshot.getChildren()){
-            songList.add(ds.getValue(Song.class));
+            Song song=ds.child("properties").getValue(Song.class);
+            songList.add(song);
         }
         return songList;
     }
-
+    List<String> getSongKeyList(DataSnapshot dataSnapshot){
+        List<String> songKeyList=new ArrayList<>();
+        for (DataSnapshot ds:dataSnapshot.getChildren()){
+            songKeyList.add(ds.child("songkey").getValue(String.class));
+        }
+        return songKeyList;
+    }
 }
