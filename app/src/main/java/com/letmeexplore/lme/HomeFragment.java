@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment {
                 getActivity().finish();
             }
         });
+
         return view;
     }
     void setImageView2Visible(){
@@ -93,13 +94,13 @@ public class HomeFragment extends Fragment {
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
 
-        myRef.child("Songs").addValueEventListener(new ValueEventListener() {
+        myRef.child("Songs").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DatabaseControl databaseControl =new DatabaseControl();
                final List<Song> songList= databaseControl.getSongList(dataSnapshot);
                // Toast.makeText(getContext(),"Songsdayım",Toast.LENGTH_SHORT).show();
-                myRef.child("Users").child(currentUser.getUid()).child("playlists").child("pop").addValueEventListener(new ValueEventListener() {
+                myRef.child("Users").child(currentUser.getUid()).child("playlists").child("pop").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         DatabaseControl databaseControl =new DatabaseControl();

@@ -92,7 +92,7 @@ public class AddSongActivity extends AppCompatActivity {
                         try {
                             final Song song=new Song(songName.getText().toString(),songType.getText().toString(),singer.getText().toString(),
                                     year.getText().toString(),length.getText().toString(),null,null);
-                            myRef.addValueEventListener(new ValueEventListener() {
+                            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -116,7 +116,6 @@ public class AddSongActivity extends AppCompatActivity {
                                                 Toast.makeText(getApplicationContext(), "Update Successful", Toast.LENGTH_SHORT).show();
                                                 Picasso.with(circleImageView.getContext()).load(R.drawable.daddylesssons).noPlaceholder().centerCrop().fit()
                                                         .into((ImageView) findViewById(R.id.circleImageView));
-                                                break;
                                             } else {
 
                                                 String key = myRef.push().getKey();
@@ -133,7 +132,6 @@ public class AddSongActivity extends AppCompatActivity {
                                                 });
                                                 Picasso.with(circleImageView.getContext()).load(R.drawable.daddylesssons).noPlaceholder().centerCrop().fit()
                                                         .into((ImageView) findViewById(R.id.circleImageView));
-                                                break;
                                             }
                                         }
                                      }
