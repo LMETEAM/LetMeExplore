@@ -70,7 +70,7 @@ public class AddSongActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Boş Alanları Doldurunuz!",Toast.LENGTH_SHORT).show();
                     }else {
                         try {
-                        DatabaseControl databaseControl=new DatabaseControl("Songs");
+                        DatabaseControl databaseControl=new DatabaseControl("Songs",getApplicationContext());
                         Song song=new Song(songName.getText().toString(),songType.getText().toString(),singer.getText().toString(),
                                 year.getText().toString(),length.getText().toString(),null,null);
                             databaseControl.sendSong(song,urichoosenImage); //Geri Dönüş Alamıyorum Toast için

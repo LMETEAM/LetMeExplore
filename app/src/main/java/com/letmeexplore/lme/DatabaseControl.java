@@ -1,6 +1,6 @@
 package com.letmeexplore.lme;
 
-import android.media.SoundPool;
+import android.content.Context;
 import android.net.Uri;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -16,10 +16,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Burak on 7.04.2018.
@@ -32,12 +29,14 @@ public class DatabaseControl{
     private StorageReference mStorageRef;
     private boolean adminController;
     private Song song;
+    private Context context;
     private ArrayAdapter<User> userArrayAdapter;
     private List<User> userList;
     private List<String> stringList;
     private List<Song> songList;
     public DatabaseControl(){}
-    public DatabaseControl(String adress) {
+    public DatabaseControl(String adress,Context context1) {
+        this.context = context1;
         // Write a message to the database
         mAuth=FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -57,6 +56,7 @@ public class DatabaseControl{
                     Song song1=ds.child("properties").getValue(Song.class);
                     if((song.getSongName().toUpperCase().equalsIgnoreCase(song1.getSongName().toUpperCase()))&&song.getSongType().toUpperCase()
                             .equalsIgnoreCase(song1.getSongType().toUpperCase())){
+                        Toast.makeText(context,"This song is already exists",Toast.LENGTH_SHORT).show();
                         break;
                     }
                     if(count==dataSnapshot.getChildrenCount()){
@@ -65,6 +65,7 @@ public class DatabaseControl{
                         song.setSongkey(key);
                         song.setSongPhotoUrl("https://firebasestorage.googleapis.com/v0/b/letmeexplore-fb83f.appspot.com/o/Songs%2FPhotos%2Fdefaultimage.png?alt=media&token=b97f0aa5-7ee2-4536-a024-6222f69573ee");
                         myRef.push().child("properties").setValue(song);
+                            Toast.makeText(context,"Update Successful",Toast.LENGTH_SHORT).show();
                         break;
                         }
                         else {
@@ -77,6 +78,7 @@ public class DatabaseControl{
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     song.setSongPhotoUrl(taskSnapshot.getDownloadUrl().toString());
                                     myRef.push().child("properties").setValue(song);
+                                    Toast.makeText(context,"Update Successful",Toast.LENGTH_SHORT).show();
                                 }
                             });
                             break;

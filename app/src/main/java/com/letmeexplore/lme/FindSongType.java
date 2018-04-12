@@ -1,5 +1,7 @@
 package com.letmeexplore.lme;
 
+import android.content.Context;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,6 +24,7 @@ import java.util.Map;
 public class FindSongType {
     private DatabaseReference myRef;
     private FirebaseDatabase database;
+    private Context context;
     static List<String> stringList;
     static List<Song> songList;
     private DatabaseControl databaseControl;
@@ -29,11 +32,12 @@ public class FindSongType {
     private int Value;  //Şarkı Tarzının Puanı
     private String SongType; //Şarkı Tarzı
 
-    public FindSongType(String adress) {
+    public FindSongType(String adress, Context context) {
         // Write a message to the database
+        this.context=context;
         database=FirebaseDatabase.getInstance();
         myRef=database.getReference(adress);
-        databaseControl=new DatabaseControl(adress);
+        databaseControl=new DatabaseControl(adress,context);
         stringList = new ArrayList<String>();
         songList=new ArrayList<Song>();
         databaseControl.getStringListtoFindSongType();
