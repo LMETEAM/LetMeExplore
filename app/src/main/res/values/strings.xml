@@ -17,5 +17,6 @@
     <string name="add_year">Year</string>
     <string name="add_length">Length</string>
     <string name="Songs">Songs</string>
+    <string name="nav_search">SEARCH</string>
 
 </resources>

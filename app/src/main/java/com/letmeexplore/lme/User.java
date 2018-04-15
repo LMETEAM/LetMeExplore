@@ -11,7 +11,7 @@ public class User {
     private String name;
     private String surname;
     private String photoUrl;
-
+    private String uid;
     public User(){
     }
 
@@ -19,17 +19,28 @@ public class User {
         this.name=user.getName();
         this.surname=user.getSurname();
         this.photoUrl=user.getPhotoUrl();
-    }
+        this.uid=user.getUid();
 
-    public User(String name,String photoUrl,String surname){
+    }
+    public User(String name, String surname, String photoUrl, String uid){
         this.name=name;
         this.surname=surname;
         this.photoUrl=photoUrl;
+        this.uid=uid;
+
     }
     public void changeUser(User user){
         this.name=user.getName();
         this.surname=user.getSurname();
         this.photoUrl=user.getPhotoUrl();
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {

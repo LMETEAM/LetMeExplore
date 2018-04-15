@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                             String photoUrl=mAuth.getCurrentUser().getPhotoUrl().toString();
                             FirebaseDatabase database=FirebaseDatabase.getInstance();
                             DatabaseReference myref =database.getReference("Users/"+userUid+"/properties");
-                            myref.setValue(new User(NameFind(userName),SurnameFind(userName),photoUrl));
+                            myref.setValue(new User(NameFind(userName),SurnameFind(userName),photoUrl,userUid));
                             // -------Home Activity Geçiş ------
                             startActivity(new Intent(MainActivity.this,HomeActivity.class));
                             finish();
