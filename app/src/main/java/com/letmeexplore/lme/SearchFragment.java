@@ -22,17 +22,13 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.List;
+
 
 
 /**
@@ -80,11 +76,18 @@ public class SearchFragment extends Fragment {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 deleteText.setVisibility(View.VISIBLE);
+                if(s.toString().isEmpty()){
+                    userArrayList.clear();
+                    search_userCustomAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if(s.toString().isEmpty()){
+                    userArrayList.clear();
+                    search_userCustomAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -103,6 +106,7 @@ public class SearchFragment extends Fragment {
                             userArrayList.clear();
                             search_userCustomAdapter.notifyDataSetChanged();
                             for (DataSnapshot ds:dataSnapshot.getChildren()){
+                                if (!s.toString().isEmpty()){
                                 if(ds.child("properties").child("name").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())){
                                     User user =ds.child("properties").getValue(User.class);
                                     if(ds.hasChild("playlists")){
@@ -112,6 +116,7 @@ public class SearchFragment extends Fragment {
                                         userArrayList.add(userDetails);
                                     }
                                     else userArrayList.add(new UserDetails(user,"0"));
+                                }
                                 }
                             }
                             search_userCustomAdapter.notifyDataSetChanged();

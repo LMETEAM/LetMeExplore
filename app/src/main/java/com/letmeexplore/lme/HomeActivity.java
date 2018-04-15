@@ -1,9 +1,6 @@
 package com.letmeexplore.lme;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -42,9 +39,6 @@ public class HomeActivity extends AppCompatActivity {
         mMainFrame=(FrameLayout)findViewById(R.id.main_frame);
         mAuth=FirebaseAuth.getInstance();
         homeFragment=new HomeFragment();
-        searchFragment=new SearchFragment();
-        exploreFragment=new ExploreFragment();
-        booksFragment=new BooksFragment();
         setFragment(homeFragment);
         ItemSelected();
 
@@ -58,12 +52,17 @@ public class HomeActivity extends AppCompatActivity {
                         setFragment(homeFragment);
                         return true;
                     case R.id.nav_search:
+                        if(searchFragment==null) searchFragment=new SearchFragment();
+
                         setFragment(searchFragment);
                         return true;
                     case R.id.nav_explore:
+                        if(exploreFragment==null)exploreFragment=new ExploreFragment();
+
                         setFragment(exploreFragment);
                         return true;
                     case R.id.nav_books:
+                        if(booksFragment==null) booksFragment=new BooksFragment();
                         setFragment(booksFragment);
                         return true;
                     default:return false;
