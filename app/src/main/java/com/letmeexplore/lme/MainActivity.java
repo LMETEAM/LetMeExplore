@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         googleLog=(ImageView)findViewById(R.id.googleAccount);
         signUp=(ImageView)findViewById(R.id.signUp);
         logIn=(ImageView)findViewById(R.id.loginButton);
-        userName=(EditText)findViewById(R.id.email);
+        userName=(EditText)findViewById(R.id.signUpEmail);
         password=(EditText)findViewById(R.id.password);
         mAuth=FirebaseAuth.getInstance();
         mProgressDialog=new ProgressDialog(this);

@@ -141,6 +141,7 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
 
                                     }
                                 });
+                                
                                 Toast.makeText(signupActivity.this,"Registered Succesfully.",Toast.LENGTH_SHORT).show();
                             }
 
