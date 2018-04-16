@@ -6,6 +6,7 @@
     <string name="nav_kitaplik">Kitaplık</string>
     <string name="signup_email">email</string>
     <string name="signup_password">password</string>
+    <string name="signup_name">name (ex: Jim Parsons)</string>
     <string name="clickOnToBrowse">Click On To Browse A Picture</string>
 
     <!-- TODO: Remove or change this placeholder text -->

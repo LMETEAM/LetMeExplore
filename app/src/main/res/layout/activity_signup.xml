@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.934"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/signupMail" />
+        app:layout_constraintTop_toTopOf="@+id/signUpEmail" />
 
     <Button
         android:id="@+id/signupButton"
@@ -33,13 +33,13 @@
         android:background="@drawable/signupcircle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.934"
+        app:layout_constraintHorizontal_bias="0.916"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signupMail"
+        app:layout_constraintTop_toBottomOf="@+id/signUpEmail"
         app:layout_constraintVertical_bias="0.078" />
 
     <EditText
-        android:id="@+id/signupMail"
+        android:id="@+id/signUpEmail"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
@@ -52,11 +52,36 @@
         android:selectAllOnFocus="false"
         android:singleLine="true"
         android:textAlignment="center"
+        android:textSize="13dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.932"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/signUpName"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/signupemail"
+        android:ems="10"
+        android:hint="@string/signup_name"
+        android:inputType="textEmailAddress"
+        android:selectAllOnFocus="false"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toTopOf="@+id/signUpEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.932"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/signupPassword"
@@ -71,11 +96,12 @@
         android:hint="@string/signup_password"
         android:inputType="textPassword"
         android:textAlignment="center"
+        android:textSize="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.932"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signupMail"
+        app:layout_constraintTop_toBottomOf="@+id/signUpEmail"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
@@ -88,12 +114,12 @@
         android:layout_marginTop="8dp"
         android:clickable="true"
         android:onClick="onClick"
-        app:layout_constraintBottom_toTopOf="@+id/signupMail"
-        app:layout_constraintEnd_toEndOf="@+id/signupMail"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="@+id/signupMail"
+        app:layout_constraintBottom_toTopOf="@+id/signUpEmail"
+        app:layout_constraintEnd_toEndOf="@+id/signUpEmail"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="@+id/signUpEmail"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.511"
+        app:layout_constraintVertical_bias="0.38"
         app:srcCompat="@drawable/stduserpic" />
 
     <TextView
@@ -108,7 +134,7 @@
         android:textColor="@color/colorWhite"
         android:textSize="6sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/signupMail"
+        app:layout_constraintBottom_toTopOf="@+id/signUpEmail"
         app:layout_constraintEnd_toEndOf="@+id/userPP"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="@+id/userPP"

@@ -34,7 +34,7 @@ public class Search_UserCustomAdapter extends ArrayAdapter<UserDetails> {
         TextView userName=(TextView)convertView.findViewById(R.id.search_username_text);
         TextView userSonglistC=(TextView)convertView.findViewById(R.id.search_usersonglistcount_text);
         ImageView userImgage=(ImageView)convertView.findViewById(R.id.search_profileimage);
-        String UserFullName=user.getName()+" "+user.getSurname();
+        String UserFullName=user.getDisplayName();
         userName.setText(UserFullName);
         userSonglistC.setText("Playlist Count:"+user.getPlaylistCount());
         TextView user_uid=(TextView)convertView.findViewById(R.id.search_user_uid_text);

@@ -11,6 +11,7 @@ public class User {
     private String displayName;
     private String photoUrl;
     private String uid;
+
     public User(){
     }
 

@@ -79,7 +79,6 @@ public class AddSongActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if(songName.getText().toString().isEmpty()||singer.getText().toString().isEmpty()||songType.getText().toString().isEmpty()||
                             year.getText().toString().isEmpty()||length.getText().toString().isEmpty()){
                         Toast.makeText(getApplicationContext(),"Please fill the empty spaces.",Toast.LENGTH_SHORT).show();

@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         googleLog=(ImageView)findViewById(R.id.googleAccount);
         signUp=(ImageView)findViewById(R.id.signUp);
         logIn=(ImageView)findViewById(R.id.loginButton);
-        userName=(EditText)findViewById(R.id.email);
+        userName=(EditText)findViewById(R.id.signUpEmail);
         password=(EditText)findViewById(R.id.password);
         mAuth=FirebaseAuth.getInstance();
         mProgressDialog=new ProgressDialog(this);
@@ -167,7 +167,8 @@ public class MainActivity extends AppCompatActivity {
                             String photoUrl=mAuth.getCurrentUser().getPhotoUrl().toString();
                             FirebaseDatabase database=FirebaseDatabase.getInstance();
                             DatabaseReference myref =database.getReference("Users/"+userUid+"/properties");
-                            myref.setValue(new User(NameFind(userName),SurnameFind(userName),photoUrl,userUid));
+                            myref.setValue(new User(NameFind(userName),photoUrl,userUid));
+
                             // -------Home Activity Geçiş ------
 
                             startActivity(new Intent(MainActivity.this,HomeActivity.class));
