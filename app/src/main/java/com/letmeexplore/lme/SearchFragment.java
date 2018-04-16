@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,6 +44,7 @@ public class SearchFragment extends Fragment {
     private Search_UserCustomAdapter search_userCustomAdapter;
     private DatabaseReference myRef;
     private FirebaseDatabase database;
+
     public SearchFragment() {
         // Required empty public constructor
     }

@@ -108,19 +108,7 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            myRef.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    String userUid=  firebaseAuth.getCurrentUser().getUid();
-                                    myRef = database.getReference("Users/"+userUid+"/properties");
-                                    myRef.setValue(new User()); //----------------------------------------------------------------------------------------------
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
+                            myRef.child(firebaseAuth.getCurrentUser().getUid()).child("properties").setValue(user);
                             Toast.makeText(signupActivity.this,"Registered Succesfully.",Toast.LENGTH_SHORT).show();
                             Intent getBackToMain = new Intent(signupActivity.this,MainActivity.class);
                             startActivity(getBackToMain);
