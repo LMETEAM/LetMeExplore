@@ -19,8 +19,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import static com.letmeexplore.lme.AddSongActivity.RC_SELECT_IMAGE;
@@ -77,6 +80,8 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
     }
     //--Kullanıcı resmi alındı ve imageView'ın içine yerleştirildi--!
 
+
+
     private void registerUser(){
         String email = emailEdit.getText().toString().trim();
         String password = passwordEdit.getText().toString().trim();
@@ -103,9 +108,19 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            
+                            myRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
 
+                                    myRef = database.getReference("Users/"+userUid+"/properties");
+                                    myRef.setValue(new User()); //----------------------------------------------------------------------------------------------
+                                }
 
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                             Toast.makeText(signupActivity.this,"Registered Succesfully.",Toast.LENGTH_SHORT).show();
                             Intent getBackToMain = new Intent(signupActivity.this,MainActivity.class);
                             startActivity(getBackToMain);

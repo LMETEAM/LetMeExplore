@@ -20,7 +20,7 @@ public class User {
         this.uid=user.getUid();
 
     }
-    public User(String displayName, String surname, String photoUrl, String uid){
+    public User(String displayName, String photoUrl, String uid){
         this.displayName=displayName;
         this.photoUrl=photoUrl;
         this.uid=uid;
