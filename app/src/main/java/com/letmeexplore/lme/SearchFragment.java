@@ -115,6 +115,7 @@ public class SearchFragment extends Fragment {
 //                            search_userCustomAdapter.notifyDataSetChanged();
                             for (DataSnapshot ds:dataSnapshot.getChildren()){
                                 Log.e("DONGU","Devam");
+                                if(userArrayList.size()>3) break;
                                 if (!s.toString().isEmpty()){
                                 if(ds.child("properties").child("displayName").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())){
                                     User user =ds.child("properties").getValue(User.class);
