@@ -22,7 +22,7 @@ public class UserDetails extends User {
         PlaylistCount = playlistCount;
     }
 
-    public UserDetails(String name, String surname, String photoUrl, String uid) {
-        super(name, surname, photoUrl, uid);
+    public UserDetails(String name, String photoUrl, String uid) {
+        super(name, photoUrl, uid);
     }
 }
