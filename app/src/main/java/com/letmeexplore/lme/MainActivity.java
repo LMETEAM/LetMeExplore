@@ -73,11 +73,13 @@ public class MainActivity extends AppCompatActivity {
 
         //*************GOOGLE SING IN**************
         //Configure Google Sıgn In
-        GoogleSignMethod();
+
         googleLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GoogleSignMethod();
                 signInWithGoogle();
+
             }
         });
     }
@@ -172,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
                             DatabaseReference myref =database.getReference("Users/"+userUid+"/properties");
                             myref.setValue(new User(NameFind(userName),SurnameFind(userName),photoUrl,userUid));
                             // -------Home Activity Geçiş ------
+                            googleApiClient.stopAutoManage(MainActivity.this);
                             startActivity(new Intent(MainActivity.this,HomeActivity.class));
                             finish();
                         } else {
@@ -196,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"Bir Hata Var",Toast.LENGTH_SHORT).show();
             }
         }).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build();
+
     }
     @Override
     public void onStart() {
