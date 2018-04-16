@@ -53,8 +53,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                Intent ıntent=new Intent(getContext(),MainActivity.class);
-                startActivity(ıntent);
+                Intent intent=new Intent(getContext(),MainActivity.class);
+                startActivity(intent);
                 Toast.makeText(getContext(),"Logged Out",Toast.LENGTH_SHORT).show();
                 getActivity().finish();
             }
@@ -62,8 +62,8 @@ public class HomeFragment extends Fragment {
         songadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ıntent=new Intent(getContext(),AddSongActivity.class);
-                startActivity(ıntent);
+                Intent intent=new Intent(getContext(),AddSongActivity.class);
+                startActivity(intent);
                 getActivity().finish();
             }
         });

@@ -82,7 +82,7 @@ public class AddSongActivity extends AppCompatActivity {
 
                     if(songName.getText().toString().isEmpty()||singer.getText().toString().isEmpty()||songType.getText().toString().isEmpty()||
                             year.getText().toString().isEmpty()||length.getText().toString().isEmpty()){
-                        Toast.makeText(getApplicationContext(),"Boş Alanları Doldurunuz!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Please fill the empty spaces.",Toast.LENGTH_SHORT).show();
                     }else {
                         try {
                             final Song song=new Song(songName.getText().toString(),songType.getText().toString(),singer.getText().toString(),
@@ -97,7 +97,7 @@ public class AddSongActivity extends AppCompatActivity {
                                         Song song1=ds.child("properties").getValue(Song.class);
                                         if((song.getSongName().toUpperCase().equalsIgnoreCase(song1.getSongName().toUpperCase()))&&song.getSongType().toUpperCase()
                                                 .equalsIgnoreCase(song1.getSongType().toUpperCase())){
-                                            Toast.makeText(getApplicationContext(),"This song is already exists",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(),"This song already exists.",Toast.LENGTH_SHORT).show();
                                             break;
                                         }
                                         // Yukarıda bizim girdiğimiz şeyin database'de olup olmadığı kontrol edildi, kod halen devam ediyorsa bir eşleşme
@@ -108,7 +108,7 @@ public class AddSongActivity extends AppCompatActivity {
                                                 song.setSongkey(key);
                                                 song.setSongPhotoUrl("https://firebasestorage.googleapis.com/v0/b/letmeexplore-fb83f.appspot.com/o/Songs%2FPhotos%2Fdefaultimage.png?alt=media&token=b97f0aa5-7ee2-4536-a024-6222f69573ee");
                                                 myRef.push().child("properties").setValue(song);
-                                                Toast.makeText(getApplicationContext(), "Update Successful", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), "Update Successful.", Toast.LENGTH_SHORT).show();
                                                 Picasso.with(circleImageView.getContext()).load(R.drawable.daddylesssons).noPlaceholder().centerCrop().fit()
                                                         .into((ImageView) findViewById(R.id.circleImageView));
                                             } else {
@@ -150,6 +150,8 @@ public class AddSongActivity extends AppCompatActivity {
 
             });
         }
+
+
         void songTypeListener(){
             songType.setFocusable(false);
             songType.setOnClickListener(new View.OnClickListener() {
@@ -196,7 +198,7 @@ public class AddSongActivity extends AppCompatActivity {
                     startActivityForResult(Intent.createChooser(chooseımage,"Select Picture"),RC_SELECT_IMAGE);
                 }
             });
-    }
+        }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

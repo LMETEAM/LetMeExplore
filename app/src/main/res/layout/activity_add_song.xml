@@ -61,7 +61,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="@+id/upload_songName"
-        app:layout_constraintTop_toBottomOf="@+id/upload_length" />/>
+        app:layout_constraintTop_toBottomOf="@+id/upload_length" />
 
     <Button
         android:id="@+id/button2"

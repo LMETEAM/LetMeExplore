@@ -70,17 +70,13 @@ public class MainActivity extends AppCompatActivity {
                 signUp();
             }
         });
-
         //*************GOOGLE SING IN**************
         //Configure Google Sıgn In
-
         googleLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 GoogleSignMethod();
                 signInWithGoogle();
-
             }
         });
     }
@@ -129,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
     private void signInWithGoogle() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
-
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

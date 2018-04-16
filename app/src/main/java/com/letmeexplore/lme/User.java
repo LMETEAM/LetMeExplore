@@ -8,30 +8,26 @@ import android.widget.Toast;
  */
 
 public class User {
-    private String name;
-    private String surname;
+    private String displayName;
     private String photoUrl;
     private String uid;
     public User(){
     }
 
     public User(User user){
-        this.name=user.getName();
-        this.surname=user.getSurname();
+        this.displayName=user.getDisplayName();
         this.photoUrl=user.getPhotoUrl();
         this.uid=user.getUid();
 
     }
-    public User(String name, String surname, String photoUrl, String uid){
-        this.name=name;
-        this.surname=surname;
+    public User(String displayName, String surname, String photoUrl, String uid){
+        this.displayName=displayName;
         this.photoUrl=photoUrl;
         this.uid=uid;
 
     }
     public void changeUser(User user){
-        this.name=user.getName();
-        this.surname=user.getSurname();
+        this.displayName=user.getDisplayName();
         this.photoUrl=user.getPhotoUrl();
     }
 
@@ -43,20 +39,12 @@ public class User {
         this.uid = uid;
     }
 
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getPhotoUrl() {
