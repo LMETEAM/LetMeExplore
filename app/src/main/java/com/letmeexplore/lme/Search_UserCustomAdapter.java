@@ -33,13 +33,12 @@ public class Search_UserCustomAdapter extends ArrayAdapter<UserDetails> {
         convertView= LayoutInflater.from(getContext()).inflate(R.layout.search_userlist_layout,parent,false);
         TextView userName=(TextView)convertView.findViewById(R.id.search_username_text);
         TextView userSonglistC=(TextView)convertView.findViewById(R.id.search_usersonglistcount_text);
-        ImageView userImgage=(ImageView)convertView.findViewById(R.id.search_profileimage);
-        String UserFullName=user.getName()+" "+user.getSurname();
-        userName.setText(UserFullName);
+        ImageView userImage=(ImageView)convertView.findViewById(R.id.search_profileimage);
+        userName.setText(user.getDisplayName());
         userSonglistC.setText("Playlist Count:"+user.getPlaylistCount());
         TextView user_uid=(TextView)convertView.findViewById(R.id.search_user_uid_text);
         user_uid.setText(user.getUid());
-        Picasso.with(getContext()).load(user.getPhotoUrl()).fit().centerCrop().into(userImgage);
+        Picasso.with(getContext()).load(user.getPhotoUrl()).fit().centerCrop().into(userImage);
         return convertView;
     }
 }

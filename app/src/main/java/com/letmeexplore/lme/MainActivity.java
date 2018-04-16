@@ -167,19 +167,15 @@ public class MainActivity extends AppCompatActivity {
                             String photoUrl=mAuth.getCurrentUser().getPhotoUrl().toString();
                             FirebaseDatabase database=FirebaseDatabase.getInstance();
                             DatabaseReference myref =database.getReference("Users/"+userUid+"/properties");
-                            myref.setValue(new User(NameFind(userName),SurnameFind(userName),photoUrl,userUid));
+                            myref.setValue(new User(userName,photoUrl,userUid));
                             // -------Home Activity Geçiş ------
-
                             startActivity(new Intent(MainActivity.this,HomeActivity.class));
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
                            // Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-
                         }
-
-                        // ...
                     }
                 });
     }

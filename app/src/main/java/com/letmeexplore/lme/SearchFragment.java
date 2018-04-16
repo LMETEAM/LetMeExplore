@@ -107,7 +107,7 @@ public class SearchFragment extends Fragment {
                             search_userCustomAdapter.notifyDataSetChanged();
                             for (DataSnapshot ds:dataSnapshot.getChildren()){
                                 if (!s.toString().isEmpty()){
-                                if(ds.child("properties").child("name").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())){
+                                if(ds.child("properties").child("displayName").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())){
                                     User user =ds.child("properties").getValue(User.class);
                                     if(ds.hasChild("playlists")){
                                         Long songlistCOunt= ds.child("playlists").getChildrenCount();

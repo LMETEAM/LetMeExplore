@@ -111,7 +111,7 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
                             myRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-
+                                    String userUid=  firebaseAuth.getCurrentUser().getUid();
                                     myRef = database.getReference("Users/"+userUid+"/properties");
                                     myRef.setValue(new User()); //----------------------------------------------------------------------------------------------
                                 }
