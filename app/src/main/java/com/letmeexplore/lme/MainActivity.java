@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         googleLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 GoogleSignMethod();
                 signInWithGoogle();
 
@@ -123,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
     private void signUp(){
         Intent signUpIntent = new Intent(this,signupActivity.class);
         startActivity(signUpIntent);
-        finish();
     }
 
     private void signInWithGoogle() {
@@ -161,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         mProgressDialog.show();
-
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
@@ -174,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                             DatabaseReference myref =database.getReference("Users/"+userUid+"/properties");
                             myref.setValue(new User(NameFind(userName),SurnameFind(userName),photoUrl,userUid));
                             // -------Home Activity Geçiş ------
-                            googleApiClient.stopAutoManage(MainActivity.this);
+
                             startActivity(new Intent(MainActivity.this,HomeActivity.class));
                             finish();
                         } else {
@@ -189,17 +188,17 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
     void GoogleSignMethod(){
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        googleApiClient=new GoogleApiClient.Builder(getApplicationContext()).enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-            @Override
-            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                Toast.makeText(MainActivity.this,"Bir Hata Var",Toast.LENGTH_SHORT).show();
-            }
-        }).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build();
-
+            googleApiClient = new GoogleApiClient.Builder(getApplicationContext()).enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                @Override
+                public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                    Toast.makeText(MainActivity.this, "Bir Hata Var", Toast.LENGTH_SHORT).show();
+                }
+            }).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
     }
     @Override
     public void onStart() {
