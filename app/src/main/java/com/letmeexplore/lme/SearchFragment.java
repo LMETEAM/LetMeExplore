@@ -10,12 +10,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -44,7 +46,6 @@ public class SearchFragment extends Fragment {
     private Search_UserCustomAdapter search_userCustomAdapter;
     private DatabaseReference myRef;
     private FirebaseDatabase database;
-
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -87,6 +88,11 @@ public class SearchFragment extends Fragment {
                 if(s.toString().isEmpty()){
                     userArrayList.clear();
                     search_userCustomAdapter.notifyDataSetChanged();
+
+                }
+                if(userArrayList.size()>3){
+                    userArrayList.add(3,new UserDetails(new User(),null));
+                    userArrayList.remove(4);
                 }
             }
 
@@ -99,13 +105,16 @@ public class SearchFragment extends Fragment {
                 * playlist sayısını bulur ve User.class tan türetilmiş yeni bir sınıf olan UserDetails.class a parametre olarak
                  * (User,PlayListSayısı) şeklini gönderir. Oluşturmamışsa yine aynısını yapar fakat bu sefer (User,"0") şeklini gönderir
                  * Sonra UserDatailten oluşturmuş olduğumuz nesneyi userArrayList listemize ekler. */
-                if(!s.toString().isEmpty()) {
+
+                //********************************
+               if(!s.toString().isEmpty()) {
                     myRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             userArrayList.clear();
-                            search_userCustomAdapter.notifyDataSetChanged();
+//                            search_userCustomAdapter.notifyDataSetChanged();
                             for (DataSnapshot ds:dataSnapshot.getChildren()){
+                                Log.e("DONGU","Devam");
                                 if (!s.toString().isEmpty()){
                                 if(ds.child("properties").child("displayName").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())){
                                     User user =ds.child("properties").getValue(User.class);
@@ -114,10 +123,19 @@ public class SearchFragment extends Fragment {
                                         String songlCount=songlistCOunt.toString();
                                         UserDetails userDetails=new UserDetails(user,songlCount);
                                         userArrayList.add(userDetails);
+
+                                      //  Log.e("DONGU",user.getDisplayName());
                                     }
-                                    else userArrayList.add(new UserDetails(user,"0"));
+                                    else{
+                                       // Log.e("DONGU",user.getDisplayName());
+                                        userArrayList.add(new UserDetails(user,"0"));
+                                    }
                                 }
                                 }
+                            }
+                            if(userArrayList.size()>3){
+                                userArrayList.add(3,new UserDetails(new User(),null));
+                                userArrayList.remove(4);
                             }
                             search_userCustomAdapter.notifyDataSetChanged();
                         }

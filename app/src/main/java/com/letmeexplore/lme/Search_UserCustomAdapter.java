@@ -30,6 +30,7 @@ public class Search_UserCustomAdapter extends ArrayAdapter<UserDetails> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         UserDetails user=getItem(position);
+        if(user.getPlaylistCount()!=null){
         convertView= LayoutInflater.from(getContext()).inflate(R.layout.search_userlist_layout,parent,false);
         TextView userName=(TextView)convertView.findViewById(R.id.search_username_text);
         TextView userSonglistC=(TextView)convertView.findViewById(R.id.search_usersonglistcount_text);
@@ -40,5 +41,12 @@ public class Search_UserCustomAdapter extends ArrayAdapter<UserDetails> {
         user_uid.setText(user.getUid());
         Picasso.with(getContext()).load(user.getPhotoUrl()).fit().centerCrop().into(userImage);
         return convertView;
+    }else {
+            convertView= LayoutInflater.from(getContext()).inflate(R.layout.searc_userlist_end,parent,false);
+            TextView seemor=(TextView)convertView.findViewById(R.id.textView4);
+            seemor.setText("See More");
+            return convertView;
+
+        }
     }
 }
