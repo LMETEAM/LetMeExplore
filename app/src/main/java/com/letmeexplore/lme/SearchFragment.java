@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -172,10 +173,21 @@ public class SearchFragment extends Fragment {
         userRList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position!=3){Bundle bundle=new Bundle();
+                bundle.putString("Uid",userArrayList.get(position).getUid());
+                UserProfileFragment userProfileFragment=new UserProfileFragment();
+                userProfileFragment.setArguments(bundle);
+                setFragment(userProfileFragment);
                 Toast.makeText(getContext(),userArrayList.get(position).getUid(),Toast.LENGTH_SHORT).show();
+            }
             }
         });
     }
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame,fragment);
+        fragmentTransaction.commit();
 
+    }
 }
 

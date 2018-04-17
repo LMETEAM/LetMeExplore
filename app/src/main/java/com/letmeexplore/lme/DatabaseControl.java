@@ -43,5 +43,12 @@ public class DatabaseControl{
         }
         return songKeyList;
     }
+    List<String> getPlaylistName(DataSnapshot dataSnapshot){
+        List<String> playlistName=new ArrayList<>();
+        for (DataSnapshot ds:dataSnapshot.getChildren()){
+            playlistName.add(ds.getKey());
+        }
+        return playlistName;
+    }
 
 }

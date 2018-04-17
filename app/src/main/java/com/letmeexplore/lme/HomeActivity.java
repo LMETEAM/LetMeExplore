@@ -1,8 +1,10 @@
 package com.letmeexplore.lme;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,13 +26,14 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private android.support.v7.app.ActionBar actionBar;
     private FirebaseUser firebaseUser;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
-
+        super.onBackPressed();
     }
 
-    private FirebaseAuth.AuthStateListener mAuthListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         homeFragment=new HomeFragment();
         setFragment(homeFragment);
         ItemSelected();
+
 
     }
     void ItemSelected(){
@@ -73,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setFragment(Fragment fragment) {
+
         FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame,fragment);
         fragmentTransaction.commit();
