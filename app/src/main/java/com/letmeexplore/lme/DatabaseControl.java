@@ -12,14 +12,12 @@ import java.util.List;
  */
 
 public class DatabaseControl{
-    private FirebaseAuth mAuth;
     private boolean adminController;
     private Song song;
     private Context context;
     private ArrayAdapter<User> userArrayAdapter;
     public DatabaseControl() {
         // Write a message to the database
-        mAuth=FirebaseAuth.getInstance();
     }
     User getUser(DataSnapshot dataSnapshot){
 
@@ -43,8 +41,8 @@ public class DatabaseControl{
         }
         return songKeyList;
     }
-    List<String> getPlaylistName(DataSnapshot dataSnapshot){
-        List<String> playlistName=new ArrayList<>();
+    ArrayList<String> getPlaylistName(DataSnapshot dataSnapshot){
+        ArrayList<String> playlistName=new ArrayList<>();
         for (DataSnapshot ds:dataSnapshot.getChildren()){
             playlistName.add(ds.getKey());
         }

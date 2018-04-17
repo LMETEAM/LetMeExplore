@@ -57,7 +57,6 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     case R.id.nav_search:
                         if(searchFragment==null) searchFragment=new SearchFragment();
-
                         setFragment(searchFragment);
                         return true;
                     case R.id.nav_explore:

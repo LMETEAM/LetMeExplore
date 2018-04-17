@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,15 +33,16 @@ public class UserProfileFragment extends Fragment {
 
     private CircleImageView circleImageView;
     private TextView textView;
+    private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference myref;
     private ListView userPlaylist;
+    private ArrayList<String> playList;
+    private ArrayAdapter<String> arrayAdapter;
     public UserProfileFragment() {
         // Required empty public constructor
     }
 
-
-    @SuppressLint("ResourceType")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,27 +51,30 @@ public class UserProfileFragment extends Fragment {
             circleImageView=(CircleImageView)view.findViewById(R.id.user_profile_image);
             textView=(TextView)view.findViewById(R.id.user_profile_displayname);
             userPlaylist=(ListView)view.findViewById(R.id.search_userprofile_playlist);
+            playList=new ArrayList<>();
+            arrayAdapter=new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, playList);
+            userPlaylist.setAdapter(arrayAdapter);
             database=FirebaseDatabase.getInstance();
             myref=database.getReference("Users");
             Bundle bundle=this.getArguments();
             if(bundle!=null) {
                 String uid = bundle.getString("Uid");
+                String photoUrl=bundle.getString("PhotoUrl");
+                String displayName=bundle.getString("DisplayName");
+                String playlistCount=bundle.getString("PlaylistCount");
+                Picasso.get().load(photoUrl).resize(400, 400).centerCrop().into(circleImageView);
+                textView.setText(displayName);
                 myref.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.child("properties").getValue(User.class);
-                        Picasso.with(getContext()).load(user.getPhotoUrl()).resize(400, 400).centerCrop().into(circleImageView);
-                        textView.setText(user.getDisplayName());
+                        playList.clear();
                         if (dataSnapshot.hasChild("playlists")) {
-                            //Toast.makeText(getContext(),"Buradayım",Toast.LENGTH_SHORT).show();
-                           /* playList.clear();
-                            for (DataSnapshot ds:dataSnapshot.getChildren()){
-                                playList.add(ds.getKey());
-                            }
-                           //DatabaseControl databaseControl=new DatabaseControl();
-                           //playList=databaseControl.getPlaylistName(dataSnapshot.child("playlists"));
-                           arrayAdapter.notifyDataSetChanged();*/
+                          //  Toast.makeText(getContext(),"Buradayım",Toast.LENGTH_SHORT).show();
+                            //Kullanıcının playlistini çektik ve listeye aktarıp arrayadapter a bildirdik
+                           DatabaseControl databaseControl=new DatabaseControl();
+                           playList.addAll(databaseControl.getPlaylistName(dataSnapshot.child("playlists")));
                         }
+                        arrayAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -83,4 +88,9 @@ public class UserProfileFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
 }

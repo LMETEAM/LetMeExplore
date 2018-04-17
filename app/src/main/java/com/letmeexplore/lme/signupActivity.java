@@ -82,7 +82,7 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==RC_SELECT_IMAGE&&resultCode==RESULT_OK){
             choosenImage = data.getData();
-            Picasso.with(picture.getContext()).load(choosenImage).noPlaceholder().centerCrop().fit()
+            Picasso.get().load(choosenImage).noPlaceholder().centerCrop().fit()
                     .into((ImageView) findViewById(R.id.userPP));
 
         }

@@ -1,6 +1,7 @@
 package com.letmeexplore.lme;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -14,9 +15,11 @@ import android.text.TextWatcher;
 import android.transition.Transition;
 import android.transition.TransitionSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -76,6 +79,20 @@ public class SearchFragment extends Fragment {
 
     }
     void setSearchText(){
+
+        searchText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //Yazma işlemi tamamlanmışmı onu kontrol ediyor eğer klavyeden tamama tıklanmışsa klavyeyi u kapatıyor
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                   hideKeyboard(getView());
+                    return true;
+                }
+                return false;
+            }
+        });
+        //
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -92,10 +109,6 @@ public class SearchFragment extends Fragment {
                     userArrayList.clear();
                     search_userCustomAdapter.notifyDataSetChanged();
 
-                }
-                if(userArrayList.size()>3){
-                    userArrayList.add(3,new UserDetails(new User(),null));
-                    userArrayList.remove(4);
                 }
             }
 
@@ -139,7 +152,6 @@ public class SearchFragment extends Fragment {
                             }
                             if(userArrayList.size()>3){
                                 userArrayList.add(3,new UserDetails(new User(),null));
-                                userArrayList.remove(4);
                             }
                             search_userCustomAdapter.notifyDataSetChanged();
                         }
@@ -175,10 +187,18 @@ public class SearchFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position!=3){Bundle bundle=new Bundle();
                 bundle.putString("Uid",userArrayList.get(position).getUid());
+                bundle.putString("PhotoUrl",userArrayList.get(position).getPhotoUrl());
+                bundle.putString("DisplayName",userArrayList.get(position).getDisplayName());
+                bundle.putString("PlaylistCount",userArrayList.get(position).getPlaylistCount());
                 UserProfileFragment userProfileFragment=new UserProfileFragment();
+                hideKeyboard(view);
                 userProfileFragment.setArguments(bundle);
                 setFragment(userProfileFragment);
-                Toast.makeText(getContext(),userArrayList.get(position).getUid(),Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(),userArrayList.get(position).getUid(),Toast.LENGTH_SHORT).show();
+
+                //------Close Keyboard-----
+                    /*InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    keyboard.hideSoftInputFromWindow(getActivity().getWindow( ).getAttributes().token, 0);*/
             }
             }
         });
@@ -188,6 +208,12 @@ public class SearchFragment extends Fragment {
         fragmentTransaction.replace(R.id.main_frame,fragment);
         fragmentTransaction.commit();
 
+    }
+    public void hideKeyboard(View view) {
+
+        //Keyboard Closing Method
+        InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
 

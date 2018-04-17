@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context="com.letmeexplore.lme.MainActivity"
-android:background="@drawable/backgr">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgr"
+    tools:context="com.letmeexplore.lme.MainActivity">
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/main_nav"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         app:itemBackground="@color/colorPrimary"

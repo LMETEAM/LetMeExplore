@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
     void setImageView2Visible(){
             database=FirebaseDatabase.getInstance();
             myRef=database.getReference("Users/"+mAuth.getCurrentUser().getUid());
-            myRef.addValueEventListener(new ValueEventListener() {
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.hasChild("admin")){

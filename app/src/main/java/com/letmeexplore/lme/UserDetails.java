@@ -12,9 +12,8 @@ public class UserDetails extends User {
     public UserDetails(User user,String playlistCount) {
         super(user);
         this.PlaylistCount=playlistCount;
-
-
     }
+
 
     public String getPlaylistCount() {
         return PlaylistCount;

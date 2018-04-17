@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:windowSoftInputMode="adjustPan"
+    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
     tools:context="com.letmeexplore.lme.SearchFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -21,6 +23,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/nav_search"
             android:textSize="24sp"
+            android:imeOptions="actionDone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

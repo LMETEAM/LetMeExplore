@@ -108,7 +108,7 @@ public class AddSongActivity extends AppCompatActivity {
                                                 song.setSongPhotoUrl("https://firebasestorage.googleapis.com/v0/b/letmeexplore-fb83f.appspot.com/o/Songs%2FPhotos%2Fdefaultimage.png?alt=media&token=b97f0aa5-7ee2-4536-a024-6222f69573ee");
                                                 myRef.push().child("properties").setValue(song);
                                                 Toast.makeText(getApplicationContext(), "Update Successful.", Toast.LENGTH_SHORT).show();
-                                                Picasso.with(circleImageView.getContext()).load(R.drawable.daddylesssons).noPlaceholder().centerCrop().fit()
+                                                Picasso.get().load(R.drawable.daddylesssons).noPlaceholder().centerCrop().fit()
                                                         .into((ImageView) findViewById(R.id.circleImageView));
                                             } else {
 
@@ -124,7 +124,7 @@ public class AddSongActivity extends AppCompatActivity {
 
                                                     }
                                                 });
-                                                Picasso.with(circleImageView.getContext()).load(R.drawable.daddylesssons).noPlaceholder().centerCrop().fit()
+                                                Picasso.get().load(R.drawable.daddylesssons).noPlaceholder().centerCrop().fit()
                                                         .into((ImageView) findViewById(R.id.circleImageView));
                                             }
                                         }
@@ -204,7 +204,7 @@ public class AddSongActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==RC_SELECT_IMAGE&&resultCode==RESULT_OK){
             urichoosenImage=data.getData();
-            Picasso.with(circleImageView.getContext()).load(urichoosenImage).noPlaceholder().centerCrop().fit()
+            Picasso.get().load(urichoosenImage).noPlaceholder().centerCrop().fit()
                     .into((ImageView) findViewById(R.id.circleImageView));
 
         }}
