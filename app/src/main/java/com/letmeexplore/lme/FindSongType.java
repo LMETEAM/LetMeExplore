@@ -47,7 +47,7 @@ public class FindSongType {
     }
 
     public void findSongtype(){
-        SongType="EBEN";
+        SongType="LME";
         Map< String,Integer > map= new HashMap<String,Integer>();
         List<String> songType=new ArrayList<>(); //Şarkı tarzlarnı içerecek yeni bir liste oluşturduk
         int enbüyük = 0; //En çok tekrar eden tarzın frekansı

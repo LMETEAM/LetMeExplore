@@ -122,9 +122,10 @@ public class SearchFragment extends Fragment {
                 * daha sonra kullanıcı playlist oluşturmuşmu ona bakılır oluşturmuşsa
                 * playlist sayısını bulur ve User.class tan türetilmiş yeni bir sınıf olan UserDetails.class a parametre olarak
                  * (User,PlayListSayısı) şeklini gönderir. Oluşturmamışsa yine aynısını yapar fakat bu sefer (User,"0") şeklini gönderir
-                 * Sonra UserDatailten oluşturmuş olduğumuz nesneyi userArrayList listemize ekler. */
+                 * Sonra UserDatailsten oluşturmuş olduğumuz nesneyi userArrayList listemize ekler. */
 
                 //********************************
+
                if(!s.toString().isEmpty()) {
                     myRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
