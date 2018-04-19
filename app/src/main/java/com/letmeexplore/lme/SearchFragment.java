@@ -2,6 +2,7 @@ package com.letmeexplore.lme;
 
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -68,6 +69,7 @@ public class SearchFragment extends Fragment {
         deleteText=(ImageView)view.findViewById(R.id.search_deletetext);
         database=FirebaseDatabase.getInstance();
         myRef=database.getReference();
+        myRef.keepSynced(true);
         mAuth=FirebaseAuth.getInstance();
         firebaseUser=mAuth.getCurrentUser();
         search_userCustomAdapter =new Search_UserCustomAdapter(getContext(),userArrayList);
@@ -191,10 +193,10 @@ public class SearchFragment extends Fragment {
                 bundle.putString("DisplayName",userArrayList.get(position).getDisplayName());
                 bundle.putString("PlaylistCount",userArrayList.get(position).getPlaylistCount());
                 UserProfileFragment userProfileFragment=new UserProfileFragment();
-                hideKeyboard(view);
                 userProfileFragment.setArguments(bundle);
                 setFragment(userProfileFragment);
-               // Toast.makeText(getContext(),userArrayList.get(position).getUid(),Toast.LENGTH_SHORT).show();
+                hideKeyboard(view);
+              //  Toast.makeText(getContext(),userArrayList.get(position).getUid(),Toast.LENGTH_SHORT).show();
 
                 //------Close Keyboard-----
                     /*InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -206,14 +208,21 @@ public class SearchFragment extends Fragment {
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame,fragment);
+        fragmentTransaction.addToBackStack("search");
         fragmentTransaction.commit();
 
     }
     public void hideKeyboard(View view) {
 
         //Keyboard Closing Method
-        InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager =(InputMethodManager)getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
     }
 }
 

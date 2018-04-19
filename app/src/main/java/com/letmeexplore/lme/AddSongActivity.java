@@ -106,20 +106,20 @@ public class AddSongActivity extends AppCompatActivity {
                                                 String key = myRef.push().getKey();
                                                 song.setSongkey(key);
                                                 song.setSongPhotoUrl("https://firebasestorage.googleapis.com/v0/b/letmeexplore-fb83f.appspot.com/o/Songs%2FPhotos%2Fdefaultimage.png?alt=media&token=b97f0aa5-7ee2-4536-a024-6222f69573ee");
-                                                myRef.push().child("properties").setValue(song);
+                                                myRef.child(key).child("properties").setValue(song);
                                                 Toast.makeText(getApplicationContext(), "Update Successful.", Toast.LENGTH_SHORT).show();
                                                 Picasso.get().load(R.drawable.daddylesssons).noPlaceholder().centerCrop().fit()
                                                         .into((ImageView) findViewById(R.id.circleImageView));
                                             } else {
 
-                                                String key = myRef.push().getKey();
+                                                final String key = myRef.push().getKey();
                                                 song.setSongkey(key);
                                                 storageReference = FirebaseStorage.getInstance().getReference("Songs/Photos/" + key);
                                                 storageReference.putFile(urichoosenImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                                     @Override
                                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                                         song.setSongPhotoUrl(taskSnapshot.getDownloadUrl().toString());
-                                                        myRef.push().child("properties").setValue(song);
+                                                        myRef.child(key).child("properties").setValue(song);
                                                         Toast.makeText(getApplicationContext(), "Update Successful", Toast.LENGTH_SHORT).show();
 
                                                     }

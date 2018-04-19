@@ -106,15 +106,7 @@ public class HomeFragment extends Fragment {
                         DatabaseControl databaseControl =new DatabaseControl();
                         List<Song> songList1 =new ArrayList<>();
                         List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot);
-                        for (String songkey:songKeyList){
-                            for (Song song:songList){
-                                if(songkey.equalsIgnoreCase(song.getSongkey())){
-                                    songList1.add(song);
-                                   // Toast.makeText(getContext(),song.getSongName()+"Var",Toast.LENGTH_SHORT).show();
-                                    break;
-                                }
-                            }
-                        }
+                        songList1.addAll(databaseControl.getMatchSongs(songList,songKeyList));
                         //Toast.makeText(getContext(),"islem bitti",Toast.LENGTH_SHORT).show();
                         FindSongType findSongType = new FindSongType(songList1);
                         findSongType.findSongtype();

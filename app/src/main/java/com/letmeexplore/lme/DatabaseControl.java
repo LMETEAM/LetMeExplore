@@ -44,9 +44,21 @@ public class DatabaseControl{
     ArrayList<String> getPlaylistName(DataSnapshot dataSnapshot){
         ArrayList<String> playlistName=new ArrayList<>();
         for (DataSnapshot ds:dataSnapshot.getChildren()){
-            playlistName.add(ds.getKey());
+            if(ds.hasChildren())playlistName.add(ds.getKey());
         }
         return playlistName;
     }
-
+    ArrayList<Song> getMatchSongs(List<Song> songList,List<String> songKeyList){
+        ArrayList<Song> songList1 =new ArrayList<>();
+        for (String songkey:songKeyList){
+            for (Song song:songList){
+                if(songkey.equalsIgnoreCase(song.getSongkey())){
+                    songList1.add(song);
+                    // Toast.makeText(getContext(),song.getSongName()+"Var",Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            }
+        }
+        return songList1;
+    }
 }
