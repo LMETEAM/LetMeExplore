@@ -1,7 +1,6 @@
 package com.letmeexplore.lme;
 
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -106,7 +103,7 @@ public class UserProfileFragment extends Fragment {
                 Bundle bundle=new Bundle();
                 bundle.putString("Uid",uid);
                 bundle.putString("PlaylistName",playlistname);
-                OtherUsersSongs otherUsersSongs=new OtherUsersSongs();
+                OtherUsersSongsFragment otherUsersSongs=new OtherUsersSongsFragment();
                 otherUsersSongs.setArguments(bundle);
                 setFragment(otherUsersSongs);
 
@@ -121,7 +118,7 @@ public class UserProfileFragment extends Fragment {
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame,fragment);
-        fragmentTransaction.addToBackStack("burak");
+        fragmentTransaction.addToBackStack("userprofile");
         fragmentTransaction.commit();
 
     }

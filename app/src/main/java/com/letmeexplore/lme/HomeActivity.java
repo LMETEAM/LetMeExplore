@@ -55,18 +55,29 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.nav_home:
+                        while (getSupportFragmentManager().getBackStackEntryCount() > 0){
+                            getSupportFragmentManager().popBackStackImmediate();
+                        }
                         setFragment(homeFragment);
                         return true;
                     case R.id.nav_search:
+                        while (getSupportFragmentManager().getBackStackEntryCount() > 0){
+                            getSupportFragmentManager().popBackStackImmediate();
+                        }
                         if(searchFragment==null) searchFragment=new SearchFragment();
                         setFragment(searchFragment);
                         return true;
                     case R.id.nav_explore:
+                        while (getSupportFragmentManager().getBackStackEntryCount() > 0){
+                            getSupportFragmentManager().popBackStackImmediate();
+                        }
                         if(exploreFragment==null)exploreFragment=new ExploreFragment();
-
                         setFragment(exploreFragment);
                         return true;
                     case R.id.nav_books:
+                        while (getSupportFragmentManager().getBackStackEntryCount() > 0){
+                            getSupportFragmentManager().popBackStackImmediate();
+                        }
                         if(booksFragment==null) booksFragment=new BooksFragment();
                         setFragment(booksFragment);
                         return true;

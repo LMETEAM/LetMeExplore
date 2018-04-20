@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgrblur"
-    tools:context=".OtherUsersSongs">
+    tools:context=".OtherUsersSongsFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -36,7 +36,7 @@
 
         <ListView
             android:id="@+id/tracklist_other_user"
-            android:layout_width="368dp"
+            android:layout_width="0dp"
             android:layout_height="511dp"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
