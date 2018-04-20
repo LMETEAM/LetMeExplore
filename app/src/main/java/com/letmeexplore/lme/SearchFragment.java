@@ -2,8 +2,11 @@ package com.letmeexplore.lme;
 
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -22,10 +25,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,8 +40,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import java.util.ArrayList;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -46,10 +55,13 @@ public class SearchFragment extends Fragment {
     private EditText searchText;
     private ImageView deleteText;
     private ListView userRList;
+    private RecyclerView recyclerViewSongList;
     private FirebaseAuth mAuth;
+    private List<Song> songList=new ArrayList<>();
     private FirebaseUser firebaseUser;
     private ArrayList<UserDetails> userArrayList =new ArrayList<UserDetails>();
     private ImageView getDeleteText;
+    private RecylerViewAdapterSearchSong recylerViewAdapterSearchSong;
     private Search_UserCustomAdapter search_userCustomAdapter;
     private DatabaseReference myRef;
     private FirebaseDatabase database;
@@ -64,6 +76,7 @@ public class SearchFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_search, container, false);
         // Inflate the layout for this fragment
         userRList=(ListView)view.findViewById(R.id.search_user_list);
+        recyclerViewSongList=(RecyclerView)view.findViewById(R.id.search_songrecyclerlist);
         getDeleteText=(ImageView)view.findViewById(R.id.search_deletetext);
         searchText=(EditText) view.findViewById(R.id.search_searchtext);
         deleteText=(ImageView)view.findViewById(R.id.search_deletetext);
@@ -72,8 +85,11 @@ public class SearchFragment extends Fragment {
         myRef.keepSynced(true);
         mAuth=FirebaseAuth.getInstance();
         firebaseUser=mAuth.getCurrentUser();
+        recylerViewAdapterSearchSong=new RecylerViewAdapterSearchSong(getContext(),songList,mAuth,myRef);
         search_userCustomAdapter =new Search_UserCustomAdapter(getContext(),userArrayList);
         userRList.setAdapter(search_userCustomAdapter);
+        recyclerViewSongList.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewSongList.setAdapter(recylerViewAdapterSearchSong);
         userRlistOnClickListener();
         setSearchText();
         setDeleteText();
@@ -102,16 +118,22 @@ public class SearchFragment extends Fragment {
                 if(s.toString().isEmpty()){
                     userArrayList.clear();
                     search_userCustomAdapter.notifyDataSetChanged();
+                    songList.clear();
+                    songList.clear();
+                    recylerViewAdapterSearchSong.notifyDataSetChanged();
+
                 }
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.toString().isEmpty()){
+                    songList.clear();
+                    recylerViewAdapterSearchSong.notifyDataSetChanged();
                     userArrayList.clear();
                     search_userCustomAdapter.notifyDataSetChanged();
-
                 }
+
             }
 
             @Override
@@ -125,8 +147,9 @@ public class SearchFragment extends Fragment {
                  * Sonra UserDatailsten oluşturmuş olduğumuz nesneyi userArrayList listemize ekler. */
 
                 //********************************
-
+                    //User Search and Song Search
                if(!s.toString().isEmpty()) {
+                   //---User Search---
                     myRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -157,6 +180,11 @@ public class SearchFragment extends Fragment {
                             if(userArrayList.size()>3){
                                 userArrayList.add(3,new UserDetails(new User(),null));
                             }
+                            if(userArrayList.isEmpty()){
+                                userRList.setVisibility(View.GONE);
+                            }else {
+                                userRList.setVisibility(View.VISIBLE);
+                            }
                             search_userCustomAdapter.notifyDataSetChanged();
                         }
 
@@ -165,12 +193,42 @@ public class SearchFragment extends Fragment {
 
                         }
                     });
+
+                   //---Song Search---
+                   myRef.child("Songs").addListenerForSingleValueEvent(new ValueEventListener() {
+                       @Override
+                       public void onDataChange(DataSnapshot dataSnapshot) {
+                            songList.clear();
+                            for (DataSnapshot ds:dataSnapshot.getChildren()){
+                                if(ds.child("properties").child("songName").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())){
+                                    if(songList.size()>3){//en fazla 4 tane eşleşen şarkı gösterir gereksiz yere tüm şarkılar çekilip kıyaslanmasın diye
+                                        break;
+                                    }
+                                    if(!s.toString().isEmpty()){ Song song=ds.child("properties").getValue(Song.class);
+                                    songList.add(song);}
+                                    else {songList.clear();
+                                   recylerViewAdapterSearchSong.notifyDataSetChanged();
+                                   break;
+                                   }
+
+                                }
+                            }
+                            recylerViewAdapterSearchSong.notifyDataSetChanged();
+                       }
+
+                       @Override
+                       public void onCancelled(DatabaseError databaseError) {
+
+                       }
+                   });
+
                 }else{
+                   songList.clear();
+                   recylerViewAdapterSearchSong.notifyDataSetChanged();
                     deleteText.setVisibility(View.GONE);
                     userArrayList.clear();
                     search_userCustomAdapter.notifyDataSetChanged();
                 }
-
             }
         };
         searchText.addTextChangedListener(textWatcher);
@@ -179,9 +237,12 @@ public class SearchFragment extends Fragment {
         getDeleteText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                songList.clear();
+                recylerViewAdapterSearchSong.notifyDataSetChanged();
                 searchText.setText("");
                 userArrayList.clear();
                 search_userCustomAdapter.notifyDataSetChanged();
+
             }
         });
     }
@@ -228,11 +289,12 @@ public class SearchFragment extends Fragment {
         InputMethodManager inputMethodManager =(InputMethodManager)getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
     @Override
     public void onPause() {
         super.onPause();
 
     }
+
+
 }
 

@@ -1,14 +1,10 @@
 package com.letmeexplore.lme;
 
-
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,112 +29,63 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class OtherUsersSongsFragment extends Fragment {
-
-    private TextView textViewPlaylist;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
+public class RecylerViewAdapterSearchSong extends RecyclerView.Adapter<RecylerViewAdapterSearchSong.MyViewHolder> {
+    private Context mContext;
+    private List<Song> mSongList;
     private FirebaseAuth mAuth;
-    private ListView trackListview;
-    private  DatabaseControl databaseControl;
-    private ImageView backbutton;
-    private ArrayList<Song> arrayTrackList=new ArrayList<Song>();
-    private ArrayAdapter<Song> arrayAdapter;
-    private Other_Users_Song_CustomAdapter other_users_song_customAdapter;
-    public OtherUsersSongsFragment() {
-        // Required empty public constructor
-    }
+    private DatabaseReference myRef;
 
+    public RecylerViewAdapterSearchSong(Context mContext, List<Song> mSongList,FirebaseAuth mAuth,DatabaseReference myRef) {
+        this.mContext = mContext;
+        this.mSongList = mSongList;
+        this.mAuth=mAuth;
+        this.myRef=myRef;
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_other_users_songs, container, false);
-        trackListview=(ListView)view.findViewById(R.id.tracklist_other_user);
-        mAuth=FirebaseAuth.getInstance();
-        backbutton=(ImageView)view.findViewById(R.id.other_users_backbuttonview);
-        textViewPlaylist=(TextView)view.findViewById(R.id.other_user_playlist_name);
-       databaseControl=new DatabaseControl();
-        other_users_song_customAdapter=new Other_Users_Song_CustomAdapter(getContext(),arrayTrackList);
-       // arrayAdapter=new ArrayAdapter<Song>(getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, arrayTrackList);
-        trackListview.setAdapter(other_users_song_customAdapter);
-        database=FirebaseDatabase.getInstance();
-        myRef=database.getReference();
-        Bundle bundle=this.getArguments();
-        if(bundle!=null){
-            String uid=bundle.getString("Uid");
-            String playlistName=bundle.getString("PlaylistName");
-            textViewPlaylist.setText(playlistName.toUpperCase());
-            getTrackList(uid,playlistName);
-            getBacktoFragment();
-            OnitemClickListener();
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        LayoutInflater mInflater=LayoutInflater.from(mContext);
+        view=mInflater.inflate(R.layout.cardview_search_song,parent,false);
+
+
+        return new MyViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+            holder.songname.setText(mSongList.get(position).getSongName());
+            holder.singer.setText(mSongList.get(position).getSinger());
+            holder.songkey.setText(mSongList.get(position).getSinger());
+            holder.addbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                showPopup(position);
+                }
+            });
+    }
+
+    @Override
+    public int getItemCount() {
+        return mSongList.size();
+    }
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
+        TextView songname;
+        TextView singer;
+        TextView songkey;
+        ImageView addbutton;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            songkey=(TextView)itemView.findViewById(R.id.cardview_search_songkey);
+            songname=(TextView)itemView.findViewById(R.id.cardview_search_songname_text);
+            singer=(TextView)itemView.findViewById(R.id.cardview_search_singername_text);
+            addbutton=(ImageView)itemView.findViewById(R.id.cardview_search_addsong_imageview);
         }
-        return view;
-
     }
-    void getTrackList(final String uid, final String playlistName){
-        myRef.child("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                DatabaseControl databaseControl=new DatabaseControl();
-                final List<String> songKey=(databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlistName)));
-                //
-                myRef.child("Songs").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        arrayTrackList.clear();
-                       // Toast.makeText(getContext(),songKey.get(0),Toast.LENGTH_SHORT).show();
-                        DatabaseControl databaseControl1=new DatabaseControl();
-                        List<Song> songs=databaseControl1.getSongList(dataSnapshot);
-                        ArrayList<Song> songList=databaseControl1.getMatchSongs(songs,songKey);
-                        //Toast.makeText(getContext(),""+songs.size(),Toast.LENGTH_SHORT).show();
-                        arrayTrackList.addAll(songList);
-                        other_users_song_customAdapter.notifyDataSetChanged();
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-    void getBacktoFragment(){
-        backbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setFragment();
-            }
-        });
-
-    }
-    private void setFragment() {
-        FragmentManager fragmentManager=getFragmentManager();
-        fragmentManager.popBackStack();
-    }
-    void OnitemClickListener(){
-        trackListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            showPopup(position);
-
-            }
-        });
-    }
-     void showPopup(final int position) {
-        final Dialog mdialog = new Dialog(getContext());
+    void showPopup(final int position) {
+        final Dialog mdialog = new Dialog(mContext);
         CircleImageView circleImageView;
         final TextView songName;
         final TextView addtoList;
@@ -149,6 +96,7 @@ public class OtherUsersSongsFragment extends Fragment {
         final TextView createtext;
         final List<String> playlist=new ArrayList<String>();
         final ArrayAdapter arrayAdapter;
+        final DatabaseControl databaseControl=new DatabaseControl();
         mdialog.setContentView(R.layout.song_custompopup);
         mdialog.getWindow().getAttributes().windowAnimations =R.style.UptoDown;
         addtoList=(TextView)mdialog.findViewById(R.id.popup_addtolisttext);
@@ -159,10 +107,10 @@ public class OtherUsersSongsFragment extends Fragment {
         createNewList = (TextView) mdialog.findViewById(R.id.popup_createnewlisttext);
         circleImageView = (CircleImageView) mdialog.findViewById(R.id.popup_circleimageview);
         listView = (ListView) mdialog.findViewById(R.id.popup_listview);
-        arrayAdapter=new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, playlist);
+        arrayAdapter=new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1, playlist);
         listView.setAdapter(arrayAdapter);
-        songName.setText(arrayTrackList.get(position).getSongName());
-        Picasso.get().load(arrayTrackList.get(position).getSongPhotoUrl()).resize(300, 300).into(circleImageView);
+        songName.setText(mSongList.get(position).getSongName());
+        Picasso.get().load(mSongList.get(position).getSongPhotoUrl()).resize(300, 300).into(circleImageView);
         createNewList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,7 +136,7 @@ public class OtherUsersSongsFragment extends Fragment {
             public void onClick(View v) {
                 if(!newplaylistname.getText().toString().isEmpty()){
                     try {
-                        final String songkey=arrayTrackList.get(position).getSongkey();
+                        final String songkey=mSongList.get(position).getSongkey();
                         final String playlistname=newplaylistname.getText().toString();
                         final String currentuser=mAuth.getCurrentUser().getUid();
                         //Yeni oluşturulan çalma listesine seçilen şarkıyı gönderir
@@ -197,16 +145,16 @@ public class OtherUsersSongsFragment extends Fragment {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.hasChild("playlists")){
                                     if(dataSnapshot.child("playlists").hasChild(playlistname)){
-                                        Toast.makeText(getContext(), "Playlist already exists", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, "Playlist already exists", Toast.LENGTH_SHORT).show();
                                         newplaylistname.setText("");
                                     }else {
                                         myRef.child("Users").child(currentuser).child("playlists").child(playlistname).push().child("songkey").setValue(songkey);
-                                        Toast.makeText(getContext(),"Added to "+playlistname,Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext,"Added to "+playlistname,Toast.LENGTH_SHORT).show();
                                         mdialog.dismiss();
                                     }
                                 }else {
                                     myRef.child("Users").child(currentuser).child("playlists").child(playlistname).push().child("songkey").setValue(songkey);
-                                    Toast.makeText(getContext(),"Added to "+playlistname,Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext,"Added to "+playlistname,Toast.LENGTH_SHORT).show();
                                     mdialog.dismiss();
                                 }
                             }
@@ -216,7 +164,7 @@ public class OtherUsersSongsFragment extends Fragment {
                         });
 
                     }catch (Exception e){
-                        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext,e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -229,15 +177,15 @@ public class OtherUsersSongsFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String currentuser=mAuth.getCurrentUser().getUid();
-                        String choosensongkey=arrayTrackList.get(position).getSongkey();
-                       List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlist.get(listposition)));
+                        String choosensongkey=mSongList.get(position).getSongkey();
+                        List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlist.get(listposition)));
                         if(!songKeyList.contains(choosensongkey)){
                             myRef.child("Users").child(currentuser).child("playlists").child(playlist.get(listposition)).push().child("songkey").setValue(choosensongkey);
-                            Toast.makeText(getContext(),"Added to "+playlist.get(listposition),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext,"Added to "+playlist.get(listposition),Toast.LENGTH_SHORT).show();
                             mdialog.dismiss();
 
                         }else {
-                            Toast.makeText(getContext(),"This song already exists in the playlist",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext,"This song already exists in the playlist",Toast.LENGTH_SHORT).show();
                             mdialog.dismiss();
                         }
 
@@ -256,8 +204,8 @@ public class OtherUsersSongsFragment extends Fragment {
 
                 playlist.clear();
                 if(dataSnapshot.hasChild("playlists")){
-                playlist.addAll(databaseControl.getPlaylistName(dataSnapshot.child("playlists")));
-                arrayAdapter.notifyDataSetChanged();
+                    playlist.addAll(databaseControl.getPlaylistName(dataSnapshot.child("playlists")));
+                    arrayAdapter.notifyDataSetChanged();
                 }
 
 
@@ -271,4 +219,5 @@ public class OtherUsersSongsFragment extends Fragment {
         mdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mdialog.show();
     }
+
 }
