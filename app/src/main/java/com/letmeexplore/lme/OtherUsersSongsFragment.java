@@ -149,6 +149,7 @@ public class OtherUsersSongsFragment extends Fragment {
         final List<String> playlist=new ArrayList<String>();
         final ArrayAdapter arrayAdapter;
         mdialog.setContentView(R.layout.song_custompopup);
+        mdialog.getWindow().getAttributes().windowAnimations =R.style.UptoDown;
         addtoList=(TextView)mdialog.findViewById(R.id.popup_addtolisttext);
         newplaylistname=(EditText)mdialog.findViewById(R.id.popup_newlistnametext);
         createtext=(TextView)mdialog.findViewById(R.id.popup_createtext);
@@ -229,6 +230,7 @@ public class OtherUsersSongsFragment extends Fragment {
                             myRef.child("Users").child(currentuser).child("playlists").child(playlist.get(position)).push().child("songkey").setValue(choosensongkey);
                             Toast.makeText(getContext(),"Added to "+playlist.get(position),Toast.LENGTH_SHORT).show();
                             mdialog.dismiss();
+
                         }else {
                             Toast.makeText(getContext(),"This song already exists in the playlist",Toast.LENGTH_SHORT).show();
                             mdialog.dismiss();
