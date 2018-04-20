@@ -203,6 +203,10 @@ public class OtherUsersSongsFragment extends Fragment {
                                         Toast.makeText(getContext(),"Added to "+playlistname,Toast.LENGTH_SHORT).show();
                                         mdialog.dismiss();
                                     }
+                                }else {
+                                    myRef.child("Users").child(currentuser).child("playlists").child(playlistname).push().child("songkey").setValue(songkey);
+                                    Toast.makeText(getContext(),"Added to "+playlistname,Toast.LENGTH_SHORT).show();
+                                    mdialog.dismiss();
                                 }
                             }
                             @Override
@@ -227,8 +231,8 @@ public class OtherUsersSongsFragment extends Fragment {
                         String choosensongkey=arrayTrackList.get(position).getSongkey();
                        List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlist.get(listposition)));
                         if(!songKeyList.contains(choosensongkey)){
-                            myRef.child("Users").child(currentuser).child("playlists").child(playlist.get(position)).push().child("songkey").setValue(choosensongkey);
-                            Toast.makeText(getContext(),"Added to "+playlist.get(position),Toast.LENGTH_SHORT).show();
+                            myRef.child("Users").child(currentuser).child("playlists").child(playlist.get(listposition)).push().child("songkey").setValue(choosensongkey);
+                            Toast.makeText(getContext(),"Added to "+playlist.get(listposition),Toast.LENGTH_SHORT).show();
                             mdialog.dismiss();
 
                         }else {

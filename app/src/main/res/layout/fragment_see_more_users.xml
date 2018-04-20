@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgrblur"
-    tools:context=".OtherUsersSongsFragment">
+    tools:context=".SeeMoreUsersFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -13,34 +13,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/seemore_backbutton_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="?android:attr/actionModeCloseDrawable"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:id="@+id/other_user_playlist_name"
+            android:id="@+id/seemore_matchesname_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="OtherUsersTracks"
+            android:text="Matches Name"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/other_users_backbuttonview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:src="?android:attr/homeAsUpIndicator"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ListView
-            android:id="@+id/tracklist_other_user"
+            android:id="@+id/seemore_listview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/other_user_playlist_name" />
+            app:layout_constraintTop_toBottomOf="@+id/seemore_matchesname_text"
+            tools:layout_editor_absoluteX="0dp" />
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

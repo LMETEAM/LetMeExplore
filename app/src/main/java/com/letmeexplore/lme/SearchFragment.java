@@ -131,9 +131,10 @@ public class SearchFragment extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             userArrayList.clear();
-//                            search_userCustomAdapter.notifyDataSetChanged();
+                               Log.e("DONGU",""+dataSnapshot.getChildrenCount());
+//                              search_userCustomAdapter.notifyDataSetChanged();
                             for (DataSnapshot ds:dataSnapshot.getChildren()){
-                                Log.e("DONGU","Devam");
+
                                 if(userArrayList.size()>3) break;
                                 if (!s.toString().isEmpty()){
                                 if(ds.child("properties").child("displayName").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())){
@@ -203,6 +204,14 @@ public class SearchFragment extends Fragment {
                     /*InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     keyboard.hideSoftInputFromWindow(getActivity().getWindow( ).getAttributes().token, 0);*/
             }
+            else {
+                Bundle bundle=new Bundle();
+                bundle.putString("searchName",searchText.getText().toString());
+                SeeMoreUsersFragment seeMoreUsersFragment=new SeeMoreUsersFragment();
+                seeMoreUsersFragment.setArguments(bundle);
+                setFragment(seeMoreUsersFragment);
+                hideKeyboard(view);
+                }
             }
         });
     }
