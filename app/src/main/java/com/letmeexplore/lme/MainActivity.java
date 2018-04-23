@@ -131,9 +131,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN&&resultCode == RESULT_OK) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                          // Google Sign In was successful, authenticate with Firebase
@@ -151,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
         }}
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("TAG", "firebaseAuthWithGoogle:" + acct.getId());
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -181,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
     void GoogleSignMethod(){
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -201,6 +198,11 @@ public class MainActivity extends AppCompatActivity {
         if(currentUser!=null){
             startActivity(new Intent(MainActivity.this,HomeActivity.class));
         }
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+
     }
 
     String NameFind(String displayName){
