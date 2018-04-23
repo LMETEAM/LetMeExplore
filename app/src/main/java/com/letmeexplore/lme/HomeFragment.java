@@ -4,7 +4,9 @@ package com.letmeexplore.lme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -35,6 +37,14 @@ public class HomeFragment extends Fragment {
     private FirebaseDatabase database;
     private User user;
     private String burak;
+    private ImageView imgPop;
+    private ImageView imgClassic;
+    private ImageView imgRock;
+    private ImageView imgIndie;
+    private ImageView imgJazz;
+    private ImageView imgElectronic;
+    private ImageView imgPunk;
+    private ImageView imgHiphop;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -46,8 +56,17 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ımageView = (ImageView) view.findViewById(R.id.imageView);
         songadd=(ImageView)view.findViewById(R.id.imageView2);
+        imgPop = (ImageView)view.findViewById(R.id.imageViewPop);
+        imgClassic = (ImageView)view.findViewById(R.id.imageViewClassic);
+        imgRock = (ImageView)view.findViewById(R.id.imageViewRock);
+        imgIndie = (ImageView)view.findViewById(R.id.imageViewIndie);
+        imgJazz = (ImageView)view.findViewById(R.id.imageViewJazz3);
+        imgElectronic = (ImageView)view.findViewById(R.id.imageViewElectronic);
+        imgHiphop = (ImageView)view.findViewById(R.id.imageViewHiphop);
         mAuth=FirebaseAuth.getInstance();
         setImageView2Visible();
+        imgClassicOnClickListener();
+        imgRockOnClickListener();
         ExitButton = (ImageView) view.findViewById(R.id.imageView6);
         ExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +89,40 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+
+   void imgClassicOnClickListener(){
+        imgClassic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LMEsongsFragment lmEsongsFragment = new LMEsongsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("type","Classic");
+                lmEsongsFragment.setArguments(bundle);
+                setFragment(lmEsongsFragment);
+            }
+        });
+
+   }
+   void imgRockOnClickListener(){
+        imgRock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LMEsongsFragment lmEsongsFragment = new LMEsongsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("type","Rock");
+                lmEsongsFragment.setArguments(bundle);
+                setFragment(lmEsongsFragment);
+            }
+        });
+   }
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame,fragment);
+        fragmentTransaction.addToBackStack("home");
+        fragmentTransaction.commit();
+
+    }
+
     void setImageView2Visible(){
             database=FirebaseDatabase.getInstance();
             myRef=database.getReference("Users/"+mAuth.getCurrentUser().getUid());
