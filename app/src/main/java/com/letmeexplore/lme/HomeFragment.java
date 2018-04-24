@@ -123,7 +123,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    void setImageView2Visible(){
+     void setImageView2Visible(){
             database=FirebaseDatabase.getInstance();
             myRef=database.getReference("Users/"+mAuth.getCurrentUser().getUid());
             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -140,46 +140,5 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
-    void FindSongTypeDENEME(){
-        database=FirebaseDatabase.getInstance();
-        myRef=database.getReference();
-        mAuth=FirebaseAuth.getInstance();
-        final FirebaseUser currentUser = mAuth.getCurrentUser();
 
-
-        myRef.child("Songs").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                DatabaseControl databaseControl =new DatabaseControl();
-               final List<Song> songList= databaseControl.getSongList(dataSnapshot);
-               // Toast.makeText(getContext(),"Songsdayım",Toast.LENGTH_SHORT).show();
-                myRef.child("Users").child(currentUser.getUid()).child("playlists").child("pop").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        DatabaseControl databaseControl =new DatabaseControl();
-                        List<Song> songList1 =new ArrayList<>();
-                        List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot);
-                        songList1.addAll(databaseControl.getMatchSongs(songList,songKeyList));
-                        //Toast.makeText(getContext(),"islem bitti",Toast.LENGTH_SHORT).show();
-                        FindSongType findSongType = new FindSongType(songList1);
-                        findSongType.findSongtype();
-                        String songtype= findSongType.getSongType();
-                        Toast.makeText(getContext(),"Fav SongType: "+songtype,Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-        }
 }

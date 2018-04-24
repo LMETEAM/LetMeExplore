@@ -1,6 +1,8 @@
 package com.letmeexplore.lme;
 
 import android.content.Context;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,7 +53,6 @@ public class FindSongType {
         Map< String,Integer > map= new HashMap<String,Integer>();
         List<String> songType=new ArrayList<>(); //Şarkı tarzlarnı içerecek yeni bir liste oluşturduk
         int enbüyük = 0; //En çok tekrar eden tarzın frekansı
-        int ikincibüyük=0;//En çok tekrar eden ikinci tarzın frekansı
         for (Song song:songList){ //songList ten şarının tarzını teker teker çekip songType'a attık
             songType.add(song.getSongType());
         }
@@ -60,51 +61,32 @@ public class FindSongType {
         for(String s: songType){
             map.put(s,Collections.frequency(songType,s));//Hash map olduğu için birden fazla kez gelen aynı tarz bir defa ekleniyor
         }
-        //En çok tekrar eden iki tarzı ve frekansını bulduk
+        float songlistcount=songList.size();
+        //En çok tekrar eden tarzı ve frekansını bulduk
         if (map.size()>1){
-            int maxValueInMap=(Collections.max(map.values()));  // This will return max value in the Hashmap
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {  // Itrate through hashmap
+            int maxValueInMap=(Collections.max(map.values()));  // Bu en çok tekrar eden değeri döndürür.
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {  //Map üzerinde gezinir
                 if (entry.getValue()==maxValueInMap) {
                     SongType=entry.getKey();
                     enbüyük=entry.getValue();
-                    map.remove(SongType);
+                    Value=(int)(100*(enbüyük/songlistcount));
+                    //map.remove(SongType);
                     break;
                 }
             }
-            int maxSecondValueInMap=(Collections.max(map.values()));
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {  // Itrate through hashmap
-                if (entry.getValue()==maxSecondValueInMap) {
-                    ikincibüyük=entry.getValue();
-                    break;
-                }
-            }
-
-            enbüyük=((enbüyük-ikincibüyük)/(enbüyük+ikincibüyük))*10;
-            if(enbüyük>5){
-                Value=5;
-            }else if(enbüyük<1){
-                Value=1;
-            }else Value=enbüyük;
         }
         else {
-            int maxValueInMap=(Collections.max(map.values()));  // This will return max value in the Hashmap
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {  // Itrate through hashmap
+            int maxValueInMap=(Collections.max(map.values()));
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
                 if (entry.getValue()==maxValueInMap) {
                     SongType=entry.getKey();
+                    Value=100;
                     break;
                 }
             }
             if (songList.size()<5){ //Şarkı listesi 5ten küçükse
-            Value=3; //Puan 3
+            Value=50; //Puan 3
             }
-            else if(songList.size()<10){
-
-                Value=4;
-            }
-            else if(songList.size()>10){
-                Value=5;
-            }
-
         }
     }
     String getSongType(){

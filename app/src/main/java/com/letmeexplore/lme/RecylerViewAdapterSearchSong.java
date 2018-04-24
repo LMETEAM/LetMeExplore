@@ -60,7 +60,7 @@ public class RecylerViewAdapterSearchSong extends RecyclerView.Adapter<RecylerVi
             holder.addbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                showPopup(position);
+               HomeActivity.showPopup((ArrayList<Song>) mSongList,mContext,position);
                 }
             });
     }
