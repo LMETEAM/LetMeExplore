@@ -2,8 +2,9 @@ package com.letmeexplore.lme;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
-import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.firebase.database.DataSnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
