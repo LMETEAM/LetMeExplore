@@ -90,7 +90,38 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-   void imgClassicOnClickListener(){
+    void CompabilityDenemsi(){
+
+        FirebaseDatabase database=FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference=database.getReference();
+        databaseReference.child("FavSongTypes").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<FindSongTypeUserClass> myplaylist=new ArrayList<>();
+                for(DataSnapshot uid:dataSnapshot.getChildren()){
+                    if(uid.getKey().toString().equalsIgnoreCase(mAuth.getCurrentUser().getUid())){
+                        for (DataSnapshot playlist:dataSnapshot.getChildren()){
+                            myplaylist.add(playlist.getValue(FindSongTypeUserClass.class));
+                        }
+                    }
+                }
+                for (DataSnapshot uid:dataSnapshot.getChildren()){
+                    if(!uid.getKey().toString().equalsIgnoreCase(mAuth.getCurrentUser().getUid())){
+                        for (DataSnapshot playlist:dataSnapshot.getChildren()){
+                            FindSongTypeUserClass findSongTypeUserClass=playlist.getValue(FindSongTypeUserClass.class);
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    void imgClassicOnClickListener(){
         imgClassic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,15 +146,14 @@ public class HomeFragment extends Fragment {
             }
         });
    }
-    private void setFragment(Fragment fragment) {
+   private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame,fragment);
         fragmentTransaction.addToBackStack("home");
         fragmentTransaction.commit();
 
     }
-
-     void setImageView2Visible(){
+   void setImageView2Visible(){
             database=FirebaseDatabase.getInstance();
             myRef=database.getReference("Users/"+mAuth.getCurrentUser().getUid());
             myRef.addListenerForSingleValueEvent(new ValueEventListener() {

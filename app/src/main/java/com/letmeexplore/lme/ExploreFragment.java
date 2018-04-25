@@ -25,7 +25,10 @@ public class ExploreFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_explore, container, false);
 
-
+        //Yapılacaklar
+        //Algrotima metodunu tasarla ve oluştur
+        //Cardview Oluştur
+        //ReyclerViewAdapter Oluştur
         //HomeActivity.FindSongTypeDENEME(getContext());
         return view;
     }

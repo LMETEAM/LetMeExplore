@@ -134,7 +134,7 @@ public class HomeActivity extends AppCompatActivity {
                         String songtype= findSongType.getSongType();
                         int songvalue=findSongType.getValue();
                         FindSongTypeUserClass findSongTypeUserClass=new FindSongTypeUserClass(currentUser.getUid(),songvalue,songtype,playlistname);
-                        myRef.child("FavSongTypes").child(songtype).child(currentUser.getUid()).child(playlistname).setValue(findSongTypeUserClass);
+                        myRef.child("FavSongTypes").child(currentUser.getUid()).child(playlistname).setValue(findSongTypeUserClass);
                     }
 
                     @Override

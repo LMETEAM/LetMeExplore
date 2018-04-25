@@ -85,7 +85,7 @@ public class SearchFragment extends Fragment {
         searchText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                //Yazma işlemi tamamlanmışmı onu kontrol ediyor eğer klavyeden tamama tıklanmışsa klavyeyi u kapatıyor
+                //Yazma işlemi tamamlanmışmı onu kontrol ediyor eğer klavyeden tamama tıklanmışsa klavyeyi kapatıyor
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                    hideKeyboard(getView());
@@ -184,8 +184,9 @@ public class SearchFragment extends Fragment {
                        public void onDataChange(DataSnapshot dataSnapshot) {
                             songList.clear();
                             for (DataSnapshot ds:dataSnapshot.getChildren()){
-                                if(ds.child("properties").child("songName").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())){
-                                    if(songList.size()>3){//en fazla 4 tane eşleşen şarkı gösterir gereksiz yere tüm şarkılar çekilip kıyaslanmasın diye
+                                if(ds.child("properties").child("songName").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())||
+                                        ds.child("properties").child("singer").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())){
+                                    if(songList.size()>10){//en fazla 10 tane eşleşen şarkı gösterir gereksiz yere tüm şarkılar çekilip kıyaslanmasın diye
                                         break;
                                     }
                                     if(!s.toString().isEmpty()){ Song song=ds.child("properties").getValue(Song.class);
