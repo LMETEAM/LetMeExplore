@@ -75,7 +75,7 @@ public class OtherUsersSongsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DatabaseControl databaseControl=new DatabaseControl();
-                final List<String> songKey=(databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlistName)));
+                final List<String> songKey=(databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlistName).child("dataSongKeys")));
 
                 myRef.child("Songs").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -122,23 +122,21 @@ public class OtherUsersSongsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             HomeActivity.showPopup(arrayTrackList,getContext(),position);
-
             }
         });
     }
-
     /*void FindSongTypeAndPush(final String playlistname, Context ctx){
         FirebaseDatabase database=FirebaseDatabase.getInstance();
-         final DatabaseReference myRef=database.getReference();
-         FirebaseAuth  mAuth=FirebaseAuth.getInstance();
-         final FirebaseUser currentUser = mAuth.getCurrentUser();
+        final DatabaseReference myRef=database.getReference();
+        FirebaseAuth  mAuth=FirebaseAuth.getInstance();
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
         Toast.makeText(ctx,"islem bitti",Toast.LENGTH_SHORT).show();
         myRef.child("Songs").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DatabaseControl databaseControl =new DatabaseControl();
                 final List<Song> songList= databaseControl.getSongList(dataSnapshot);
-                // Toast.makeText(getContext(),"Songsdayım",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Songsdayım",Toast.LENGTH_SHORT).show();
                 myRef.child("Users").child(currentUser.getUid()).child("playlists").child(playlistname).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -146,12 +144,11 @@ public class OtherUsersSongsFragment extends Fragment {
                         List<Song> songList1 =new ArrayList<>();
                         List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot);
                         songList1.addAll(databaseControl.getMatchSongs(songList,songKeyList));
-
                         FindSongType findSongType = new FindSongType(songList1);
                         findSongType.findSongtype();
                         String songtype= findSongType.getSongType();
                         int songvalue=findSongType.getValue();
-                       // FindSongTypeUserClass findSongTypeUserClass=new FindSongTypeUserClass(currentUser,songvalue,,songvalue);
+                       //FindSongTypeUserClass findSongTypeUserClass=new FindSongTypeUserClass(currentUser,songvalue,,songvalue);
                         myRef.child("FavSongTypes").child("Pop").child(currentUser.getUid()).child("burak").setValue("Hello");
                     }
 

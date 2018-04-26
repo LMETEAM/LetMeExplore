@@ -62,4 +62,11 @@ public class DatabaseControl{
         }
         return songList1;
     }
+    List<FindSongTypeUserClass> getFindSongTypeUser(DataSnapshot dataSnapshot){
+        List<FindSongTypeUserClass> list=new ArrayList<>();
+        for (DataSnapshot playlist:dataSnapshot.getChildren()){
+            list.add(playlist.getValue(FindSongTypeUserClass.class));
+        }
+        return list;
+    }
 }

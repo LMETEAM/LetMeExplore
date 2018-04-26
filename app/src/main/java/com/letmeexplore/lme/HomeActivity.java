@@ -126,14 +126,15 @@ public class HomeActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         DatabaseControl databaseControl =new DatabaseControl();
                         List<Song> songList1 =new ArrayList<>();
-                        List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot);
+                        List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot.child("dataSongKeys"));
+                        String photoUrl=dataSnapshot.child("dataPhoto").child("photoUrl").getValue(String.class);
                         songList1.addAll(databaseControl.getMatchSongs(songList,songKeyList));
 
                         FindSongType findSongType = new FindSongType(songList1);
                         findSongType.findSongtype();
                         String songtype= findSongType.getSongType();
                         int songvalue=findSongType.getValue();
-                        FindSongTypeUserClass findSongTypeUserClass=new FindSongTypeUserClass(currentUser.getUid(),songvalue,songtype,playlistname);
+                        FindSongTypeUserClass findSongTypeUserClass=new FindSongTypeUserClass(currentUser.getUid(),songvalue,songtype,playlistname,photoUrl);
                         myRef.child("FavSongTypes").child(currentUser.getUid()).child(playlistname).setValue(findSongTypeUserClass);
                     }
 
@@ -152,7 +153,38 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    static void CompabilityDenemsi(){
+        final FirebaseAuth mAuth=FirebaseAuth.getInstance();
+        final FirebaseDatabase database=FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference=database.getReference();
+        databaseReference.child("FavSongTypes").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<FindSongTypeUserClass> myplaylist=new ArrayList<>();
+                List<FindSongTypeUserClass> compabilitylist=new ArrayList<>();
+                DatabaseControl databaseControl=new DatabaseControl();
+                for(DataSnapshot uid:dataSnapshot.getChildren()){
+                    if(uid.getKey().toString().equalsIgnoreCase(mAuth.getCurrentUser().getUid())){
+                        myplaylist.addAll(databaseControl.getFindSongTypeUser(dataSnapshot));
+                        break;
+                    }
+                }
+                for (DataSnapshot uid:dataSnapshot.getChildren()){
+                    if(!uid.getKey().toString().equalsIgnoreCase(mAuth.getCurrentUser().getUid())){
+                        for (DataSnapshot playlist:dataSnapshot.getChildren()){
+                            FindSongTypeUserClass findSongTypeUserClass=playlist.getValue(FindSongTypeUserClass.class);
+                        }
+                    }
 
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     static void showPopup(final ArrayList<Song> arrayTrackList, final Context context, final int position) {
         FirebaseDatabase database=FirebaseDatabase.getInstance();
         final DatabaseReference myRef=database.getReference();
@@ -212,6 +244,7 @@ public class HomeActivity extends AppCompatActivity {
                         final String songkey=arrayTrackList.get(position).getSongkey();
                         final String playlistname=newplaylistname.getText().toString();
                         final String currentuser=mAuth.getCurrentUser().getUid();
+                        final String photoUrl=arrayTrackList.get(position).getSongPhotoUrl();
                         //Yeni oluşturulan çalma listesine seçilen şarkıyı gönderir
                         myRef.child("Users").child(currentuser).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -221,13 +254,15 @@ public class HomeActivity extends AppCompatActivity {
                                         Toast.makeText(context, "Playlist already exists", Toast.LENGTH_SHORT).show();
                                         newplaylistname.setText("");
                                     }else {
-                                        myRef.child("Users").child(currentuser).child("playlists").child(playlistname).push().child("songkey").setValue(songkey);
+                                        myRef.child("Users").child(currentuser).child("playlists").child(playlistname).child("dataPhoto").child("photoUrl").setValue(photoUrl);
+                                        myRef.child("Users").child(currentuser).child("playlists").child(playlistname).child("dataSongKeys").push().child("songkey").setValue(songkey);
                                         Toast.makeText(context,"Added to "+playlistname,Toast.LENGTH_SHORT).show();
                                         FindSongTypeAndPush(playlistname,context);
                                         mdialog.dismiss();
                                     }
                                 }else {
-                                    myRef.child("Users").child(currentuser).child("playlists").child(playlistname).push().child("songkey").setValue(songkey);
+                                    myRef.child("Users").child(currentuser).child("playlists").child(playlistname).child("dataPhoto").child("photoUrl").setValue(photoUrl);
+                                    myRef.child("Users").child(currentuser).child("playlists").child(playlistname).child("dataSongKeys").push().child("songkey").setValue(songkey);
                                     Toast.makeText(context,"Added to "+playlistname,Toast.LENGTH_SHORT).show();
                                     mdialog.dismiss();
                                 }
@@ -251,9 +286,9 @@ public class HomeActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String currentuser=mAuth.getCurrentUser().getUid();
                         String choosensongkey=arrayTrackList.get(position).getSongkey();
-                        List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlist.get(listposition)));
+                        List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlist.get(listposition)).child("dataSongKeys"));
                         if(!songKeyList.contains(choosensongkey)){
-                            myRef.child("Users").child(currentuser).child("playlists").child(playlist.get(listposition)).push().child("songkey").setValue(choosensongkey);
+                            myRef.child("Users").child(currentuser).child("playlists").child(playlist.get(listposition)).child("dataSongKeys").push().child("songkey").setValue(choosensongkey);
                             Toast.makeText(context,"Added to "+playlist.get(listposition),Toast.LENGTH_SHORT).show();
                             FindSongTypeAndPush(playlist.get(listposition),context);
                             mdialog.dismiss();

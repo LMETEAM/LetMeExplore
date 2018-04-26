@@ -148,12 +148,12 @@ public class RecylerViewAdapterSearchSong extends RecyclerView.Adapter<RecylerVi
                                         Toast.makeText(mContext, "Playlist already exists", Toast.LENGTH_SHORT).show();
                                         newplaylistname.setText("");
                                     }else {
-                                        myRef.child("Users").child(currentuser).child("playlists").child(playlistname).push().child("songkey").setValue(songkey);
+                                        myRef.child("Users").child(currentuser).child("playlists").child(playlistname).child("dataSongKeys").push().child("songkey").setValue(songkey);
                                         Toast.makeText(mContext,"Added to "+playlistname,Toast.LENGTH_SHORT).show();
                                         mdialog.dismiss();
                                     }
                                 }else {
-                                    myRef.child("Users").child(currentuser).child("playlists").child(playlistname).push().child("songkey").setValue(songkey);
+                                    myRef.child("Users").child(currentuser).child("playlists").child(playlistname).child("dataSongKeys").push().child("songkey").setValue(songkey);
                                     Toast.makeText(mContext,"Added to "+playlistname,Toast.LENGTH_SHORT).show();
                                     mdialog.dismiss();
                                 }
@@ -178,9 +178,9 @@ public class RecylerViewAdapterSearchSong extends RecyclerView.Adapter<RecylerVi
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String currentuser=mAuth.getCurrentUser().getUid();
                         String choosensongkey=mSongList.get(position).getSongkey();
-                        List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlist.get(listposition)));
+                        List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlist.get(listposition)).child("dataSongKeys"));
                         if(!songKeyList.contains(choosensongkey)){
-                            myRef.child("Users").child(currentuser).child("playlists").child(playlist.get(listposition)).push().child("songkey").setValue(choosensongkey);
+                            myRef.child("Users").child(currentuser).child("playlists").child(playlist.get(listposition)).child("dataSongKeys").push().child("songkey").setValue(choosensongkey);
                             Toast.makeText(mContext,"Added to "+playlist.get(listposition),Toast.LENGTH_SHORT).show();
                             mdialog.dismiss();
 

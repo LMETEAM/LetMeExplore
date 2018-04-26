@@ -5,14 +5,24 @@ public class FindSongTypeUserClass {
     private String songtype;
     private String playlistname;
     private int value;
+    private String photoUrl;
     public FindSongTypeUserClass() {
     }
 
-    public FindSongTypeUserClass(String uid, int value,String songtype,String playlistname) {
+    public FindSongTypeUserClass(String uid, int value,String songtype,String playlistname,String photoUrl) {
         this.uid = uid;
         this.value = value;
         this.playlistname=playlistname;
         this.songtype=songtype;
+        this.photoUrl=photoUrl;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        photoUrl = photoUrl;
     }
 
     public String getSongtype() {
