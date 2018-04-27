@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="OtherUsersTracks"
+            android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,10 +42,20 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/other_user_playlist_circlephoto" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/other_user_playlist_circlephoto"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/other_user_playlist_name"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="@+id/other_user_playlist_name"
             app:layout_constraintTop_toBottomOf="@+id/other_user_playlist_name" />
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

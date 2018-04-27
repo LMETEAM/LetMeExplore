@@ -10,6 +10,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -338,5 +339,15 @@ public class HomeActivity extends AppCompatActivity {
 
         mdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mdialog.show();
+    }
+    static void showToast(Context context,LayoutInflater layoutInflater,String text){
+        TextView textView;
+        View customToastRoot=layoutInflater.inflate(R.layout.toast_layout,null);
+        textView=customToastRoot.findViewById(R.id.toast_text);
+        textView.setText(text);
+        Toast customToast=new Toast(context);
+        customToast.setView(customToastRoot);
+        customToast.setDuration(Toast.LENGTH_SHORT);
+        customToast.show();
     }
 }
