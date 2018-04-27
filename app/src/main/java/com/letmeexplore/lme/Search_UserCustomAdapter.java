@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class Search_UserCustomAdapter extends ArrayAdapter<UserDetails> {
         userSonglistC.setText("Playlist Count:"+user.getPlaylistCount());
         TextView user_uid=(TextView)convertView.findViewById(R.id.search_user_uid_text);
         user_uid.setText(user.getUid());
-        Picasso.get().load(user.getPhotoUrl()).resize(200,200).centerCrop().into(userImgage);
+        Picasso.get().load(user.getPhotoUrl()).resize(200,200).networkPolicy(NetworkPolicy.OFFLINE).centerCrop().into(userImgage);
         return convertView;
     }else{
         convertView= LayoutInflater.from(getContext()).inflate(R.layout.search_userlist_end,parent,false);

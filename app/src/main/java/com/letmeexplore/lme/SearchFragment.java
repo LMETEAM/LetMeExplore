@@ -59,17 +59,17 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_search, container, false);
         // Inflate the layout for this fragment
-        userRList=(ListView)view.findViewById(R.id.search_user_list);
-        recyclerViewSongList=(RecyclerView)view.findViewById(R.id.search_songrecyclerlist);
-        getDeleteText=(ImageView)view.findViewById(R.id.search_deletetext);
-        searchText=(EditText) view.findViewById(R.id.search_searchtext);
-        deleteText=(ImageView)view.findViewById(R.id.search_deletetext);
+        userRList=view.findViewById(R.id.search_user_list);
+        recyclerViewSongList=view.findViewById(R.id.search_songrecyclerlist);
+        getDeleteText=view.findViewById(R.id.search_deletetext);
+        searchText= view.findViewById(R.id.search_searchtext);
+        deleteText=view.findViewById(R.id.search_deletetext);
         database=FirebaseDatabase.getInstance();
         myRef=database.getReference();
         myRef.keepSynced(true);
         mAuth=FirebaseAuth.getInstance();
         firebaseUser=mAuth.getCurrentUser();
-        recylerViewAdapterSearchSong=new RecylerViewAdapterSearchSong(getContext(),songList,mAuth,myRef);
+        recylerViewAdapterSearchSong=new RecylerViewAdapterSearchSong(getContext(),songList);
         search_userCustomAdapter =new Search_UserCustomAdapter(getContext(),userArrayList);
         userRList.setAdapter(search_userCustomAdapter);
         recyclerViewSongList.setLayoutManager(new LinearLayoutManager(getContext()));

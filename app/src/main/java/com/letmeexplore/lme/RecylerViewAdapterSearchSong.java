@@ -1,45 +1,23 @@
 package com.letmeexplore.lme;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class RecylerViewAdapterSearchSong extends RecyclerView.Adapter<RecylerViewAdapterSearchSong.MyViewHolder> {
     private Context mContext;
     private List<Song> mSongList;
-    private FirebaseAuth mAuth;
-    private DatabaseReference myRef;
 
-    public RecylerViewAdapterSearchSong(Context mContext, List<Song> mSongList,FirebaseAuth mAuth,DatabaseReference myRef) {
+    public RecylerViewAdapterSearchSong(Context mContext, List<Song> mSongList) {
         this.mContext = mContext;
         this.mSongList = mSongList;
-        this.mAuth=mAuth;
-        this.myRef=myRef;
     }
 
     @Override
@@ -84,7 +62,10 @@ public class RecylerViewAdapterSearchSong extends RecyclerView.Adapter<RecylerVi
             addbutton=(ImageView)itemView.findViewById(R.id.cardview_search_addsong_imageview);
         }
     }
-    void showPopup(final int position) {
+    //Not Using
+
+
+    /*void showPopup(final int position) {
         final Dialog mdialog = new Dialog(mContext);
         CircleImageView circleImageView;
         final TextView songName;
@@ -218,6 +199,6 @@ public class RecylerViewAdapterSearchSong extends RecyclerView.Adapter<RecylerVi
         });
         mdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mdialog.show();
-    }
+    }*/
 
 }

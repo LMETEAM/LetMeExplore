@@ -108,12 +108,12 @@ public class OtherUsersSongsFragment extends Fragment {
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setFragment();
+                popFragment();
             }
         });
 
     }
-    private void setFragment() {
+    private void popFragment() {
         FragmentManager fragmentManager=getFragmentManager();
         fragmentManager.popBackStack();
     }
@@ -148,7 +148,7 @@ public class OtherUsersSongsFragment extends Fragment {
                         findSongType.findSongtype();
                         String songtype= findSongType.getSongType();
                         int songvalue=findSongType.getValue();
-                       //FindSongTypeUserClass findSongTypeUserClass=new FindSongTypeUserClass(currentUser,songvalue,,songvalue);
+                       //PlaylistData findSongTypeUserClass=new PlaylistData(currentUser,songvalue,,songvalue);
                         myRef.child("FavSongTypes").child("Pop").child(currentUser.getUid()).child("burak").setValue("Hello");
                     }
 

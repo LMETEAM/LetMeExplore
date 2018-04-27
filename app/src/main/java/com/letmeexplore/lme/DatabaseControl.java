@@ -6,7 +6,10 @@ import android.widget.ArrayAdapter;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Burak on 7.04.2018.
@@ -62,11 +65,30 @@ public class DatabaseControl{
         }
         return songList1;
     }
-    List<FindSongTypeUserClass> getFindSongTypeUser(DataSnapshot dataSnapshot){
-        List<FindSongTypeUserClass> list=new ArrayList<>();
+    List<PlaylistData> getPlaylistData(DataSnapshot dataSnapshot){
+        List<PlaylistData> list=new ArrayList<>();
         for (DataSnapshot playlist:dataSnapshot.getChildren()){
-            list.add(playlist.getValue(FindSongTypeUserClass.class));
+            list.add(playlist.getValue(PlaylistData.class));
         }
         return list;
+    }
+    List<PlaylistData> getCompabilityPlaylistData(List<PlaylistData> myplaylists,List<PlaylistData> otherplaylists){
+        List<PlaylistData> compabilityList=new ArrayList<>();
+        Map<PlaylistData,Integer> temp=new HashMap<>();
+        for (PlaylistData myplaylist:myplaylists)
+            for (PlaylistData otherplaylist:otherplaylists){
+                if (myplaylist.getSongtype().equalsIgnoreCase(otherplaylist.getSongtype())){
+                    int minvalue=myplaylist.getValue()/2;
+                    int maxvalue=myplaylist.getValue();
+                    if (otherplaylist.getValue()>minvalue&&otherplaylist.getValue()<=maxvalue){
+                        if (temp.size()<10)
+                        temp.put(otherplaylist,1);
+                        else break;
+                    }
+                }
+        }
+        for (Map.Entry<PlaylistData,Integer> entry:temp.entrySet())
+            compabilityList.add(entry.getKey());
+        return compabilityList;
     }
 }

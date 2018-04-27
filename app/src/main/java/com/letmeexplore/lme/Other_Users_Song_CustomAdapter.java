@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class Other_Users_Song_CustomAdapter extends ArrayAdapter<Song>{
         songName.setText(song.getSongName());
         songuid.setText(song.getSongkey());
         singer.setText(song.getSinger());
-        Picasso.get().load(song.getSongPhotoUrl()).resize(200,200).into(songPhoto);
+        Picasso.get().load(song.getSongPhotoUrl()).networkPolicy(NetworkPolicy.OFFLINE).resize(200,200).into(songPhoto);
         return convertView;
     }
 }

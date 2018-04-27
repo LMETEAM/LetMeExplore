@@ -1,15 +1,16 @@
 package com.letmeexplore.lme;
 
-public class FindSongTypeUserClass {
+public class PlaylistData {
     private String uid;
     private String songtype;
     private String playlistname;
-    private int value;
     private String photoUrl;
-    public FindSongTypeUserClass() {
+    private int value;
+
+    public PlaylistData() {
     }
 
-    public FindSongTypeUserClass(String uid, int value,String songtype,String playlistname,String photoUrl) {
+    public PlaylistData(String uid, int value, String songtype, String playlistname, String photoUrl) {
         this.uid = uid;
         this.value = value;
         this.playlistname=playlistname;
@@ -22,7 +23,7 @@ public class FindSongTypeUserClass {
     }
 
     public void setPhotoUrl(String photoUrl) {
-        photoUrl = photoUrl;
+        this.photoUrl = photoUrl;
     }
 
     public String getSongtype() {

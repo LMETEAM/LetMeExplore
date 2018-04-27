@@ -1,7 +1,5 @@
 package com.letmeexplore.lme;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,33 +15,11 @@ import java.util.Map;
  */
 
 public class FindSongType {
-    private Context context;
-    private List<String> songKeyList;
     private List<Song> songList;
     private int Value;
     private String SongType; //Şarkı Tarzı
 
     public FindSongType(List<Song> songList) {
-        this.songList = songList;
-    }
-
-    public FindSongType() {
-        // Write a message to the database
-    }
-
-    public List<String> getSongKeyList() {
-        return songKeyList;
-    }
-
-    public void setSongKeyList(List<String> stringList) {
-        this.songKeyList = stringList;
-    }
-
-    public List<Song> getSongList() {
-        return songList;
-    }
-
-    public void setSongList(List<Song> songList) {
         this.songList = songList;
     }
 

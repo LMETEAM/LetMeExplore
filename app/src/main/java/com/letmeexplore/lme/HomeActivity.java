@@ -43,6 +43,7 @@ public class HomeActivity extends AppCompatActivity {
     private SearchFragment searchFragment;
     private ExploreFragment exploreFragment;
     private FirebaseAuth mAuth;
+    public static List<PlaylistData> compabilitylist;
 
 
     @Override
@@ -60,6 +61,8 @@ public class HomeActivity extends AppCompatActivity {
         homeFragment=new HomeFragment();
         setFragment(homeFragment);
         ItemSelected();
+        compabilitylist=new ArrayList<>();
+        CompabilityDenemsi(getApplicationContext());
 
     }
     void ItemSelected(){
@@ -110,7 +113,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     static void FindSongTypeAndPush(final String playlistname, final Context ctx){
-        FirebaseDatabase database=FirebaseDatabase.getInstance();
+        final FirebaseDatabase database=FirebaseDatabase.getInstance();
         final DatabaseReference myRef=database.getReference();
         final FirebaseAuth  mAuth=FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -126,6 +129,7 @@ public class HomeActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         DatabaseControl databaseControl =new DatabaseControl();
                         List<Song> songList1 =new ArrayList<>();
+
                         List<String> songKeyList=databaseControl.getSongKeyList(dataSnapshot.child("dataSongKeys"));
                         String photoUrl=dataSnapshot.child("dataPhoto").child("photoUrl").getValue(String.class);
                         songList1.addAll(databaseControl.getMatchSongs(songList,songKeyList));
@@ -134,8 +138,8 @@ public class HomeActivity extends AppCompatActivity {
                         findSongType.findSongtype();
                         String songtype= findSongType.getSongType();
                         int songvalue=findSongType.getValue();
-                        FindSongTypeUserClass findSongTypeUserClass=new FindSongTypeUserClass(currentUser.getUid(),songvalue,songtype,playlistname,photoUrl);
-                        myRef.child("FavSongTypes").child(currentUser.getUid()).child(playlistname).setValue(findSongTypeUserClass);
+                        PlaylistData playlistData =new PlaylistData(currentUser.getUid(),songvalue,songtype,playlistname,photoUrl);
+                        myRef.child("FavSongTypes").child(currentUser.getUid()).child(playlistname).setValue(playlistData);
                     }
 
                     @Override
@@ -153,37 +157,45 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    static void CompabilityDenemsi(){
+    static void CompabilityDenemsi(final Context context){
         final FirebaseAuth mAuth=FirebaseAuth.getInstance();
         final FirebaseDatabase database=FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference=database.getReference();
-        databaseReference.child("FavSongTypes").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                List<FindSongTypeUserClass> myplaylist=new ArrayList<>();
-                List<FindSongTypeUserClass> compabilitylist=new ArrayList<>();
-                DatabaseControl databaseControl=new DatabaseControl();
-                for(DataSnapshot uid:dataSnapshot.getChildren()){
-                    if(uid.getKey().toString().equalsIgnoreCase(mAuth.getCurrentUser().getUid())){
-                        myplaylist.addAll(databaseControl.getFindSongTypeUser(dataSnapshot));
-                        break;
-                    }
-                }
-                for (DataSnapshot uid:dataSnapshot.getChildren()){
-                    if(!uid.getKey().toString().equalsIgnoreCase(mAuth.getCurrentUser().getUid())){
-                        for (DataSnapshot playlist:dataSnapshot.getChildren()){
-                            FindSongTypeUserClass findSongTypeUserClass=playlist.getValue(FindSongTypeUserClass.class);
+        try {
+            databaseReference.child("FavSongTypes").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    List<PlaylistData> myplaylist=new ArrayList<>();
+                    List<PlaylistData> otherplaylist=new ArrayList<>();
+                    compabilitylist.clear();
+                    DatabaseControl databaseControl=new DatabaseControl();
+                    for(DataSnapshot uid:dataSnapshot.getChildren()) {
+                        String usersid = uid.getKey();
+                        String currentuid=mAuth.getCurrentUser().getUid();
+                        if (usersid.equalsIgnoreCase(currentuid)){
+                            myplaylist.addAll(databaseControl.getPlaylistData(dataSnapshot.child(usersid)));
+                            break;
                         }
                     }
+                    for (DataSnapshot uid:dataSnapshot.getChildren()){
+                        if(!uid.getKey().equalsIgnoreCase(mAuth.getCurrentUser().getUid()))
+                            for (DataSnapshot playlist:uid.getChildren()){
+                                PlaylistData playlistData =playlist.getValue(PlaylistData.class);
+                                otherplaylist.add(playlistData);
+                            }
+                    }
+                    compabilitylist.addAll(databaseControl.getCompabilityPlaylistData(myplaylist,otherplaylist));
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
-            }
+            });
+        }catch (Exception e){
+            Toast.makeText(context,"Bir Sorunla Karşılaşıldı\n"+e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
     static void showPopup(final ArrayList<Song> arrayTrackList, final Context context, final int position) {
         FirebaseDatabase database=FirebaseDatabase.getInstance();
