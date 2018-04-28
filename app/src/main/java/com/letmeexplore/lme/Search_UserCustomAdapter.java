@@ -39,7 +39,7 @@ public class Search_UserCustomAdapter extends ArrayAdapter<UserDetails> {
         userSonglistC.setText("Playlist Count:"+user.getPlaylistCount());
         TextView user_uid=(TextView)convertView.findViewById(R.id.search_user_uid_text);
         user_uid.setText(user.getUid());
-        Picasso.get().load(user.getPhotoUrl()).resize(200,200).networkPolicy(NetworkPolicy.OFFLINE).centerCrop().into(userImgage);
+        Picasso.get().load(user.getPhotoUrl()).resize(100,100).centerCrop().into(userImgage);
         return convertView;
     }else{
         convertView= LayoutInflater.from(getContext()).inflate(R.layout.search_userlist_end,parent,false);

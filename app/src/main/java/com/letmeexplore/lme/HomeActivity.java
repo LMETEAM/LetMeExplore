@@ -64,7 +64,6 @@ public class HomeActivity extends AppCompatActivity {
         ItemSelected();
         compabilitylist=new ArrayList<>();
         CompabilityDenemsi(getApplicationContext());
-
     }
     void ItemSelected(){
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -185,6 +184,7 @@ public class HomeActivity extends AppCompatActivity {
                                 otherplaylist.add(playlistData);
                             }
                     }
+                    //Toast.makeText(context,"Buraya erişildi CompabilityDenemsei",Toast.LENGTH_SHORT).show();
                     compabilitylist.addAll(databaseControl.getCompabilityPlaylistData(myplaylist,otherplaylist));
                 }
 

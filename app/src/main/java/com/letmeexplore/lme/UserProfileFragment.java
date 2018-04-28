@@ -66,7 +66,7 @@ public class UserProfileFragment extends Fragment {
                 String photoUrl=bundle.getString("PhotoUrl");
                 String displayName=bundle.getString("DisplayName");
                 String playlistCount=bundle.getString("PlaylistCount");
-                Picasso.get().load(photoUrl).resize(400, 400).centerCrop().into(circleImageView);
+                Picasso.get().load(photoUrl).fit().into(circleImageView);
                 textView.setText(displayName);
                 getPlaylistName(uid);
                 playlistonClickListener(uid);

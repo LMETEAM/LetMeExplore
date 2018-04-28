@@ -58,15 +58,15 @@ public class ExploreFragment extends Fragment {
             @Override
             public void onRefresh() {
                 HomeActivity.showToast(getContext(),getLayoutInflater(),"According to your lists...");
+                HomeActivity.CompabilityDenemsi(getContext());
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        HomeActivity.CompabilityDenemsi(getContext());
+                        recyclerViewPlayList.getAdapter().notifyDataSetChanged();
+                        if(HomeActivity.compabilitylist.isEmpty())HomeActivity.showToast(getContext(),getLayoutInflater(),"No matches found");
                     }
                 },2000);
-
-
             }
         });
     }
