@@ -18,12 +18,12 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:src="@drawable/daddylesssons"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.523"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lmesongs_playlisttext" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ListView
             android:id="@+id/lmesongs_listview"
@@ -37,17 +37,6 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lmesongs_circleimageview" />
-
-        <TextView
-            android:id="@+id/lmesongs_playlisttext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="PlaylistName"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/lmesongs_backbuttonimageview"

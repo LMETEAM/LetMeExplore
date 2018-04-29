@@ -48,19 +48,19 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        ımageView = (ImageView) view.findViewById(R.id.imageView);
-        songadd=(ImageView)view.findViewById(R.id.imageView2);
-        imgPop = (ImageView)view.findViewById(R.id.imageViewPop);
-        imgClassic = (ImageView)view.findViewById(R.id.imageViewClassic);
-        imgRock = (ImageView)view.findViewById(R.id.imageViewRock);
-        imgIndie = (ImageView)view.findViewById(R.id.imageViewIndie);
-        imgJazz = (ImageView)view.findViewById(R.id.imageViewJazz3);
-        imgElectronic = (ImageView)view.findViewById(R.id.imageViewElectronic);
-        imgHiphop = (ImageView)view.findViewById(R.id.imageViewHiphop);
+        ımageView =  view.findViewById(R.id.imageView);
+        songadd=view.findViewById(R.id.imageView2);
+        imgPop = view.findViewById(R.id.imageViewPop);
+        imgPunk=view.findViewById(R.id.imageViewPunk2);
+        imgClassic = view.findViewById(R.id.imageViewClassic);
+        imgRock = view.findViewById(R.id.imageViewRock);
+        imgIndie = view.findViewById(R.id.imageViewIndie);
+        imgJazz = view.findViewById(R.id.imageViewJazz3);
+        imgElectronic = view.findViewById(R.id.imageViewElectronic);
+        imgHiphop = view.findViewById(R.id.imageViewHiphop);
         mAuth=FirebaseAuth.getInstance();
         setImageView2Visible();
-        imgClassicOnClickListener();
-        imgRockOnClickListener();
+
         ExitButton = (ImageView) view.findViewById(R.id.imageView6);
         ExitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,31 +80,24 @@ public class HomeFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
+        imgViewOnClickListener(imgClassic,"Classic");
+        imgViewOnClickListener(imgPop,"Pop");
+        imgViewOnClickListener(imgJazz,"Jazz");
+        imgViewOnClickListener(imgIndie,"Indie");
+        imgViewOnClickListener(imgPunk,"Punk");
+        imgViewOnClickListener(imgHiphop,"HipHop");
+        imgViewOnClickListener(imgRock,"Rock");
+        imgViewOnClickListener(imgElectronic,"Electronic");
         return view;
     }
 
-
-    void imgClassicOnClickListener(){
-        imgClassic.setOnClickListener(new View.OnClickListener() {
+   void imgViewOnClickListener(ImageView imgView, final String ptype){
+        imgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LMEsongsFragment lmEsongsFragment = new LMEsongsFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("type","Classic");
-                lmEsongsFragment.setArguments(bundle);
-                setFragment(lmEsongsFragment);
-            }
-        });
-
-   }
-   void imgRockOnClickListener(){
-        imgRock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LMEsongsFragment lmEsongsFragment = new LMEsongsFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("type","Rock");
+                bundle.putString("type",ptype);
                 lmEsongsFragment.setArguments(bundle);
                 setFragment(lmEsongsFragment);
             }

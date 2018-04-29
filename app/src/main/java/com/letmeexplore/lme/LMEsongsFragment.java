@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -41,8 +40,6 @@ public class LMEsongsFragment extends Fragment {
     private ArrayList<Song> songArrayList= new ArrayList<>();
     private CircleImageView circleImageViewPhoto;
     private ImageView backButton;
-
-
     public LMEsongsFragment() {
         // Required empty public constructor
 
@@ -56,7 +53,6 @@ public class LMEsongsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lmesongs, container, false);
 
-
         Bundle bundle = this.getArguments();
         String type = bundle.getString("type");
         circleImageViewPhoto=view.findViewById(R.id.lmesongs_circleimageview);
@@ -68,13 +64,11 @@ public class LMEsongsFragment extends Fragment {
         databaseControl = new DatabaseControl();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
-        Toast.makeText(getContext(), type, Toast.LENGTH_SHORT).show();
+        HomeActivity.showToast(getContext(),getLayoutInflater(),type);
         getSongFunction(type);
         setPlaylistView(type);
         backButtonListener();
         setOnItemClickListener();
-
-
 
         return view;
     }
