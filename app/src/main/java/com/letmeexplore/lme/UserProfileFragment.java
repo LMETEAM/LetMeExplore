@@ -110,6 +110,7 @@ public class UserProfileFragment extends Fragment {
             }
         });
     }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -120,8 +121,8 @@ public class UserProfileFragment extends Fragment {
         fragmentTransaction.replace(R.id.main_frame,fragment);
         fragmentTransaction.addToBackStack("userprofile");
         fragmentTransaction.commit();
-
     }
+
     void getBacktoFragment(){
         backbuttonimage.setOnClickListener(new View.OnClickListener() {
             @Override

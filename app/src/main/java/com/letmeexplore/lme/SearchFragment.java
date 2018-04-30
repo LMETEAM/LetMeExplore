@@ -151,7 +151,6 @@ public class SearchFragment extends Fragment {
                                         String songlCount=songlistCOunt.toString();
                                         UserDetails userDetails=new UserDetails(user,songlCount);
                                         userArrayList.add(userDetails);
-
                                       //  Log.e("DONGU",user.getDisplayName());
                                     }
                                     else{
@@ -261,6 +260,7 @@ public class SearchFragment extends Fragment {
             }
         });
     }
+
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame,fragment);
