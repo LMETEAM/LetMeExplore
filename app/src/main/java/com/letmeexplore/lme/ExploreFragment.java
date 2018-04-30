@@ -24,7 +24,6 @@ import java.util.List;
 public class ExploreFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerViewPlayList;
-   // private List<PlaylistData> compabilityList=new ArrayList<>();
     private RecyclerViewAdapterExploreAccording adapterExploreAccording;
     public ExploreFragment() {
         // Required empty public constructor
@@ -36,7 +35,6 @@ public class ExploreFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_explore, container, false);
         swipeRefreshLayout=view.findViewById(R.id.explore_swiperefreshlayout);
-        //compabilityList.addAll(HomeActivity.compabilitylist);
         recyclerViewPlayList= view.findViewById(R.id.accordingrecyclerview);
         adapterExploreAccording=new RecyclerViewAdapterExploreAccording(getContext(),HomeActivity.compabilitylist,getFragmentManager());
         recyclerViewPlayList.setLayoutManager(new GridLayoutManager(getContext(),3));
@@ -53,21 +51,22 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        //compabilityList.clear();
+
     }
     void setSwipeRefreshLayoutListener(){
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                HomeActivity.showToast(getContext(),getLayoutInflater(),"According to your lists...");
+                HomeActivity.CompabilityDenemsi(getContext());
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        HomeActivity.CompabilityDenemsi(getContext());
+                        recyclerViewPlayList.getAdapter().notifyDataSetChanged();
+                        if(HomeActivity.compabilitylist.isEmpty())HomeActivity.showToast(getContext(),getLayoutInflater(),"No matches found");
                     }
                 },2000);
-
-
             }
         });
     }

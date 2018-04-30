@@ -47,28 +47,28 @@
 
         <ImageView
             android:id="@+id/imageViewClassic"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="24dp"
             android:src="@drawable/rsz_classical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
         <ImageView
             android:id="@+id/imageViewPop"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/rsz_classical"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/rsz_1pop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
         <ImageView
             android:id="@+id/imageViewRock"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/rsz_rock"
@@ -79,8 +79,8 @@
 
         <ImageView
             android:id="@+id/imageViewIndie"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/rsz_1indie"
@@ -91,8 +91,8 @@
 
         <ImageView
             android:id="@+id/imageViewElectronic"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="130dp"
+            android:layout_height="127dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/rsz_electronic"
@@ -103,8 +103,8 @@
 
         <ImageView
             android:id="@+id/imageViewJazz3"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/rsz_1jazz"
@@ -115,8 +115,8 @@
 
         <ImageView
             android:id="@+id/imageViewHiphop"
-            android:layout_width="99dp"
-            android:layout_height="100dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/rsz_hiphop"
@@ -127,8 +127,8 @@
 
         <ImageView
             android:id="@+id/imageViewPunk2"
-            android:layout_width="99dp"
-            android:layout_height="100dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/rsz_1punk"

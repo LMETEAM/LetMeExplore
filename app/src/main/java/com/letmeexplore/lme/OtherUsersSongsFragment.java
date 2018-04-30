@@ -19,9 +19,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -30,11 +33,12 @@ import java.util.List;
 public class OtherUsersSongsFragment extends Fragment {
 
     private TextView textViewPlaylist;
+    private CircleImageView circleImageViewPhoto;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private FirebaseAuth mAuth;
     private ListView trackListview;
-    private  DatabaseControl databaseControl;
+    private DatabaseControl databaseControl;
     private ImageView backbutton;
     private ArrayList<Song> arrayTrackList=new ArrayList<Song>();
     private ArrayAdapter<Song> arrayAdapter;
@@ -48,10 +52,11 @@ public class OtherUsersSongsFragment extends Fragment {
                              Bundle savedInstanceState) {
         //Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_other_users_songs, container, false);
-        trackListview=(ListView)view.findViewById(R.id.tracklist_other_user);
+        trackListview=view.findViewById(R.id.tracklist_other_user);
         mAuth=FirebaseAuth.getInstance();
-        backbutton=(ImageView)view.findViewById(R.id.other_users_backbuttonview);
-        textViewPlaylist=(TextView)view.findViewById(R.id.other_user_playlist_name);
+        backbutton=view.findViewById(R.id.other_users_backbuttonview);
+        textViewPlaylist=view.findViewById(R.id.other_user_playlist_name);
+        circleImageViewPhoto=view.findViewById(R.id.other_user_playlist_circlephoto);
         databaseControl=new DatabaseControl();
         other_users_song_customAdapter=new Other_Users_Song_CustomAdapter(getContext(),arrayTrackList);
        //arrayAdapter=new ArrayAdapter<Song>(getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, arrayTrackList);
@@ -76,7 +81,8 @@ public class OtherUsersSongsFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DatabaseControl databaseControl=new DatabaseControl();
                 final List<String> songKey=(databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlistName).child("dataSongKeys")));
-
+                String photoUrl=dataSnapshot.child("playlists").child(playlistName).child("dataPhoto").child("photoUrl").getValue(String.class);
+                Picasso.get().load(photoUrl).resize(400,400).into(circleImageViewPhoto);
                 myRef.child("Songs").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
