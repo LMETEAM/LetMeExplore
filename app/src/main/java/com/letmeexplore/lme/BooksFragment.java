@@ -23,9 +23,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class BooksFragment extends Fragment {
     ArrayList<String> playlistNamesFireBase;
     FirebaseDatabase firebaseDatabase;
@@ -33,11 +30,9 @@ public class BooksFragment extends Fragment {
     ListView listView;
     FirebaseAuth firebaseAuth;
     ArrayAdapter<String> adapter;
-
     public BooksFragment() {
         // Required empty public constructor
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_books,container,false);
@@ -55,7 +50,6 @@ public class BooksFragment extends Fragment {
         // Inflate the layout for this fragment*/
         return rootView;
     }
-
     void getDataFromFirebase(String uid){
         myRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -73,7 +67,6 @@ public class BooksFragment extends Fragment {
             }
         });
     }
-
     void playlistOnClickListener(final String uid){
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -89,7 +82,6 @@ public class BooksFragment extends Fragment {
             }
         });
     }
-
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame,fragment);
