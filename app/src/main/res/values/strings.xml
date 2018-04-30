@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">LME</string>
-    <string name="nav_anasayfa">Anasayfa</string>
-    <string name="nav_arama">Arama</string>
+    <string name="nav_anasayfa">Home</string>
+    <string name="nav_arama">Search</string>
     <string name="nav_explore">Explore</string>
-    <string name="nav_kitaplik">Kitaplık</string>
+    <string name="nav_kitaplik">Bookcase</string>
     <string name="signup_email">email</string>
     <string name="signup_password">password</string>
     <string name="signup_name">name (ex: Jim Parsons)</string>
