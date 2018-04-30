@@ -50,17 +50,6 @@ public class LMEsongsFragment extends Fragment {
             }
         });*/
 
-
-
-
-
-
-
-
-
-
-
-
         return view;
     }
 

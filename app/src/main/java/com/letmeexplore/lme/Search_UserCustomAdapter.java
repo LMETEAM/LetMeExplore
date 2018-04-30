@@ -29,23 +29,35 @@ public class Search_UserCustomAdapter extends ArrayAdapter<UserDetails> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         UserDetails user=getItem(position);
+
         if(user.getPlaylistCount()!=null){
-        convertView= LayoutInflater.from(getContext()).inflate(R.layout.search_userlist_layout,parent,false);
-        TextView userName=(TextView)convertView.findViewById(R.id.search_username_text);
-        TextView userSonglistC=(TextView)convertView.findViewById(R.id.search_usersonglistcount_text);
-        ImageView userImgage=(ImageView)convertView.findViewById(R.id.search_profileimage);
-        String UserFullName=user.getDisplayName();
-        userName.setText(UserFullName);
-        userSonglistC.setText("Playlist Count:"+user.getPlaylistCount());
-        TextView user_uid=(TextView)convertView.findViewById(R.id.search_user_uid_text);
-        user_uid.setText(user.getUid());
-        Picasso.get().load(user.getPhotoUrl()).resize(200,200).networkPolicy(NetworkPolicy.OFFLINE).centerCrop().into(userImgage);
-        return convertView;
-    }else{
+            convertView= LayoutInflater.from(getContext()).inflate(R.layout.search_userlist_layout,parent,false);
+
+            TextView userName=(TextView)convertView.findViewById(R.id.search_username_text);
+
+            TextView userSonglistC=(TextView)convertView.findViewById(R.id.search_usersonglistcount_text);
+
+            ImageView userImgage=(ImageView)convertView.findViewById(R.id.search_profileimage);
+
+            String UserFullName=user.getDisplayName();
+
+            userName.setText(UserFullName);
+
+            userSonglistC.setText("Playlist Count:"+user.getPlaylistCount());
+
+            TextView user_uid=(TextView)convertView.findViewById(R.id.search_user_uid_text);
+
+            user_uid.setText(user.getUid());
+
+            Picasso.get().load(user.getPhotoUrl()).resize(200,200).networkPolicy(NetworkPolicy.OFFLINE).centerCrop().into(userImgage);
+
+            return convertView;
+        }
+        else{
         convertView= LayoutInflater.from(getContext()).inflate(R.layout.search_userlist_end,parent,false);
         TextView seeMore=(TextView)convertView.findViewById(R.id.search_seeMore);
         seeMore.setText("See More");
         return convertView;
-    }
+        }
 }
 }
