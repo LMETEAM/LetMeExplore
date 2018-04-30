@@ -82,7 +82,7 @@ public class OtherUsersSongsFragment extends Fragment {
                 DatabaseControl databaseControl=new DatabaseControl();
                 final List<String> songKey=(databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlistName).child("dataSongKeys")));
                 String photoUrl=dataSnapshot.child("playlists").child(playlistName).child("dataPhoto").child("photoUrl").getValue(String.class);
-                Picasso.get().load(photoUrl).resize(400,400).into(circleImageViewPhoto);
+                Picasso.get().load(photoUrl).resize(200,200).into(circleImageViewPhoto);
                 myRef.child("Songs").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

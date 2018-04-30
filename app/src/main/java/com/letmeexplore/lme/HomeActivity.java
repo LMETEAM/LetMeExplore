@@ -228,7 +228,7 @@ public class HomeActivity extends AppCompatActivity {
         arrayAdapter=new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, android.R.id.text1, playlist);
         listView.setAdapter(arrayAdapter);
         songName.setText(arrayTrackList.get(position).getSongName());
-        Picasso.get().load(arrayTrackList.get(position).getSongPhotoUrl()).resize(300, 300).into(circleImageView);
+        Picasso.get().load(arrayTrackList.get(position).getSongPhotoUrl()).resize(150, 150).into(circleImageView);
         createNewList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

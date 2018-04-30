@@ -43,7 +43,7 @@ public class RecyclerViewAdapterExploreAccording extends RecyclerView.Adapter<Re
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.playLisName.setText(playlistDataList.get(position).getPlaylistname());
-        Picasso.get().load(playlistDataList.get(position).getPhotoUrl()).networkPolicy(NetworkPolicy.OFFLINE)
+        Picasso.get().load(playlistDataList.get(position).getPhotoUrl()).networkPolicy(NetworkPolicy.OFFLINE).resize(100,100)
                 .into(holder.circleImageViewPhoto);
         holder.ımageViewAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
