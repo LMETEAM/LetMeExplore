@@ -162,6 +162,7 @@ public class SearchFragment extends Fragment {
                             }
                             if(userArrayList.size()>3){
                                 userArrayList.add(3,new UserDetails(new User(),null));
+                                userArrayList.remove(4);
                             }
                             if(userArrayList.isEmpty()){
                                 userRList.setVisibility(View.GONE);
