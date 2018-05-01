@@ -144,7 +144,7 @@ public class SearchFragment extends Fragment {
 
                                 if(userArrayList.size()>3) break;
                                 if (!s.toString().isEmpty()){
-                                if(ds.child("properties").child("displayName").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())){
+                                if(ds.child("properties").child("displayName").getValue(String.class).toString().toUpperCase().contains(s.toString().toUpperCase())){
                                     User user =ds.child("properties").getValue(User.class);
                                     if(ds.hasChild("playlists")){
                                         Long songlistCOunt= ds.child("playlists").getChildrenCount();
@@ -183,8 +183,8 @@ public class SearchFragment extends Fragment {
                        public void onDataChange(DataSnapshot dataSnapshot) {
                             songList.clear();
                             for (DataSnapshot ds:dataSnapshot.getChildren()){
-                                if(ds.child("properties").child("songName").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())||
-                                        ds.child("properties").child("singer").getValue(String.class).toString().toUpperCase().startsWith(s.toString().toUpperCase())){
+                                if(ds.child("properties").child("songName").getValue(String.class).toString().toUpperCase().contains(s.toString().toUpperCase())||
+                                        ds.child("properties").child("singer").getValue(String.class).toString().toUpperCase().contains(s.toString().toUpperCase())){
                                     if(songList.size()>10){//en fazla 10 tane eşleşen şarkı gösterir gereksiz yere tüm şarkılar çekilip kıyaslanmasın diye
                                         break;
                                     }
