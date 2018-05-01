@@ -82,7 +82,7 @@ public class AddSongActivity extends AppCompatActivity {
                     }else {
                         try {
                             final Song song=new Song(songName.getText().toString(),songType.getText().toString(),singer.getText().toString(),
-                                    year.getText().toString(),length.getText().toString(),null,null);
+                                    null,null,null);
                             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {

@@ -88,9 +88,38 @@ public class HomeFragment extends Fragment {
         imgViewOnClickListener(imgHiphop,"HipHop");
         imgViewOnClickListener(imgRock,"Rock");
         imgViewOnClickListener(imgElectronic,"Electronic");
+        //SongsChildEdit();
         return view;
     }
+    void SongsChildEdit(){
+         final DatabaseReference myRefSongs;
+         FirebaseDatabase databaseSongs;
+         databaseSongs=FirebaseDatabase.getInstance();
+         myRefSongs=databaseSongs.getReference();
+         myRefSongs.child("Yedek").addValueEventListener(new ValueEventListener() {
+             @Override
+             public void onDataChange(DataSnapshot dataSnapshot) {
+                 for (DataSnapshot ds:dataSnapshot.getChildren()){
 
+                     String songName=ds.child("songName").getValue(String.class);
+                     String songType=ds.child("songType").getValue(String.class);
+                     String singer=ds.child("singer").getValue(String.class);
+                     String songPhotoUrl=ds.child("songPhotoUrl").getValue(String.class);
+                     Long year=ds.child("year").getValue(Long.class);
+                     String yearString= String.valueOf(year);
+                     Long songkey=ds.child("songkey").getValue(Long.class);
+                     String songkeyString= String.valueOf(songkey);
+                     Song song=new Song(songName,songType,singer,yearString,songPhotoUrl,songkeyString);
+                     myRefSongs.child("Songs").child(songkeyString).child("properties").setValue(song);
+                 }
+             }
+
+             @Override
+             public void onCancelled(DatabaseError databaseError) {
+
+             }
+         });
+    }
    void imgViewOnClickListener(ImageView imgView, final String ptype){
         imgView.setOnClickListener(new View.OnClickListener() {
             @Override
