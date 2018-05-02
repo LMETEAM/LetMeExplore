@@ -18,6 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,6 +92,7 @@ public class HomeFragment extends Fragment {
         imgViewOnClickListener(imgHiphop,"HipHop");
         imgViewOnClickListener(imgRock,"Rock");
         imgViewOnClickListener(imgElectronic,"Electronic");
+
         //SongsChildEdit();
         return view;
     }
@@ -100,7 +105,6 @@ public class HomeFragment extends Fragment {
              @Override
              public void onDataChange(DataSnapshot dataSnapshot) {
                  for (DataSnapshot ds:dataSnapshot.getChildren()){
-
                      String songName=ds.child("songName").getValue(String.class);
                      String songType=ds.child("songType").getValue(String.class);
                      String singer=ds.child("singer").getValue(String.class);
@@ -119,6 +123,85 @@ public class HomeFragment extends Fragment {
 
              }
          });
+    }
+    void LmeSongsEdit(){
+        final DatabaseReference myRefSongs;
+        FirebaseDatabase databaseSongs;
+        databaseSongs=FirebaseDatabase.getInstance();
+        myRefSongs=databaseSongs.getReference();
+        myRefSongs.child("Songs").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Song> Classic=new ArrayList<>();
+                List<Song> Pop=new ArrayList<>();
+                List<Song> Rock=new ArrayList<>();
+                List<Song> Indie=new ArrayList<>();
+                List<Song> HipHop=new ArrayList<>();
+                List<Song> Electronic=new ArrayList<>();
+                List<Song> Jazz=new ArrayList<>();
+                List<Song> Punk=new ArrayList<>();
+                for (DataSnapshot ds:dataSnapshot.getChildren()){
+                    Song song =ds.child("properties").getValue(Song.class);
+                    String SongType=song.getSongType();
+                   // Toast.makeText(getContext(),SongType,Toast.LENGTH_SHORT).show();
+                    switch (SongType){
+                        case "CLASSIC MUSIC":{
+                            Classic.add(song);
+                            //myRefSongs.child("LMEsongs").child("Classic").child(song.getSongkey()).setValue(song);
+                            break;
+                        }
+                        case "Pop":{
+                            Pop.add(song);
+                          //  myRefSongs.child("LMEsongs").child("Pop").child(song.getSongkey()).setValue(song);
+                            break;
+                        }
+                        case "Rock":{
+                            Rock.add(song);
+                           // myRefSongs.child("LMEsongs").child("Rock").child(song.getSongkey()).setValue(song);
+                            break;
+                        }
+                        case "Jazz":{
+                            Jazz.add(song);
+                           // myRefSongs.child("LMEsongs").child("Jazz").child(song.getSongkey()).setValue(song);
+                            break;
+                        }
+                        case "Indie":{
+                            Indie.add(song);
+                           // myRefSongs.child("LMEsongs").child("Indie").child(song.getSongkey()).setValue(song);
+                            break;
+                        }
+                        case "Punk":{
+                            Punk.add(song);
+                           // myRefSongs.child("LMEsongs").child("Punk").child(song.getSongkey()).setValue(song);
+                            break;
+                        }
+                        case "HipHop":{
+                            HipHop.add(song);
+                           // myRefSongs.child("LMEsongs").child("HipHop").child(song.getSongkey()).setValue(song);
+                            break;
+                        }
+                        case "Electonic":{
+                            Electronic.add(song);
+                          //  myRefSongs.child("LMEsongs").child("Electronic").child(song.getSongkey()).setValue(song);
+                            break;
+                        }
+                        default:break;
+                    }
+                }
+                myRefSongs.child("LMEsongs").child("Classic").getRef().removeValue();
+                Random generator = new Random();
+                for (int i=0;i<10;i++){
+                    int random=generator.nextInt(30);
+
+                    myRefSongs.child("LMEsongs").child("Classic").child(Classic.get(random).getSongkey()).setValue(Classic.get(random));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
    void imgViewOnClickListener(ImageView imgView, final String ptype){
         imgView.setOnClickListener(new View.OnClickListener() {

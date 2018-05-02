@@ -45,97 +45,116 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageViewClassic"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/rsz_classical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
-
-        <ImageView
-            android:id="@+id/imageViewPop"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/rsz_1pop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
-
-        <ImageView
-            android:id="@+id/imageViewRock"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/rsz_rock"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewClassic"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/imageViewClassic"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewClassic" />
+            android:layout_weight="1"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
-        <ImageView
-            android:id="@+id/imageViewIndie"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/rsz_1indie"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewPop"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/imageViewPop"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewPop" />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageViewElectronic"
-            android:layout_width="130dp"
-            android:layout_height="127dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/rsz_electronic"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewPop"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/imageViewPop"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewJazz3" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageViewElectronic"
+                    android:layout_width="180dp"
+                    android:layout_height="170dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/rsz_electronic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/imageViewPop"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/imageViewPop" />
 
-        <ImageView
-            android:id="@+id/imageViewJazz3"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/rsz_1jazz"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewPop"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/imageViewPop"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewIndie" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageViewJazz3"
+                    android:layout_width="180dp"
+                    android:layout_height="170dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/rsz_1jazz"
+                    app:layout_constraintEnd_toEndOf="@+id/imageViewPop"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/imageViewPop"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewIndie" />
 
-        <ImageView
-            android:id="@+id/imageViewHiphop"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/rsz_hiphop"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewClassic"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/imageViewClassic"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewPunk2" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageViewHiphop"
+                    android:layout_width="180dp"
+                    android:layout_height="170dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/rsz_hiphop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/imageViewClassic"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/imageViewClassic"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewPunk2" />
 
-        <ImageView
-            android:id="@+id/imageViewPunk2"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/rsz_1punk"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewClassic"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/imageViewClassic"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewRock" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageViewIndie"
+                    android:layout_width="180dp"
+                    android:layout_height="170dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/rsz_1indie"
+                    app:layout_constraintEnd_toEndOf="@+id/imageViewPop"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/imageViewPop"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewPop" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageViewPunk2"
+                    android:layout_width="180dp"
+                    android:layout_height="170dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/rsz_1punk"
+                    app:layout_constraintEnd_toEndOf="@+id/imageViewClassic"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/imageViewClassic"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewRock" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageViewRock"
+                    android:layout_width="180dp"
+                    android:layout_height="170dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/rsz_rock"
+                    app:layout_constraintEnd_toEndOf="@+id/imageViewClassic"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/imageViewClassic"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewClassic" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageViewClassic"
+                    android:layout_width="185dp"
+                    android:layout_height="170dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/rsz_classical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageViewPop"
+                    android:layout_width="180dp"
+                    android:layout_height="170dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/rsz_1pop"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+        </ScrollView>
 
     </android.support.constraint.ConstraintLayout>
 
