@@ -1,6 +1,8 @@
 package com.letmeexplore.lme;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -38,6 +40,7 @@ public class OtherUsersSongsFragment extends Fragment {
     private DatabaseReference myRef;
     private FirebaseAuth mAuth;
     private ListView trackListview;
+    private ImageView deletebutton;
     private DatabaseControl databaseControl;
     private ImageView backbutton;
     private ArrayList<Song> arrayTrackList=new ArrayList<Song>();
@@ -54,6 +57,7 @@ public class OtherUsersSongsFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_other_users_songs, container, false);
         trackListview=view.findViewById(R.id.tracklist_other_user);
         mAuth=FirebaseAuth.getInstance();
+        deletebutton=view.findViewById(R.id.otheruserssongs_deletebutton_imageview);
         backbutton=view.findViewById(R.id.other_users_backbuttonview);
         textViewPlaylist=view.findViewById(R.id.other_user_playlist_name);
         circleImageViewPhoto=view.findViewById(R.id.other_user_playlist_circlephoto);
@@ -67,9 +71,13 @@ public class OtherUsersSongsFragment extends Fragment {
         if(bundle!=null){
             String uid=bundle.getString("Uid");
             String playlistName=bundle.getString("PlaylistName");
+            if(mAuth.getCurrentUser().getUid().toString().equalsIgnoreCase(uid))
+                deletebutton.setVisibility(View.VISIBLE);
+            else deletebutton.setVisibility(View.INVISIBLE);
             textViewPlaylist.setText(playlistName.toUpperCase());
             getTrackList(uid,playlistName);
             getBacktoFragment();
+            setDeletebuttonPlaylist(uid,playlistName);
             OnitemClickListener();
         }
         return view;
@@ -128,6 +136,34 @@ public class OtherUsersSongsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             HomeActivity.showPopup(arrayTrackList,getContext(),position);
+            }
+        });
+    }
+    void setDeletebuttonPlaylist(final String uid, final String playlist){
+        deletebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog=new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle(playlist);
+                alertDialog.setMessage("Do you want to delete playlist?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        myRef=FirebaseDatabase.getInstance().getReference("Users/"+uid+"/playlists/"+playlist);
+                        myRef.removeValue();
+                        myRef=FirebaseDatabase.getInstance().getReference("FavSongTypes/"+uid+"/"+playlist);
+                        myRef.removeValue();
+                        dialogInterface.dismiss();
+                        popFragment();
+                    }
+                });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                alertDialog.show();
             }
         });
     }
