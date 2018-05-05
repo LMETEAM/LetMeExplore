@@ -47,6 +47,7 @@ public class HomeActivity extends AppCompatActivity {
     public static List<PlaylistData> compabilitylist;
 
 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -200,7 +201,7 @@ public class HomeActivity extends AppCompatActivity {
     }
     static void showPopup(final ArrayList<Song> arrayTrackList, final Context context, final int position) {
         FirebaseDatabase database=FirebaseDatabase.getInstance();
-        final DatabaseReference myRef=database.getReference();
+        final DatabaseReference myRef = database.getReference();
         final FirebaseAuth mAuth=FirebaseAuth.getInstance();
         FirebaseUser currenUser=mAuth.getCurrentUser();
         final DatabaseControl databaseControl=new DatabaseControl();
@@ -269,6 +270,7 @@ public class HomeActivity extends AppCompatActivity {
                                     }else {
                                         myRef.child("Users").child(currentuser).child("playlists").child(playlistname).child("dataPhoto").child("photoUrl").setValue(photoUrl);
                                         myRef.child("Users").child(currentuser).child("playlists").child(playlistname).child("dataSongKeys").push().child("songkey").setValue(songkey);
+
                                         Toast.makeText(context,"Added to "+playlistname,Toast.LENGTH_SHORT).show();
                                         FindSongTypeAndPush(playlistname,context);
                                         mdialog.dismiss();

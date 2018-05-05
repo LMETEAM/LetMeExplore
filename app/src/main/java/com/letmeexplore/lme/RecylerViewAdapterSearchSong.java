@@ -25,8 +25,6 @@ public class RecylerViewAdapterSearchSong extends RecyclerView.Adapter<RecylerVi
         View view;
         LayoutInflater mInflater=LayoutInflater.from(mContext);
         view=mInflater.inflate(R.layout.cardview_search_song,parent,false);
-
-
         return new MyViewHolder(view);
     }
 
