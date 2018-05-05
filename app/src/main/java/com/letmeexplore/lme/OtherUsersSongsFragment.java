@@ -1,6 +1,8 @@
 package com.letmeexplore.lme;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +41,8 @@ public class OtherUsersSongsFragment extends Fragment {
     private DatabaseReference myRef;
     private FirebaseAuth mAuth;
     private ListView trackListview;
+    private ImageView deletebutton;
+    private ImageView deleteIndividual;
     private DatabaseControl databaseControl;
     private ImageView backbutton;
     private ArrayList<Song> arrayTrackList=new ArrayList<Song>();
@@ -54,6 +59,7 @@ public class OtherUsersSongsFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_other_users_songs, container, false);
         trackListview=view.findViewById(R.id.tracklist_other_user);
         mAuth=FirebaseAuth.getInstance();
+        deletebutton=view.findViewById(R.id.otheruserssongs_deletebutton_imageview);
         backbutton=view.findViewById(R.id.other_users_backbuttonview);
         textViewPlaylist=view.findViewById(R.id.other_user_playlist_name);
         circleImageViewPhoto=view.findViewById(R.id.other_user_playlist_circlephoto);
@@ -67,48 +73,52 @@ public class OtherUsersSongsFragment extends Fragment {
         if(bundle!=null){
             String uid=bundle.getString("Uid");
             String playlistName=bundle.getString("PlaylistName");
+            if(mAuth.getCurrentUser().getUid().toString().equalsIgnoreCase(uid))
+                deletebutton.setVisibility(View.VISIBLE);
+            else deletebutton.setVisibility(View.INVISIBLE);
             textViewPlaylist.setText(playlistName.toUpperCase());
             getTrackList(uid,playlistName);
             getBacktoFragment();
+            setDeletebuttonPlaylist(uid,playlistName);
+            deleteIndividualSong(uid,playlistName);
             OnitemClickListener();
         }
         return view;
 
     }
     void getTrackList(final String uid, final String playlistName){
-        myRef.child("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                DatabaseControl databaseControl=new DatabaseControl();
-                final List<String> songKey=(databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlistName).child("dataSongKeys")));
-                String photoUrl=dataSnapshot.child("playlists").child(playlistName).child("dataPhoto").child("photoUrl").getValue(String.class);
-                Picasso.get().load(photoUrl).resize(200,200).into(circleImageViewPhoto);
-                myRef.child("Songs").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        arrayTrackList.clear();
-                        //Toast.makeText(getContext(),songKey.get(0),Toast.LENGTH_SHORT).show();
-                        DatabaseControl databaseControl1=new DatabaseControl();
-                        List<Song> songs=databaseControl1.getSongList(dataSnapshot);
-                        ArrayList<Song> songList=databaseControl1.getMatchSongs(songs,songKey);
-                        //Toast.makeText(getContext(),""+songs.size(),Toast.LENGTH_SHORT).show();
-                        arrayTrackList.addAll(songList);
-                        other_users_song_customAdapter.notifyDataSetChanged();
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+        try {
+            myRef.child("Users").child(uid).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    DatabaseControl databaseControl=new DatabaseControl();
+                    final List<String> songKey=(databaseControl.getSongKeyList(dataSnapshot.child("playlists").child(playlistName).child("dataSongKeys")));
+                    String photoUrl=dataSnapshot.child("playlists").child(playlistName).child("dataPhoto").child("photoUrl").getValue(String.class);
+                    Picasso.get().load(photoUrl).resize(200,200).into(circleImageViewPhoto);
+                    myRef.child("Songs").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            arrayTrackList.clear();
+                            DatabaseControl databaseControl1=new DatabaseControl();
+                            List<Song> songs=databaseControl1.getSongList(dataSnapshot);
+                            ArrayList<Song> songList=databaseControl1.getMatchSongs(songs,songKey);
+                            arrayTrackList.addAll(songList);
+                            other_users_song_customAdapter.notifyDataSetChanged();
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
 
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        }
     }
     void getBacktoFragment(){
         backbutton.setOnClickListener(new View.OnClickListener() {
@@ -127,9 +137,83 @@ public class OtherUsersSongsFragment extends Fragment {
         trackListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            HomeActivity.showPopup(arrayTrackList,getContext(),position);
+               HomeActivity.showPopup(arrayTrackList,getContext(),position);
             }
         });
+    }
+    void setDeletebuttonPlaylist(final String uid, final String playlist){
+        deletebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog=new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle(playlist);
+                alertDialog.setMessage("Do you wish to delete the playlist?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        myRef=FirebaseDatabase.getInstance().getReference("Users/"+uid+"/playlists/"+playlist);
+                        myRef.removeValue();
+                        myRef=FirebaseDatabase.getInstance().getReference("FavSongTypes/"+uid+"/"+playlist);
+                        myRef.removeValue();
+                        dialogInterface.dismiss();
+                        popFragment();
+                    }
+                });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+    }
+
+    void deleteIndividualSong(final String uid, final String playlist){
+        if(uid == mAuth.getCurrentUser().getUid()) {
+            trackListview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(final AdapterView<?> adapterView, View view, final int a, long l) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                    alertDialog.setTitle(playlist);
+                    alertDialog.setMessage("Do you wish to delete the playlist?");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            myRef = FirebaseDatabase.getInstance().getReference("Users/" + uid + "/playlists/" + playlist);
+                            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot ds : dataSnapshot.child("dataSongKeys").getChildren()) {
+                                        if (ds.child("songkey").getValue().toString().equalsIgnoreCase(arrayTrackList.get(a).getSongkey())) {
+                                            ds.getRef().removeValue();
+                                            Toast.makeText(getContext(), "The song has been deleted successfully!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                            dialogInterface.dismiss();
+                            popFragment();
+                        }
+
+                    });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                    return true;
+                }
+            });
+        }
     }
     /*void FindSongTypeAndPush(final String playlistname, Context ctx){
         FirebaseDatabase database=FirebaseDatabase.getInstance();

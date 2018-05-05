@@ -1,6 +1,7 @@
 package com.letmeexplore.lme;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +31,7 @@ public class BooksFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference myRef;
     ListView listView;
+    ImageView bookcaseSettings;
     FirebaseAuth firebaseAuth;
     ArrayAdapter<String> adapter;
     public BooksFragment() {
@@ -40,13 +44,15 @@ public class BooksFragment extends Fragment {
         playlistNamesFireBase = new ArrayList<String>();
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = firebaseAuth.getInstance();
+        bookcaseSettings = rootView.findViewById(R.id.bookcaseListviewOptions);
 
         myRef = firebaseDatabase.getReference("Users");
         getDataFromFirebase(firebaseAuth.getCurrentUser().getUid());
 
         adapter = new ArrayAdapter<String>(getActivity(),R.layout.bookcase_custom,R.id.bookcaseCustom_textview,playlistNamesFireBase);
         listView.setAdapter(adapter);
-        playlistOnClickListener(firebaseAuth.getCurrentUser().getUid().toString());
+        playlistOnClickListener(firebaseAuth.getCurrentUser().getUid());
+        settingsOnClick();
         // Inflate the layout for this fragment*/
         return rootView;
     }
@@ -82,6 +88,45 @@ public class BooksFragment extends Fragment {
             }
         });
     }
+
+    void settingsOnClick(){
+        bookcaseSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myRef.child(firebaseAuth.getCurrentUser().getUid()).child("properties").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Bundle bundle=new Bundle();
+                        UserProfileFragment userProfileFragment = new UserProfileFragment();
+                        userProfileFragment.setArguments(bundle);
+                        setFragment(userProfileFragment);
+                        bundle.putString("Uid",firebaseAuth.getCurrentUser().getUid());
+                        bundle.putString("DisplayName",dataSnapshot.child("displayName").getValue().toString());
+                        bundle.putString("PhotoUrl",dataSnapshot.child("photoUrl").getValue().toString());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                /*
+                myRef.child(firebaseAuth.getCurrentUser().getUid()).child("properties").child("displayName").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        bundle.putString("DisplayName",dataSnapshot.getValue().toString());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });*/
+            }
+        });
+    }
+
+
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame,fragment);
