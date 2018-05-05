@@ -65,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
         setFragment(homeFragment);
         ItemSelected();
         compabilitylist=new ArrayList<>();
-        CompabilityDenemsi(getApplicationContext());
+        Compability(getApplicationContext());
         LmeSongsEdit();
     }
     void ItemSelected(){
@@ -160,7 +160,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    static void CompabilityDenemsi(final Context context){
+    static void Compability(final Context context){
         final FirebaseAuth mAuth=FirebaseAuth.getInstance();
         final FirebaseDatabase database=FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference=database.getReference();
