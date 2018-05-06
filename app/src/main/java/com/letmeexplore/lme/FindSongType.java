@@ -49,6 +49,9 @@ public class FindSongType {
                     break;
                 }
             }
+            if (songList.size()<3){ //Şarkı listesi 5ten küçükse
+                Value=50; //Puan 3
+            }
         }
         else {
             int maxValueInMap=(Collections.max(map.values()));
@@ -59,7 +62,7 @@ public class FindSongType {
                     break;
                 }
             }
-            if (songList.size()<5){ //Şarkı listesi 5ten küçükse    
+            if (songList.size()<5){ //Şarkı listesi 5ten küçükse
                 Value=50; //Puan 3
             }
         }

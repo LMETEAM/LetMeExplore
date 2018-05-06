@@ -58,7 +58,7 @@ public class ExploreFragment extends Fragment {
             @Override
             public void onRefresh() {
                 HomeActivity.showToast(getContext(),getLayoutInflater(),"According to your lists...");
-                HomeActivity.CompabilityDenemsi(getContext());
+                HomeActivity.Compability(getContext());
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
