@@ -108,14 +108,12 @@ public class UserProfileFragment extends Fragment {
                 Intent browseImage=new Intent(Intent.ACTION_GET_CONTENT);
                 browseImage.setType("image/*");
                 startActivityForResult(Intent.createChooser(browseImage,"Select Picture"),RC_SELECT_IMAGE);
-
             }
         });
     }
 
     void uploadTheNewPhoto(final String uid, final String displayName, final String currentPhotoUrl){
         if(currentPhotoUrl.equalsIgnoreCase("https://firebasestorage.googleapis.com/v0/b/letmeexplore-fb83f.appspot.com/o/Users%2FPictures%2Fstduserpic.jpg?alt=media&token=e428373b-0367-4b07-bc45-3a01494e03d9")){
-            Toast.makeText(getActivity(), "Girdim.", Toast.LENGTH_SHORT).show();
             userNew.setUid(mAuth.getCurrentUser().getUid());
             userNew.setDisplayName(displayName);
             storageReference = FirebaseStorage.getInstance().getReference("Users/Pictures/" + uid);
@@ -131,7 +129,6 @@ public class UserProfileFragment extends Fragment {
             Toast.makeText(getContext(), "Your Profile Picture Has Been Changed Successfully!", Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(getActivity(), "Giremedim.", Toast.LENGTH_SHORT).show();
             StorageReference photoRef = mStorage.getReferenceFromUrl(currentPhotoUrl);
             photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
