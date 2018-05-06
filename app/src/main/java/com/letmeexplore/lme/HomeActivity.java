@@ -116,9 +116,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     static void FindSongTypeAndPush(final String playlistname, final Context ctx){
-        final FirebaseDatabase database=FirebaseDatabase.getInstance();
-        final DatabaseReference myRef=database.getReference();
-        final FirebaseAuth  mAuth=FirebaseAuth.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = database.getReference();
+        final FirebaseAuth  mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
         //Toast.makeText(ctx,"islem bitti",Toast.LENGTH_SHORT).show();
         myRef.child("Songs").addListenerForSingleValueEvent(new ValueEventListener() {

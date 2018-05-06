@@ -171,7 +171,7 @@ public class OtherUsersSongsFragment extends Fragment {
     }
 
     void deleteIndividualSong(final String uid, final String playlist){
-        if(uid == mAuth.getCurrentUser().getUid()) {
+        try{ if(uid == mAuth.getCurrentUser().getUid()) {
             trackListview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(final AdapterView<?> adapterView, View view, final int a, long l) {
@@ -185,10 +185,23 @@ public class OtherUsersSongsFragment extends Fragment {
                             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot ds : dataSnapshot.child("dataSongKeys").getChildren()) {
-                                        if (ds.child("songkey").getValue().toString().equalsIgnoreCase(arrayTrackList.get(a).getSongkey())) {
-                                            ds.getRef().removeValue();
-                                            Toast.makeText(getContext(), "The song has been deleted successfully!", Toast.LENGTH_SHORT).show();
+                                    if(!dataSnapshot.hasChild("dataSongKeys")){
+                                        myRef.removeValue();
+                                    }
+                                    else {
+                                        for (DataSnapshot ds : dataSnapshot.child("dataSongKeys").getChildren()) {
+                                            if (ds.child("songkey").getValue().toString().equalsIgnoreCase(arrayTrackList.get(a).getSongkey())) {
+                                                if (dataSnapshot.child("dataSongKeys").getChildrenCount() == 1){
+                                                    ds.getRef().removeValue();
+                                                    myRef.removeValue();
+                                                }
+                                                else{
+                                                    HomeActivity.FindSongTypeAndPush(playlist,getContext());
+                                                    ds.getRef().removeValue();
+                                                    Toast.makeText(getContext(), "The song has been deleted successfully!", Toast.LENGTH_SHORT).show();
+                                                }
+
+                                            }
                                         }
                                     }
                                 }
@@ -209,10 +222,13 @@ public class OtherUsersSongsFragment extends Fragment {
                             dialogInterface.dismiss();
                         }
                     });
+
                     alertDialog.show();
                     return true;
                 }
             });
+        }}catch (Exception e){
+
         }
     }
     /*void FindSongTypeAndPush(final String playlistname, Context ctx){
