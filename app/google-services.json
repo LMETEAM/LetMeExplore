@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "138176861276-ihj4hm7ml0rsan0n8eo9du1csfu7vm8i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.letmeexplore.lme",
+            "certificate_hash": "178447e0e0a76bef43682e16b88e29a7ad345fa7"
+          }
+        },
+        {
           "client_id": "138176861276-ul698pjd6cqli7mqch0t7r7sa68qihfk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

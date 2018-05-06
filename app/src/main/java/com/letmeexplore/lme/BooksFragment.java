@@ -97,12 +97,12 @@ public class BooksFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Bundle bundle=new Bundle();
-                        UserProfileFragment userProfileFragment = new UserProfileFragment();
-                        userProfileFragment.setArguments(bundle);
-                        setFragment(userProfileFragment);
                         bundle.putString("Uid",firebaseAuth.getCurrentUser().getUid());
                         bundle.putString("DisplayName",dataSnapshot.child("displayName").getValue().toString());
                         bundle.putString("PhotoUrl",dataSnapshot.child("photoUrl").getValue().toString());
+                        UserProfileFragment userProfileFragment = new UserProfileFragment();
+                        userProfileFragment.setArguments(bundle);
+                        setFragment(userProfileFragment);
                     }
 
                     @Override

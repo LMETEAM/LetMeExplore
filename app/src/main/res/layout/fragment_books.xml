@@ -21,7 +21,6 @@
             android:layout_marginEnd="36dp"
             android:layout_marginTop="8dp"
             android:clickable="true"
-            android:onClick="bookcaseOptions"
             android:src="@drawable/secenekler"
             app:layout_constraintBottom_toBottomOf="@+id/bookcaseHeader"
             app:layout_constraintEnd_toEndOf="parent"
