@@ -199,8 +199,10 @@ public class HomeActivity extends AppCompatActivity {
         }catch (Exception e){
             Toast.makeText(context,"Bir Sorunla Karşılaşıldı\n"+e.getMessage(),Toast.LENGTH_SHORT).show();
         }
-
     }
+
+
+
     void LmeSongsEdit(){
         final DatabaseReference myRefSongs;
         FirebaseDatabase databaseSongs;

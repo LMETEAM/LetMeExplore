@@ -1,6 +1,7 @@
 package com.letmeexplore.lme;
 
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -46,7 +48,6 @@ public class BooksFragment extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = firebaseAuth.getInstance();
         bookcaseSettings = rootView.findViewById(R.id.bookcaseListviewOptions);
-
         myRef = firebaseDatabase.getReference("Users");
         getDataFromFirebase(firebaseAuth.getCurrentUser().getUid());
 

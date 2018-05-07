@@ -40,6 +40,7 @@ public class ExploreFragment extends Fragment {
         recyclerViewPlayList.setLayoutManager(new GridLayoutManager(getContext(),3));
         recyclerViewPlayList.setAdapter(adapterExploreAccording);
         setSwipeRefreshLayoutListener();
+
         //Yapılacaklar
         //Algrotima metodunu tasarla ve oluştur
         //Cardview Oluştur
