@@ -31,6 +31,7 @@ public class RecyclerViewAdapterExploreAccording extends RecyclerView.Adapter<Re
         this.fragmentManager=fragmentManager;
     }
 
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
@@ -54,7 +55,6 @@ public class RecyclerViewAdapterExploreAccording extends RecyclerView.Adapter<Re
                 bundle.putString("PlaylistName",playlistDataList.get(position).getPlaylistname());
                 otherUsersSongsFragment.setArguments(bundle);
                 setFragment(otherUsersSongsFragment);
-                //   HomeActivity.showPopup(playlistDataList,mContext,position);
             }
         });
     }

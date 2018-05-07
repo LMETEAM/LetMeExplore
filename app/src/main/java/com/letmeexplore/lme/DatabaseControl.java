@@ -72,6 +72,9 @@ public class DatabaseControl{
         }
         return list;
     }
+
+
+
     List<PlaylistData> getCompabilityPlaylistData(List<PlaylistData> myplaylists,List<PlaylistData> otherplaylists){
         List<PlaylistData> compabilityList=new ArrayList<>();
         Map<PlaylistData,Integer> temp=new HashMap<>();

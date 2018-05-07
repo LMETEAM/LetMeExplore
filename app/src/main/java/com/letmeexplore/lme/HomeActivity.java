@@ -46,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
     private ExploreFragment exploreFragment;
     private FirebaseAuth mAuth;
     public static List<PlaylistData> compabilitylist;
+    public static List<PlaylistDataRandom> randomList;
 
 
 
@@ -65,6 +66,7 @@ public class HomeActivity extends AppCompatActivity {
         setFragment(homeFragment);
         ItemSelected();
         compabilitylist=new ArrayList<>();
+        randomList = new ArrayList<>();
         Compability(getApplicationContext());
         LmeSongsEdit();
     }
@@ -160,12 +162,49 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    static void userRandom(final Context context){
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference mDatabaseRef = mDatabase.getReference();
+        try {
+            mDatabaseRef.child("Users").limitToLast(10).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    List<PlaylistDataRandom> playlists = new ArrayList<>();
+                    randomList.clear();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        String mDsUid = ds.getKey();
+                        String mCurrentUid = mAuth.getCurrentUser().getUid();
+                        if (mDsUid.equalsIgnoreCase(mCurrentUid)) {}
+                        else if (ds.hasChild("playlists")) {
+                            for (DataSnapshot playlist : ds.child("playlists").getChildren()) {
+                                PlaylistDataRandom playlistData = new PlaylistDataRandom(mDsUid,playlist.getKey(),playlist.child("dataPhoto").child("photoUrl").getValue().toString());
+                                playlists.add(playlistData);
+                            }
+                        }
+                        else{
+                            continue;
+                        }
+                    }
+                    randomList.addAll(playlists);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     static void Compability(final Context context){
         final FirebaseAuth mAuth=FirebaseAuth.getInstance();
         final FirebaseDatabase database=FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference=database.getReference();
         try {
-            databaseReference.child("FavSongTypes").addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseReference.child("FavSongTypes").limitToLast(100).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     List<PlaylistData> myplaylist=new ArrayList<>();

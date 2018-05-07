@@ -8,6 +8,7 @@ public class PlaylistData {
     private int value;
 
     public PlaylistData() {
+
     }
 
     public PlaylistData(String uid, int value, String songtype, String playlistname, String photoUrl) {
