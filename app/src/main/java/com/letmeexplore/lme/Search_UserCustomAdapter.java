@@ -49,7 +49,7 @@ public class Search_UserCustomAdapter extends ArrayAdapter<UserDetails> {
 
             user_uid.setText(user.getUid());
 
-            Picasso.get().load(user.getPhotoUrl()).fit().into(userImgage);
+            Picasso.get().load(user.getPhotoUrl()).centerCrop().fit().into(userImgage);
 
             return convertView;
         }
