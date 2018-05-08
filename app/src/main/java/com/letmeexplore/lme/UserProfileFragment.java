@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,6 +54,7 @@ public class UserProfileFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference myref;
+    private ImageView deletebutton;
     private ListView userPlaylist;
     private ArrayList<String> playList;
     private ArrayAdapter<String> arrayAdapter;
@@ -74,11 +76,13 @@ public class UserProfileFragment extends Fragment {
         backbuttonimage=(ImageView)view.findViewById(R.id.user_profile_backbuttonview);
         userPlaylist=(ListView)view.findViewById(R.id.search_userprofile_playlist);
         playList=new ArrayList<>();
+        deletebutton=view.findViewById(R.id.user_profile_delete);
         mAuth = FirebaseAuth.getInstance();
         arrayAdapter=new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, playList);
         userPlaylist.setAdapter(arrayAdapter);
         database=FirebaseDatabase.getInstance();
         mStorage = FirebaseStorage.getInstance();
+
         myref=database.getReference("Users");
         choosenImage = null;
         userNew = new User();
@@ -91,7 +95,9 @@ public class UserProfileFragment extends Fragment {
             //Picasso.get().load(photoUrl).fit().into(circleImageView);
             Picasso.get().load(photoUrl).centerCrop().fit().into(circleImageView);
             textView.setText(displayName);
+            adminControl();
             getPlaylistName(uid);
+            setDeletebuttonUser(uid);
             playlistonClickListener(uid);
             getBacktoFragment();
         }
@@ -101,7 +107,22 @@ public class UserProfileFragment extends Fragment {
         }
         return view;
     }
+    void adminControl(){
+        final String uid=mAuth.getCurrentUser().getUid();
+        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child(uid).hasChild("admin")){
+                    deletebutton.setVisibility(View.VISIBLE);
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     void changePhoto(final String uid, final String displayName, final String currentPhotoUrl){
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +133,16 @@ public class UserProfileFragment extends Fragment {
             }
         });
     }
-
+    void setDeletebuttonUser(final String uid){
+        deletebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseDatabase database=FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference=database.getReference("Users/"+uid);
+                databaseReference.removeValue();
+            }
+        });
+    }
     void uploadTheNewPhoto(final String uid, final String displayName, final String currentPhotoUrl){
         if(currentPhotoUrl.equalsIgnoreCase("https://firebasestorage.googleapis.com/v0/b/letmeexplore-fb83f.appspot.com/o/Users%2FPictures%2Fstduserpic.jpg?alt=media&token=e428373b-0367-4b07-bc45-3a01494e03d9")){
             userNew.setUid(mAuth.getCurrentUser().getUid());
