@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment {
         imgViewOnClickListener(imgPop,"Pop");
         imgViewOnClickListener(imgJazz,"Jazz");
         imgViewOnClickListener(imgIndie,"Indie");
-        imgViewOnClickListener(imgPunk,"Punk");
+        imgViewOnClickListener(imgPunk,"Metal");
         imgViewOnClickListener(imgHiphop,"HipHop");
         imgViewOnClickListener(imgRock,"Rock");
         imgViewOnClickListener(imgElectronic,"Dance");
