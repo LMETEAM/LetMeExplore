@@ -33,7 +33,7 @@ public class Other_Users_Song_CustomAdapter extends ArrayAdapter<Song>{
         songName.setText(song.getSongName());
         songuid.setText(song.getSongkey());
         singer.setText(song.getSinger());
-        Picasso.get().load(song.getSongPhotoUrl()).networkPolicy(NetworkPolicy.OFFLINE).resize(200,200).into(songPhoto);
+        Picasso.get().load(song.getSongPhotoUrl()).fit().into(songPhoto);
         return convertView;
     }
 }

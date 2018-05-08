@@ -67,14 +67,9 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
     }
     //--Kullanıcı resmi için alım başladı--
     void setImageView(){
-        picture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browseImage=new Intent(Intent.ACTION_GET_CONTENT);
-                browseImage.setType("image/*");
-                startActivityForResult(Intent.createChooser(browseImage,"Select Picture"),RC_SELECT_IMAGE);
-            }
-        });
+        Intent browseImage=new Intent(Intent.ACTION_GET_CONTENT);
+        browseImage.setType("image/*");
+        startActivityForResult(Intent.createChooser(browseImage,"Select Picture"),RC_SELECT_IMAGE);
     }
 
     @Override
@@ -127,7 +122,7 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
                                 myRef.child(firebaseAuth.getCurrentUser().getUid()).child("properties").setValue(user);
                                 Toast.makeText(signupActivity.this,"Registered Succesfully.",Toast.LENGTH_SHORT).show();
                             }else {
-                                progressDialog.dismiss();
+
                                 String key = firebaseAuth.getCurrentUser().getUid();
                                 user.setUid(key);
                                 user.setDisplayName(nameEdit.getText().toString());
@@ -138,15 +133,14 @@ public class signupActivity extends AppCompatActivity implements View.OnClickLis
                                         user.setPhotoUrl(taskSnapshot.getDownloadUrl().toString());
                                         Toast.makeText(getApplicationContext(), "Update Successful", Toast.LENGTH_SHORT).show();
                                         myRef.child(firebaseAuth.getCurrentUser().getUid()).child("properties").setValue(user);
-
+                                        Toast.makeText(signupActivity.this,"Registered Succesfully.",Toast.LENGTH_SHORT).show();
+                                        Intent getBackToMain = new Intent(signupActivity.this,MainActivity.class);
+                                        progressDialog.dismiss();
+                                        startActivity(getBackToMain);
+                                        finish();
                                     }
                                 });
-
-                                Toast.makeText(signupActivity.this,"Registered Succesfully.",Toast.LENGTH_SHORT).show();
                             }
-                            Intent getBackToMain = new Intent(signupActivity.this,MainActivity.class);
-                            startActivity(getBackToMain);
-                            finish();
                         }
                         else{
                             if(task.getException() instanceof FirebaseAuthUserCollisionException){

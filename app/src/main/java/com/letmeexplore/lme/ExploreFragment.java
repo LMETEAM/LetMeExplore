@@ -27,6 +27,8 @@ public class ExploreFragment extends Fragment {
     private RecyclerView randomOtherUsers;
     private RecyclerViewAdapterExploreAccording adapterExploreAccording;
     private RecyclerViewAdapterExploreRandom adapterExploreRandom;
+    private Handler handler;
+    private Runnable runnable;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -40,7 +42,17 @@ public class ExploreFragment extends Fragment {
         swipeRefreshLayout=view.findViewById(R.id.explore_swiperefreshlayout);
         recyclerViewPlayList= view.findViewById(R.id.accordingrecyclerview);
         randomOtherUsers = view.findViewById(R.id.randomOtherUsersView);
-
+        handler=new Handler();
+        runnable=new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+                recyclerViewPlayList.getAdapter().notifyDataSetChanged();
+                randomOtherUsers.getAdapter().notifyDataSetChanged();
+                if(HomeActivity.compabilitylist.isEmpty())
+                    HomeActivity.showToast(getContext(),getLayoutInflater(),"No matches found");
+            }
+        };
         adapterExploreRandom = new RecyclerViewAdapterExploreRandom(getContext(),HomeActivity.randomList,getFragmentManager());
         randomOtherUsers.setLayoutManager(new GridLayoutManager(getContext(),3));
         randomOtherUsers.setAdapter(adapterExploreRandom);
@@ -56,7 +68,7 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-
+        handler.removeCallbacks(runnable);
     }
     void setSwipeRefreshLayoutListener(){
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -65,16 +77,7 @@ public class ExploreFragment extends Fragment {
                 HomeActivity.showToast(getContext(),getLayoutInflater(),"According to your lists...");
                 HomeActivity.Compability(getContext());
                 HomeActivity.userRandom(getContext());
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                        recyclerViewPlayList.getAdapter().notifyDataSetChanged();
-                        randomOtherUsers.getAdapter().notifyDataSetChanged();
-                        if(HomeActivity.compabilitylist.isEmpty())
-                            HomeActivity.showToast(getContext(),getLayoutInflater(),"No matches found");
-                    }
-                },2000);
+                handler.postDelayed(runnable,2000);
             }
         });
     }

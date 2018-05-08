@@ -107,35 +107,35 @@ public class LMEsongsFragment extends Fragment {
         void setPlaylistView(String ptype){
         switch (ptype){
             case "Classic":{
-                Picasso.get().load(R.drawable.rsz_classical).into(circleImageViewPhoto);
+                Picasso.get().load(R.drawable.rsz_classical).resize(200,200).into(circleImageViewPhoto);
                 break;
             }
             case "Pop":{
-                Picasso.get().load(R.drawable.rsz_1pop).into(circleImageViewPhoto);
+                Picasso.get().load(R.drawable.rsz_1pop).resize(200,200).into(circleImageViewPhoto);
                 break;
             }
-            case "Electronic":{
-                Picasso.get().load(R.drawable.rsz_electronic).into(circleImageViewPhoto);
+            case "Dance":{
+                Picasso.get().load(R.drawable.rsz_electronic).resize(200,200).into(circleImageViewPhoto);
                 break;
             }
             case "HipHop":{
-                Picasso.get().load(R.drawable.rsz_hiphop).into(circleImageViewPhoto);
+                Picasso.get().load(R.drawable.rsz_hiphop).resize(200,200).into(circleImageViewPhoto);
                 break;
             }
             case "Jazz":{
-                Picasso.get().load(R.drawable.rsz_1jazz).into(circleImageViewPhoto);
+                Picasso.get().load(R.drawable.rsz_1jazz).resize(200,200).into(circleImageViewPhoto);
                 break;
             }
-            case "Punk":{
-                Picasso.get().load(R.drawable.rsz_1punk).into(circleImageViewPhoto);
+            case "Metal":{
+                Picasso.get().load(R.drawable.rsz_1punk).resize(200,200).into(circleImageViewPhoto);
                 break;
             }
             case "Rock":{
-                Picasso.get().load(R.drawable.rsz_rock).into(circleImageViewPhoto);
+                Picasso.get().load(R.drawable.rsz_rock).resize(200,200).into(circleImageViewPhoto);
                 break;
             }
             case "Indie":{
-                Picasso.get().load(R.drawable.rsz_1indie).into(circleImageViewPhoto);
+                Picasso.get().load(R.drawable.rsz_1indie).resize(200,200).into(circleImageViewPhoto);
                 break;
 
             }

@@ -144,7 +144,7 @@ public class SearchFragment extends Fragment {
 
                                 if(userArrayList.size()>3) break;
                                 if (!s.toString().isEmpty()){
-                                if(ds.child("properties").child("displayName").getValue(String.class).toString().toUpperCase().contains(s.toString().toUpperCase())){
+                                if(ds.child("properties").child("displayName").getValue(String.class).toUpperCase().contains(s.toString().toUpperCase())){
                                     User user =ds.child("properties").getValue(User.class);
                                     if(ds.hasChild("playlists")){
                                         Long songlistCOunt= ds.child("playlists").getChildrenCount();

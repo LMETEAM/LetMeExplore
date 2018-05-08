@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment {
         imgViewOnClickListener(imgPunk,"Punk");
         imgViewOnClickListener(imgHiphop,"HipHop");
         imgViewOnClickListener(imgRock,"Rock");
-        imgViewOnClickListener(imgElectronic,"Electronic");
+        imgViewOnClickListener(imgElectronic,"Dance");
 
         //SongsChildEdit();
         return view;

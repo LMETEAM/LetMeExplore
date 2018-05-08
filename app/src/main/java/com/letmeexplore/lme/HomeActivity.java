@@ -68,7 +68,8 @@ public class HomeActivity extends AppCompatActivity {
         compabilitylist=new ArrayList<>();
         randomList = new ArrayList<>();
         Compability(getApplicationContext());
-        LmeSongsEdit();
+
+       LmeSongsEdit();
     }
     void ItemSelected(){
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -255,15 +256,15 @@ public class HomeActivity extends AppCompatActivity {
                 List<Song> Rock=new ArrayList<>();
                 List<Song> Indie=new ArrayList<>();
                 List<Song> HipHop=new ArrayList<>();
-                List<Song> Electronic=new ArrayList<>();
+                List<Song> Dance=new ArrayList<>();
                 List<Song> Jazz=new ArrayList<>();
-                List<Song> Punk=new ArrayList<>();
+                List<Song> Metal=new ArrayList<>();
                 for (DataSnapshot ds:dataSnapshot.getChildren()){
                     Song song =ds.child("properties").getValue(Song.class);
                     String SongType=song.getSongType();
                     // Toast.makeText(getContext(),SongType,Toast.LENGTH_SHORT).show();
                     switch (SongType){
-                        case "CLASSIC MUSIC":{
+                        case "Classic":{
                             Classic.add(song);
                             //myRefSongs.child("LMEsongs").child("Classic").child(song.getSongkey()).setValue(song);
                             break;
@@ -288,8 +289,8 @@ public class HomeActivity extends AppCompatActivity {
                             // myRefSongs.child("LMEsongs").child("Indie").child(song.getSongkey()).setValue(song);
                             break;
                         }
-                        case "Punk":{
-                            Punk.add(song);
+                        case "Metal":{
+                            Metal.add(song);
                             // myRefSongs.child("LMEsongs").child("Punk").child(song.getSongkey()).setValue(song);
                             break;
                         }
@@ -298,8 +299,8 @@ public class HomeActivity extends AppCompatActivity {
                             // myRefSongs.child("LMEsongs").child("HipHop").child(song.getSongkey()).setValue(song);
                             break;
                         }
-                        case "Electonic":{
-                            Electronic.add(song);
+                        case "Dance":{
+                            Dance.add(song);
                             //  myRefSongs.child("LMEsongs").child("Electronic").child(song.getSongkey()).setValue(song);
                             break;
                         }
@@ -307,12 +308,26 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
                 myRefSongs.child("LMEsongs").child("Classic").getRef().removeValue();
+                myRefSongs.child("LMEsongs").child("Rock").getRef().removeValue();
+                myRefSongs.child("LMEsongs").child("Jazz").getRef().removeValue();
+                myRefSongs.child("LMEsongs").child("HipHop").getRef().removeValue();
+                myRefSongs.child("LMEsongs").child("Indie").getRef().removeValue();
+                myRefSongs.child("LMEsongs").child("Dance").getRef().removeValue();
+                myRefSongs.child("LMEsongs").child("Metal").getRef().removeValue();
+                myRefSongs.child("LMEsongs").child("Pop").getRef().removeValue();
                 Random generator = new Random();
                 for (int i=0;i<10;i++){
-                    int random=generator.nextInt(30);
-
+                    int random=generator.nextInt(99);
+                    myRefSongs.child("LMEsongs").child("Rock").child(Rock.get(random).getSongkey()).setValue(Rock.get(random));
+                    myRefSongs.child("LMEsongs").child("Jazz").child(Jazz.get(random).getSongkey()).setValue(Jazz.get(random));
+                    myRefSongs.child("LMEsongs").child("HipHop").child(HipHop.get(random).getSongkey()).setValue(HipHop.get(random));
+                    myRefSongs.child("LMEsongs").child("Dance").child(Dance.get(random).getSongkey()).setValue(Dance.get(random));
+                    myRefSongs.child("LMEsongs").child("Indie").child(Indie.get(random).getSongkey()).setValue(Indie.get(random));
+                    myRefSongs.child("LMEsongs").child("Metal").child(Metal.get(random).getSongkey()).setValue(Metal.get(random));
+                    myRefSongs.child("LMEsongs").child("Pop").child(Pop.get(random).getSongkey()).setValue(Pop.get(random));
                     myRefSongs.child("LMEsongs").child("Classic").child(Classic.get(random).getSongkey()).setValue(Classic.get(random));
                 }
+
             }
 
             @Override
@@ -351,7 +366,7 @@ public class HomeActivity extends AppCompatActivity {
         arrayAdapter=new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, android.R.id.text1, playlist);
         listView.setAdapter(arrayAdapter);
         songName.setText(arrayTrackList.get(position).getSongName());
-        Picasso.get().load(arrayTrackList.get(position).getSongPhotoUrl()).resize(150, 150).into(circleImageView);
+        Picasso.get().load(arrayTrackList.get(position).getSongPhotoUrl()).fit().into(circleImageView);
         createNewList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -474,4 +489,35 @@ public class HomeActivity extends AppCompatActivity {
         customToast.setDuration(Toast.LENGTH_SHORT);
         customToast.show();
     }
+
+    /*void songaaktar(){
+        final DatabaseReference myRefSongs;
+        FirebaseDatabase databaseSongs;
+        databaseSongs=FirebaseDatabase.getInstance();
+        myRefSongs=databaseSongs.getReference();
+        myRefSongs.child("Yedek").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Song> songList=new ArrayList<>();
+               for (DataSnapshot ds:dataSnapshot.getChildren()){
+                   String songname=ds.child("songName").getValue(String.class);
+                   String songkey= String.valueOf(ds.child("songkey").getValue(Long.class));
+                   String photoUrl=ds.child("songPhotoUrl").getValue(String.class);
+                   String singer=ds.child("singer").getValue(String.class);
+                   String syear= String.valueOf(ds.child("year").getValue(Long.class));
+                   String stype=ds.child("songType").getValue(String.class);
+                   Song song=new Song(songname,stype,singer,syear,photoUrl,songkey);
+                   songList.add(song);
+               }
+               for (int i=0;i<songList.size();i++){
+                   myRefSongs.child("Songs").child(songList.get(i).getSongkey()).child("properties").setValue(songList.get(i));
+               }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }*/
 }
