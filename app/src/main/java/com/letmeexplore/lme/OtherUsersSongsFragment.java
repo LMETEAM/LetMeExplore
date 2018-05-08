@@ -147,7 +147,7 @@ public class OtherUsersSongsFragment extends Fragment {
             public void onClick(View view) {
                 AlertDialog alertDialog=new AlertDialog.Builder(getContext()).create();
                 alertDialog.setTitle(playlist);
-                alertDialog.setMessage("Do you wish to delete the playlist?");
+                alertDialog.setMessage("Do you wish to delete the "+playlist+" ?");
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -177,7 +177,7 @@ public class OtherUsersSongsFragment extends Fragment {
                 public boolean onItemLongClick(final AdapterView<?> adapterView, View view, final int a, long l) {
                     AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
                     alertDialog.setTitle(playlist);
-                    alertDialog.setMessage("Do you wish to delete the playlist?");
+                    alertDialog.setMessage("Do you wish to delete the song from "+playlist+" ?");
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

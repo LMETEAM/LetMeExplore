@@ -88,7 +88,8 @@ public class UserProfileFragment extends Fragment {
             String uid = bundle.getString("Uid");
             String photoUrl=bundle.getString("PhotoUrl");
             String displayName=bundle.getString("DisplayName").toUpperCase();
-            Picasso.get().load(photoUrl).fit().into(circleImageView);
+            //Picasso.get().load(photoUrl).fit().into(circleImageView);
+            Picasso.get().load(photoUrl).noPlaceholder().centerCrop().rotate(270).fit().into(circleImageView);
             textView.setText(displayName);
             getPlaylistName(uid);
             playlistonClickListener(uid);

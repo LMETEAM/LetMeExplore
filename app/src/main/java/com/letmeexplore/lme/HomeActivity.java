@@ -205,7 +205,7 @@ public class HomeActivity extends AppCompatActivity {
         final FirebaseDatabase database=FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference=database.getReference();
         try {
-            databaseReference.child("FavSongTypes").limitToLast(100).addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseReference.child("FavSongTypes").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     List<PlaylistData> myplaylist=new ArrayList<>();

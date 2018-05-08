@@ -31,7 +31,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView ımageView;
-    private ImageView facebookLog;
     private ImageView googleLog;
     private ImageView signUp;
     private ImageView logIn;
@@ -49,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ımageView=(ImageView)findViewById(R.id.imageView);
-        facebookLog=(ImageView)findViewById(R.id.facebookAccount);
         googleLog=(ImageView)findViewById(R.id.googleAccount);
         signUp=(ImageView)findViewById(R.id.signUp);
         logIn=(ImageView)findViewById(R.id.loginButton);
